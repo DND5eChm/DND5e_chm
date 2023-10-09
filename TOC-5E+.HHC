@@ -4315,8 +4315,8 @@
 				</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="集群守卫">
-				<param name="Local" value="塔莎的万事坩埚/玩家选项/职业/游侠（TCE）/集群守卫.html">
+				<param name="Name" value="集群牧者">
+				<param name="Local" value="塔莎的万事坩埚/玩家选项/职业/游侠（TCE）/集群牧者.html">
 				<param name="ImageNumber" value="11">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
@@ -5893,8 +5893,8 @@
 				</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="游侠-集群守卫">
-				<param name="Local" value="其他/UA/职业/游侠-集群守卫.html">
+				<param name="Name" value="游侠-集群牧者">
+				<param name="Local" value="其他/UA/职业/游侠-集群牧者.html">
 				<param name="ImageNumber" value="11">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">

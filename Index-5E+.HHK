@@ -1098,8 +1098,8 @@
 		<param name="Local" value="怪物图鉴/野兽/集群生物.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="集群守卫.html">
-		<param name="Local" value="塔莎的万事坩埚/玩家选项/职业/游侠（TCE）/集群守卫.html">
+		<param name="Name" value="集群牧者.html">
+		<param name="Local" value="塔莎的万事坩埚/玩家选项/职业/游侠（TCE）/集群牧者.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="疾病、毒药与疯狂.html">
@@ -2542,8 +2542,8 @@
 		<param name="Local" value="贤者谏言/游侠+贼+术士.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="游侠-集群守卫.html">
-		<param name="Local" value="其他/UA/职业/游侠-集群守卫.html">
+		<param name="Name" value="游侠-集群牧者.html">
+		<param name="Local" value="其他/UA/职业/游侠-集群牧者.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="游侠-妖精漫游者.html">
