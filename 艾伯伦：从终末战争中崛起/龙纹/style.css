@@ -1,0 +1,58 @@
+body,html {
+	font-size: 10pt;
+	font-family: "Segoe UI",sans-serif, 宋体;
+	color: black;
+	text-justify-trim:punctuation;
+}
+
+h2 {
+	text-transform: uppercase;
+	border-bottom: 3px solid #c9c195;
+}
+
+tr.green {
+	background-color: #cbe0d9;
+}
+
+tr.beige {
+	background-color: #fafbf6;
+}
+table {
+	/* width: 400px; */
+	border-collapse: collapse;
+	text-align: center;
+	table-layout: fixed;
+}
+
+blockquote {
+	/* background-color: #e2f4fb; */
+	background-color: #f1f5f4;
+	color: #afa285;
+}
+
+.spell {
+	font-style: italic;
+	color: #800080;
+}
+
+td {
+	word-wrap: break-word;
+}
+
+td.spell {
+	text-align: left;
+}
+
+.conditions {
+	color: black;
+	font-weight: bold;
+}
+
+.traits {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.listitem {
+	font-weight: bold;
+}
