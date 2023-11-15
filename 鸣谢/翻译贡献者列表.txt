@@ -54,7 +54,7 @@ M
 Magus
 mentlegen
 Mercurius
-miracle
+miracle（丘比）
 Mr.Boy~
 Neko_Yukari（氧代硫化氢）
 Noir_懒人七
@@ -104,7 +104,6 @@ zhangyan1100
 不死树
 不朽食物
 布丁TheARES
-柴郡猫眼
 柴猫（柴郡猫眼）
 常乐
 车行天下
@@ -187,7 +186,6 @@ zhangyan1100
 肉冻云雀舌
 萨默克尔
 萨斯
-氵工ncubus
 森林猫
 沙雕拌猫砂
 山德鲁
@@ -226,8 +224,7 @@ zhangyan1100
 笑长风（长风游）
 心殇
 新人菌
-星光
-星小光
+星光（星小光）
 星冢
 幸福的米分
 学语新风
