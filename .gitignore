@@ -1,2 +1,5 @@
+# 临时文件
 $$unsavedpage*
 *.lnk
+# 生成器生成出来的文件
+Generator/Generated/
