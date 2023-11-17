@@ -1,12 +1,7 @@
 import os
 from 文件遍历 import walk_through_files
 
-PATH = "D:/GitHub/DND5e_chm/玩家手册/魔法/法术详述"
-LINK_PATH = "玩家手册/魔法/法术详述/"
 TARGET = "珊娜萨的万事指南/法术/法术详述"
-class_spell_list: dict[str, dict[str, list[str]]] = {}
-big_spell_list: list[str] = []
-html_template = "D:/GitHub/DND5e_chm/空白页模板/法术列表模板.htm"
 
 def process_file(file_path: str,file_name: str):
     contents = []
@@ -30,5 +25,5 @@ def process_file(file_path: str,file_name: str):
         _f.writelines(new_contents)
 
 if __name__ == "__main__":
-    walk_through_files()
+    walk_through_files(process_file,TARGET)
      

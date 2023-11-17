@@ -1,17 +1,16 @@
 import os
 from 文件遍历 import walk_through_files
 
-PATH = "D:/GitHub/DND5e_chm/玩家手册/魔法/法术详述"
-LINK_PATH = "玩家手册/魔法/法术详述/"
 spell_file_list = [
     "玩家手册/魔法/法术详述",
-    "珊娜萨的万事指南/法术/法术详述",
-    "印记城与外域/新法术.htm",
-    "圣武士",
-    "游侠",
-    "术士",
-    "法师",
-    "邪术师"
+    "珊娜萨的万事指南/法术/法术详述"#,
+    #"塔莎的万事坩埚/法术/法术详述",
+    #"拉尼卡公会长指南/思想编码.htm",
+    #"荒洲探险家指南/玩家选项/秘迹使法术.html",
+    #"艾奎兹玄有限责任公司/玩家选项/新法术.html",
+    #"费资本的巨龙宝库/巨龙魔法/法术.html",
+    #"印记城与外域/新法术.htm",
+    #"万象无常书/贤者/新法术.htm"
 ]
 class_list = [
     "吟游诗人",
@@ -21,7 +20,8 @@ class_list = [
     "游侠",
     "术士",
     "法师",
-    "邪术师"
+    "邪术师",
+    "奇械师"
 ]
 level_list = [
     "戏法(0环)",
@@ -46,6 +46,12 @@ def process_file(file_path: str,file_name: str):
         contents = _f.readlines()
     level = file_name.replace(".html","").replace(".htm","")
     id_and_link = ""
+    total_sup = ""
+    chm_path = "玩家手册/魔法/法术详述"
+    if "珊娜萨的万事指南" in file_path:
+        total_sup = "XGE"
+        chm_path = "珊娜萨的万事指南/法术/法术详述"
+
     for content in contents:
         if "<H4 id=" in content:
             left = content.find("<H4 id=\"")
@@ -54,49 +60,62 @@ def process_file(file_path: str,file_name: str):
             left = right+2
             right = content.find("</H4>")
             full_name = content[left:right].replace("｜","")
-            id_and_link = "<a href=\""+LINK_PATH+file_name+"#"+id+"\">"+full_name+"</a>"
+            id_and_link = "<a href=\""+chm_path+"/"+os.path.split(file_path)[1]+"#"+id+"\">"+full_name+"</a>"
             big_spell_list.append(id_and_link+"<br>")
-        elif "<EM>" in content:
+        elif "<EM>" in content and id_and_link != "":
+            level = "未知"
             left = content.find("<EM>")
             right = content.find("</EM>")
-            sub_line = content[left+3:right]
             tce_line = ""
+            sub_line = content[left+3:right]
             if "仪式" in sub_line:
                 id_and_link = id_and_link + "（仪式）"
             if "TCE" in sub_line:
                 tce_line = sub_line.split("TCE：")[1]
-                sub_line = sub_line.split("TCE：")[0]
+
+            if "戏法" in sub_line:
+                level = "戏法(0环)"
+            elif "一环" in sub_line:
+                level = "1环"
+            elif "二环" in sub_line:
+                level = "2环"
+            elif "三环" in sub_line:
+                level = "3环"
+            elif "四环" in sub_line:
+                level = "4环"
+            elif "五环" in sub_line:
+                level = "5环"
+            elif "六环" in sub_line:
+                level = "6环"
+            elif "七环" in sub_line:
+                level = "7环"
+            elif "八环" in sub_line:
+                level = "8环"
+            elif "九环" in sub_line:
+                level = "9环"
+            else:
+                print(id_and_link + " 解析出错！")
+
             for c in class_list:
                 if c in sub_line:
-                    class_spell_list[c][level].append(id_and_link+"")
-                elif c in tce_line:
-                    class_spell_list[c][level].append(id_and_link+"（TCE扩表）")
-
+                    sup = total_sup
+                    if c in tce_line:
+                        sup += "TCE扩表"
+                    if sup != "":
+                        class_spell_list[c][level].append(id_and_link+"<sup>"+sup+"</sup>")
+                    else:
+                        class_spell_list[c][level].append(id_and_link)
             
-    '''
-    for content in contents:
-        if "<H4>" in content:
-            left = content.find("<H4>")
-            right = content.find("</H4>")
-            full_name = content[left+4:right]
-            if "｜" in full_name:
-                english_name = full_name.split("｜")[1].replace(" ","_")
-                content = content.replace("<H4>","<H4 id=\""+english_name+"\">",1)
-                print(english_name)
-            else:
-                print(file_path + "的" + full_name + "格式有误！")
-        new_contents.append(content)
-    
-    with open(file_path,mode="w",encoding="gb2312") as _f:
-        _f.writelines(new_contents)
-    '''
+            id_and_link = ""
 
 if __name__ == "__main__":
     for c in class_list:
         class_spell_list[c] = {}
         for level in level_list:
             class_spell_list[c][level]: list[str] = []
-    walk_through_files()
+    for file in spell_file_list:
+        walk_through_files(process_file,file)
+
     template = ""
     with open(html_template,mode="r",encoding="gb2312") as _f:
         template = _f.read()
@@ -105,6 +124,6 @@ if __name__ == "__main__":
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join(class_spell_list[c][level])+"</p>")
-        with open(PATH+"/"+c+"法术列表.html",mode="w",encoding="gb2312") as _f:
+        with open("D:/GitHub/DND5e_chm/Generator/Generated/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
         
