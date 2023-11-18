@@ -1,7 +1,7 @@
 import os
 from 文件遍历 import walk_through_files
 
-TARGET = "珊娜萨的万事指南/法术/法术详述"
+TARGET = "塔莎的万事坩埚/法术/法术详述"
 
 def process_file(file_path: str,file_name: str):
     contents = []
