@@ -9,9 +9,21 @@ spell_file_list = [
     "荒洲探险家指南/玩家选项/秘迹使法术详述.htm",
     "艾奎兹玄有限责任公司/玩家选项/新法术详述.htm",
     "费资本的巨龙宝库/玩家选项/巨龙法术详述.htm",
+    "斯翠海文：混沌研习/玩家选项/法术详述.html",
     "印记城与外域/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm"
 ]
+source_tag: dict[str,str] = {
+    "珊娜萨的万事指南" : "XGE",
+    "塔莎的万事坩埚" : "TCE",
+    "拉尼卡公会长指南" : "GGR",
+    "荒洲探险家指南" : "EGW",
+    "艾奎兹玄有限责任公司" : "AI",
+    "费资本的巨龙宝库" : "FTD",
+    "斯翠海文" : "SCC",
+    "印记城与外域" : "SO",
+    "万象无常书" : "BMT"
+}
 class_list = [
     "吟游诗人",
     "牧师",
@@ -47,10 +59,11 @@ def process_file(file_path: str,file_name: str):
     level = file_name.replace(".html","").replace(".htm","")
     id_and_link = ""
     total_sup = ""
-    chm_path = "玩家手册/魔法/法术详述"
-    if "珊娜萨的万事指南" in file_path:
-        total_sup = "XGE"
-        chm_path = "珊娜萨的万事指南/法术/法术详述"
+    chm_path = file_path.replace("\\","/").split("DND5e_chm/")[1]
+    for book in source_tag.keys():
+        if book in chm_path:
+            total_sup = source_tag[book]
+            break
 
     for content in contents:
         if "<H4 id=" in content:
@@ -66,6 +79,8 @@ def process_file(file_path: str,file_name: str):
             level = "未知"
             left = content.find("<EM>")
             right = content.find("</EM>")
+            if right == -1:
+                print(id_and_link)
             tce_line = ""
             sub_line = content[left+3:right]
             if "仪式" in sub_line:
@@ -95,7 +110,7 @@ def process_file(file_path: str,file_name: str):
                 level = "9环"
             else:
                 print(id_and_link + " 解析出错！")
-
+            
             for c in class_list:
                 if c in sub_line:
                     sup = total_sup
@@ -105,7 +120,6 @@ def process_file(file_path: str,file_name: str):
                         class_spell_list[c][level].append(id_and_link+"<sup>"+sup+"</sup>")
                     else:
                         class_spell_list[c][level].append(id_and_link)
-            
             id_and_link = ""
 
 if __name__ == "__main__":
@@ -126,4 +140,7 @@ if __name__ == "__main__":
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join(class_spell_list[c][level])+"</p>")
         with open("D:/GitHub/DND5e_chm/Generator/Generated/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
+    big_spell_list.sort()
+    with open("D:/GitHub/DND5e_chm/Generator/Generated/5E万法大全.html",mode="w",encoding="gb2312") as _f:
+        _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","\n".join(big_spell_list)))
         
