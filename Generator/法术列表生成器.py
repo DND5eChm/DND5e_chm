@@ -64,7 +64,7 @@ def process_file(file_path: str,file_name: str):
         if book in chm_path:
             total_sup = source_tag[book]
             break
-
+    print(chm_path)
     for content in contents:
         if "<H4 id=" in content:
             left = content.find("<H4 id=\"")
@@ -73,7 +73,7 @@ def process_file(file_path: str,file_name: str):
             left = right+2
             right = content.find("</H4>")
             full_name = content[left:right].replace("｜","")
-            id_and_link = "<a href=\""+chm_path+"/"+os.path.split(file_path)[1]+"#"+id+"\">"+full_name+"</a>"
+            id_and_link = "<a href=\""+chm_path+"#"+id+"\">"+full_name+"</a>"
             big_spell_list.append(id_and_link+"<br>")
         elif "<EM>" in content and id_and_link != "":
             level = "未知"
