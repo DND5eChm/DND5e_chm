@@ -32,17 +32,19 @@ def checkout(file_path: str,file_name: str):
     if right == -1:
         right = content.find("</BODY>")
     if left != -1 and right != -1:
-        length = right-content.find(">",left)-1
+        new_left = content.find(">",left)
+        length = right-new_left-1
         if length < NEEDTOBE:
-            print(file_path+" 文件内容少于"+str(NEEDTOBE)+"字")
+            print(file_path+" 文件内容少于"+str(NEEDTOBE)+"字,仅有：")
+            print(content[new_left+1:right].replace("\n",""))
     else:
         print(file_path+" 缺少body标签")
         need_rewrite = True
         if left == -1:
-            if "</head>" in content:
-                new_content = content.replace("</head>","</head><body>")
-            elif "</HEAD>" in content:
-                new_content = content.replace("</HEAD>","</HEAD><BODY>")
+            if "</head>" in new_content:
+                new_content = new_content.replace("</head>","</head><body>")
+            elif "</HEAD>" in new_content:
+                new_content = new_content.replace("</HEAD>","</HEAD><BODY>")
             else:
                 print(file_path+" 同时缺少head标签（需手动修正）")
         if right == -1:
