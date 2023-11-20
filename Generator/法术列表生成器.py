@@ -49,7 +49,7 @@ level_list = [
 ]
 class_spell_list: dict[str, dict[str, list[str]]] = {}
 big_spell_list: list[str] = []
-html_template = "D:/GitHub/DND5e_chm/空白页模板/法术列表模板.htm"
+html_template = "../空白页模板/法术列表模板.htm"
 
 def process_file(file_path: str,file_name: str):
     contents = []
@@ -123,6 +123,11 @@ def process_file(file_path: str,file_name: str):
             id_and_link = ""
 
 if __name__ == "__main__":
+
+    target_folder = os.path.exists("./Generated")
+    if not target_folder:
+        os.makedirs("./Generated")
+
     for c in class_list:
         class_spell_list[c] = {}
         for level in level_list:
@@ -138,9 +143,15 @@ if __name__ == "__main__":
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join(class_spell_list[c][level])+"</p>")
-        with open("D:/GitHub/DND5e_chm/Generator/Generated/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
+        with open("./Generated/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
     big_spell_list.sort()
-    with open("D:/GitHub/DND5e_chm/Generator/Generated/5E万法大全.html",mode="w",encoding="gb2312") as _f:
+    with open("./Generated/5E万法大全.html",mode="w",encoding="gb2312") as _f:
         _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","\n".join(big_spell_list)))
+
+    template = ""
+    with open("../空白页模板/法术快速复制页模板.htm",mode="r",encoding="gb2312") as _f:
+        template = _f.read()
+    with open("./Generated/法术快速复制页.html",mode="w",encoding="gb2312") as _f:
+        _f.write(template.replace("法术列表模板","法术快速复制页").replace("{{内容}}","\n".join(big_spell_list)))
         
