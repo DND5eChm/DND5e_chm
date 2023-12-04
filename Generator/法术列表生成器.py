@@ -114,12 +114,18 @@ def process_file(file_path: str,file_name: str):
             for c in class_list:
                 if c in sub_line:
                     sup = total_sup
+                    output = id_and_link
                     if c in tce_line:
                         sup += "TCE扩表"
+                    if c == "法师":
+                        for school in ["防护","咒法","预言","附魔","塑能","幻术","死灵","变化"]:
+                            if school in sub_line:
+                                output = output.replace("\">","\">" + school + " - ")
+                            
                     if sup != "":
-                        class_spell_list[c][level].append(id_and_link+"<sup>"+sup+"</sup>")
+                        class_spell_list[c][level].append(output+"<sup>"+sup+"</sup>")
                     else:
-                        class_spell_list[c][level].append(id_and_link)
+                        class_spell_list[c][level].append(output)
             id_and_link = ""
 
 if __name__ == "__main__":
