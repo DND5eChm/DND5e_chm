@@ -1,2 +1,2 @@
-python 寻找错误页面.py
+python 法术列表生成器.py
 pause
