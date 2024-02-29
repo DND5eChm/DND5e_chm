@@ -68,7 +68,7 @@ class Spell:
         self.spell_ritual = False
         self.spell_school = ""
         self.spell_source_tag = source_tag
-        self.chm_path = ""
+        self.chm_path = chm_path
         
         content = content.replace("\r\n","").replace("\n","").replace("</H4>","</H4>\n").replace("<BR>","\n").replace("<BLOCKQUOTE","\n\n<BLOCKQUOTE").replace("<LI>","\n<LI> · ").replace("<P>","\n<P>")
         # 寻找id
