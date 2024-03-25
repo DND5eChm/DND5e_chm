@@ -13,6 +13,7 @@ spell_file_list = [
     "艾奎兹玄有限责任公司/玩家选项/新法术详述.htm",
     "费资本的巨龙宝库/玩家选项/巨龙法术详述.htm",
     "斯翠海文：混沌研习/玩家选项/法术详述.html",
+    "星界冒险者指南/新法术详述.htm",
     "印记城与外域/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm"
 ]
@@ -26,6 +27,7 @@ source_tag: dict[str,str] = {
     "艾奎兹玄有限责任公司" : "AI",
     "费资本的巨龙宝库" : "FTD",
     "斯翠海文" : "SCC",
+    "星界冒险者指南" : "AAG",
     "印记城与外域" : "SO",
     "万象无常书" : "BMT"
 }
@@ -186,12 +188,12 @@ if __name__ == "__main__":
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level]])+"</p>")
-        with open("./Generated/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
+        with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
     # 生成速查大表
     big_spell_list_keys.sort()
     print("已发现合计 "+str(len(big_spell_list_keys))+" 个法术。")
-    with open("./Generated/5E万法大全.html",mode="w",encoding="gb2312") as _f:
+    with open("../速查/法术速查/5E万法大全.html",mode="w",encoding="gb2312") as _f:
         _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","<br>\n".join([big_spell_list[spell_id].output_id_and_link() for spell_id in big_spell_list_keys])))
 
     template = ""
@@ -202,7 +204,7 @@ if __name__ == "__main__":
     ws = wb.create_sheet(title="万法大全")
     for spell_id in big_spell_list_keys:
         ws.append(big_spell_list[spell_id].output_database())
-    wb.save("./Generated/5E万法大全.xlsx")
+    wb.save("../速查/法术速查/5E万法大全.xlsx")
     """
     with open("./Generated/法术快速复制页.html",mode="w",encoding="gb2312") as _f:
         _f.write(template.replace("法术列表模板","法术快速复制页").replace("{{内容}}","\n".join([spell.output_id_and_link for spell in big_spell_list])))
