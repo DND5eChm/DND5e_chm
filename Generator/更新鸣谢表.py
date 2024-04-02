@@ -1,4 +1,5 @@
 import os
+import math
 
 TEMPLATE_PATH = "../空白页模板/鸣谢列表模板.htm"
 THANKS_PATH_1 = "../鸣谢/翻译贡献者列表.txt"
@@ -13,14 +14,32 @@ def load_and_update(file: str) -> list:
     with open(file,'r',encoding='utf-8') as _f:
         datas = _f.readlines()
         for data in datas:
-            if data not in result:
+            data = data.strip()
+            if data not in result and len(data) > 0:
                 result.append(data)
     result.sort()
-    print("、".join(result).replace("\n",""))
+    print("、".join(result))
     with open(file,'w',encoding='utf-8') as _f:
-        _f.writelines(result)
+        _f.writelines([line+"\n" for line in result])
     return result
 
+def generate_output(data_list: list) -> str:
+    # CHM不支持多列布局css，只能手动打个表了
+    if len(data_list) < 4:
+        return "<table><tr>"+"".join(["<td>"+data+"</td>" for data in data_list])+"</tr></table>"
+    quarter = math.ceil(len(data_list)/4)
+    split_list = [data_list[:quarter],data_list[quarter:quarter*2],data_list[quarter*2:quarter*3],data_list[quarter*3:]]
+    len_list = [len(split_list[0]),len(split_list[1]),len(split_list[2]),len(split_list[3])]
+    result =[]
+    for index in  range(quarter):
+        sub_result = []
+        for sub_index in range(4):
+            if index < len_list[sub_index]:
+                sub_result.append("<td>"+split_list[sub_index][index]+"</td>")
+        result.append("<tr>" + "".join(sub_result) + "</tr>\n")
+    return "<table>\n"+"\n".join(result)+"\n</table>"
+    
+    "<br>".join(thanks_list_1)
 if __name__ == "__main__":
     thanks_list_1 = load_and_update(THANKS_PATH_1)
     thanks_list_2 = load_and_update(THANKS_PATH_2)
@@ -28,7 +47,7 @@ if __name__ == "__main__":
     output = ""
     with open(TEMPLATE_PATH,'r',encoding='gbk') as _f:
         output = _f.read()
-    output = output.replace("{1}","、".join(thanks_list_1).replace("\n","")).replace("{2}","、".join(thanks_list_2).replace("\n","")).replace("{3}","、".join(thanks_list_3).replace("\n",""))
-    with open(TEMPLATE_PATH,'w',encoding='gbk') as _f:
+    output = output.replace("{1}",generate_output(thanks_list_1)).replace("{2}",generate_output(thanks_list_2)).replace("{3}",generate_output(thanks_list_3))
+    with open(OUTPUT_PATH,'w',encoding='gbk',errors='ignore') as _f:
          _f.write(output)
-     print("更新完毕！")
+    print("更新完毕！")
