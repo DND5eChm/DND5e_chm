@@ -1,7 +1,7 @@
 import os
 from 文件遍历 import walk_through_files
 
-TARGET = "斯翠海文：混沌研习/玩家选项/法术详述.html"
+TARGET = "星界冒险者指南/新法术详述.htm"
 
 def process_file(file_path: str,file_name: str):
     contents = []
