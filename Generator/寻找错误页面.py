@@ -10,7 +10,7 @@ def checkout(file_path: str,file_name: str):
     content = ""
     new_content = ""
     try:
-        with open(file_path,mode="r",encoding="gb2312") as _f:
+        with open(file_path,mode="r",encoding="gbk") as _f:
             content = _f.read()
     except:
         try:
@@ -18,7 +18,7 @@ def checkout(file_path: str,file_name: str):
                 content = _f.read()
                 need_rewrite = True
         except:
-            with open(file_path,mode="r",encoding="gb2312",errors='ignore') as _f:
+            with open(file_path,mode="r",encoding="gbk",errors='ignore') as _f:
                 content = _f.read()
     new_content = content
     if not new_content.startswith("<!-- coding: gbk -->"):
@@ -55,8 +55,11 @@ def checkout(file_path: str,file_name: str):
             else:
                 new_content = new_content + "</body></html>"
     if need_rewrite:
-        with open(file_path,mode="w",encoding="gb2312",errors='ignore') as _f:
-            _f.write(new_content)
-            print(file_path+" 已自动修正")
+        try:
+            with open(file_path,mode="w",encoding="gbk",errors='ignore') as _f:
+                _f.write(new_content)
+                print(file_path+" 已自动修正")
+        except:
+            print(file_path+" 无存储权限！")
 
 walk_through_files(checkout)
