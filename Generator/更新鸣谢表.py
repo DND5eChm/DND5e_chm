@@ -42,8 +42,11 @@ def generate_output(data_list: list) -> str:
     "<br>".join(thanks_list_1)
 if __name__ == "__main__":
     thanks_list_1 = load_and_update(THANKS_PATH_1)
+    print("已更新翻译贡献者列表。")
     thanks_list_2 = load_and_update(THANKS_PATH_2)
+    print("已更新CHM制作者列表。")
     thanks_list_3 = load_and_update(THANKS_PATH_3)
+    print("已更新纠错参与者列表。")
     output = ""
     with open(TEMPLATE_PATH,'r',encoding='gbk') as _f:
         output = _f.read()
