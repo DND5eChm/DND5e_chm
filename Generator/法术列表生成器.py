@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from 文件遍历 import walk_through_files
 
-
+'''
 spell_file_list = [
     "玩家手册/魔法/法术详述",
+    "玩家手册2024/法术详述",
     "珊娜萨的万事指南/法术/法术详述",
     "塔莎的万事坩埚/法术/法术详述",
     "拉尼卡公会长指南/思想编码.htm",
@@ -17,9 +18,14 @@ spell_file_list = [
     "印记城与外域/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm"
 ]
+'''
+spell_file_list = [
+    "玩家手册2024/法术详述"
+]
 
 source_tag: dict[str,str] = {
     "玩家手册" : "PHB",
+    "玩家手册2024" : "PHB24",
     "珊娜萨的万事指南" : "XGE",
     "塔莎的万事坩埚" : "TCE",
     "拉尼卡公会长指南" : "GGR",
@@ -107,7 +113,7 @@ class Spell:
         elif "九环" in self.spell_subline:
             self.spell_level = "9环"
         else:
-            print(id_and_link + " 解析出错！")
+            print(self.spell_subline + " 解析出错！")
         
         for school in ["防护","咒法","预言","惑控","塑能","幻术","死灵","变化"]:
             if school in self.spell_subline:
@@ -124,7 +130,7 @@ class Spell:
             id_and_link = "<a href=\""+self.chm_path+"#"+self.spell_id+"\">"+self.spell_name+self.spell_name_en+"</a>"
         if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师"]:
             id_and_link += "（仪式）"
-        if self.spell_source_tag != "PHB":
+        if self.spell_source_tag not in ["PHB","PHB24"] :
             id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         return id_and_link
     
@@ -140,7 +146,7 @@ def process_file(file_path: str,file_name: str):
     data = ""
     contents = []
     new_contents = []
-    with open(file_path,mode="r",encoding="gb2312") as _f:
+    with open(file_path,mode="r",encoding="gbk",errors='ignore') as _f:
         data = _f.read()
     data = data[data.find("<body>")+6:data.find("</body>")]
     contents = [("<H4" + content).strip() for content in data.split("<H4") if content.strip() != ""]
@@ -181,23 +187,23 @@ if __name__ == "__main__":
 
     # 生成速查
     template = ""
-    with open(html_template,mode="r",encoding="gb2312") as _f:
+    with open(html_template,mode="r",encoding="gbk") as _f:
         template = _f.read()
     for c in class_list:
         contents = []
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level]])+"</p>")
-        with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gb2312") as _f:
+        with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk",errors='ignore') as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
     # 生成速查大表
     big_spell_list_keys.sort()
     print("已发现合计 "+str(len(big_spell_list_keys))+" 个法术。")
-    with open("../速查/法术速查/5E万法大全.html",mode="w",encoding="gb2312") as _f:
+    with open("../速查/法术速查/5E万法大全.html",mode="w",encoding="gbk",errors='ignore') as _f:
         _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","<br>\n".join([big_spell_list[spell_id].output_id_and_link() for spell_id in big_spell_list_keys])))
 
     template = ""
-    with open("../空白页模板/法术快速复制页模板.htm",mode="r",encoding="gb2312") as _f:
+    with open("../空白页模板/法术快速复制页模板.htm",mode="r",encoding="gbk") as _f:
         template = _f.read()
     # Workbook
     wb = Workbook()
