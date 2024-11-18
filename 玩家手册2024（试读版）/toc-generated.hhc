@@ -1,0 +1,1228 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="序章：欢迎来到冒险世界 Welcome to Adventure">
+     <param name="Local" value="1_WelcometoAdventure.htm#node0">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="你需要什么 What You Need">
+     <param name="Local" value="2_WhatYouNeed.htm#node1">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="使用本书 Using This Book">
+     <param name="Local" value="3_UsingThisBook.htm#node2">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="充满冒险的世界 World of Adventure">
+     <param name="Local" value="4_WorldofAdventure.htm#node3">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第一章：进行游戏 Playing the Game">
+     <param name="Local" value="5_PlayingtheGame.htm#node4">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="玩家还是DM？ Player or DM?">
+     <param name="Local" value="6_DMPlayerorDM.htm#node5">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游戏规律 Rhythm of Play">
+     <param name="Local" value="7_RhythmofPlay.htm#node6">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="长期游戏 An Ongoing Game">
+     <param name="Local" value="8_AnOngoingGame.htm#node7">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="骰子 Dice">
+     <param name="Local" value="9_Dice.htm#node8">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="六项属性 The Six Abilities">
+     <param name="Local" value="10_TheSixAbilities.htm#node9">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="D20检定 D20 Tests">
+     <param name="Local" value="11_D20D20Tests.htm#node10">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="属性检定Ability Checks">
+     <param name="Local" value="12_AbilityChecks.htm#node11">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="豁免检定Saving Throws">
+     <param name="Local" value="13_SavingThrows.htm#node12">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="攻击检定Attack Rolls">
+     <param name="Local" value="14_AttackRolls.htm#node13">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="优势/劣势Advantage/Disadvantage">
+     <param name="Local" value="15_AdvantageDisadvantage.htm#node14">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="熟练 Proficiency">
+     <param name="Local" value="16_Proficiency.htm#node15">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="动作 Actions">
+     <param name="Local" value="17_Actions.htm#node16">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="附赠动作Bonus Actions">
+     <param name="Local" value="18_BonusActions.htm#node17">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="反应Reactions">
+     <param name="Local" value="19_Reactions.htm#node18">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="交涉 Social Interaction">
+     <param name="Local" value="20_SocialInteraction.htm#node19">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="交涉实例 Social Interaction Example">
+     <param name="Local" value="21_SocialInteractionExample.htm#node20">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="探索 Exploration">
+     <param name="Local" value="22_Exploration.htm#node21">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="视野与光照Vision and Light">
+     <param name="Local" value="23_VisionandLight.htm#node22">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="躲藏Hiding">
+     <param name="Local" value="24_Hiding.htm#node23">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="与物件交互Interacting with Objects">
+     <param name="Local" value="25_InteractingwithObjects.htm#node24">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="危害 Hazards">
+     <param name="Local" value="26_Hazards.htm#node25">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="旅行 Travel">
+     <param name="Local" value="27_Travel.htm#node26">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="探索实例 Social Interaction Example">
+     <param name="Local" value="28_SocialInteractionExample.htm#node27">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战斗 Combat">
+     <param name="Local" value="29_Combat.htm#node28">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战斗流程The Order of Combat">
+     <param name="Local" value="30_TheOrderofCombat.htm#node29">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="移动和位置Movement and Position">
+     <param name="Local" value="31_MovementandPosition.htm#node30">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="发动攻击Making Attack">
+     <param name="Local" value="32_MakingAttack.htm#node31">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="远程攻击Ranged Attack">
+     <param name="Local" value="33_RangedAttack.htm#node32">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="近战攻击Melee Attacks">
+     <param name="Local" value="34_MeleeAttacks.htm#node33">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="骑乘战斗Mounted Combat">
+     <param name="Local" value="35_MountedCombat.htm#node34">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="水下战斗Underwater Combat">
+     <param name="Local" value="36_UnderwaterCombat.htm#node35">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="伤害与治疗 Damage and Healing">
+     <param name="Local" value="37_DamageandHealing.htm#node36">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="生命值Hit Points">
+     <param name="Local" value="38_HitPoints.htm#node37">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="伤害掷骰Damage Rolls">
+     <param name="Local" value="39_DamageRolls.htm#node38">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="重击Critical Hits">
+     <param name="Local" value="40_CriticalHits.htm#node39">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="豁免检定与伤害Saving Throw and Damage">
+     <param name="Local" value="41_SavingThrowandDamage.htm#node40">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="伤害类型Damage Types">
+     <param name="Local" value="42_DamageTypes.htm#node41">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="抗性和易伤Resistance and Vulnerability">
+     <param name="Local" value="43_ResistanceandVulnerability.htm#node42">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="免疫Immunity">
+     <param name="Local" value="44_Immunity.htm#node43">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="治疗Healing">
+     <param name="Local" value="45_Healing.htm#node44">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="生命值降至0点Dropping to 0 Hit Points">
+     <param name="Local" value="46_0Droppingto0HitPoints.htm#node45">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="临时生命值Temporary Hit Points">
+     <param name="Local" value="47_TemporaryHitPoints.htm#node46">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="状态 Conditions">
+     <param name="Local" value="48_Conditions.htm#node47">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战斗与伤害实例Combat and Damage Example">
+     <param name="Local" value="49_CombatandDamageExample.htm#node48">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第二章：创建角色 Creating a Character">
+     <param name="Local" value="50_CreatingaCharacter.htm#node49">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="创建你的角色 Create Your Character">
+     <param name="Local" value="51_CreateYourCharacter.htm#node50">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第一步：选择职业Choose a Class">
+     <param name="Local" value="52_ChooseaClass.htm#node51">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第二步：决定起源Determine Origin">
+     <param name="Local" value="53_DetermineOrigin.htm#node52">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第三步：确定属性值Determine Ability Scores">
+     <param name="Local" value="54_DetermineAbilityScores.htm#node53">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第四步：选择阵营Choose an Alignment">
+     <param name="Local" value="55_ChooseanAlignment.htm#node54">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第五步：丰富细节Fill In Details">
+     <param name="Local" value="56_FillInDetails.htm#node55">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="等级提升 Level Advancement">
+     <param name="Local" value="57_LevelAdvancement.htm#node56">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="从更高等级开始 Starting at Higher Levels">
+     <param name="Local" value="58_StartingatHigherLevels.htm#node57">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="兼职 Multiclassing">
+     <param name="Local" value="59_Multiclassing.htm#node58">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="饰品Trinkets">
+     <param name="Local" value="60_Trinkets.htm#node59">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第三章：角色职业 Character Classes">
+     <param name="Local" value="61_CharacterClasses.htm#node60">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="野蛮人 Barbarian">
+     <param name="Local" value="62_Barbarian.htm#node61">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="野蛮人子职业Barbarian Subclasses">
+     <param name="Local" value="63_BarbarianSubclasses.htm#node62">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="狂战士道途Path of the Berserker">
+     <param name="Local" value="64_PathoftheBerserker.htm#node63">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="兽心道途Path of Wild Heart">
+     <param name="Local" value="65_PathofWildHeart.htm#node64">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="世界树道途Path of the World Tree">
+     <param name="Local" value="66_PathoftheWorldTree.htm#node65">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="狂热者道途Path of the Zealot">
+     <param name="Local" value="67_PathoftheZealot.htm#node66">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="吟游诗人 Bard">
+     <param name="Local" value="68_Bard.htm#node67">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="吟游诗人法术列表Bard Spell List">
+     <param name="Local" value="69_BardSpellList.htm#node68">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="吟游诗人子职业Bard Subclasses">
+     <param name="Local" value="70_BardSubclasses.htm#node69">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="舞蹈学院College of Dance">
+     <param name="Local" value="71_CollegeofDance.htm#node70">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="诱惑学院College of Glamour">
+     <param name="Local" value="72_CollegeofGlamour.htm#node71">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="逸闻学院College of Lore">
+     <param name="Local" value="73_CollegeofLore.htm#node72">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="勇气学院College of Valor">
+     <param name="Local" value="74_CollegeofValor.htm#node73">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="牧师 Cleric">
+     <param name="Local" value="75_Cleric.htm#node74">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="牧师法术列表Cleric Spell List">
+     <param name="Local" value="76_ClericSpellList.htm#node75">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="牧师子职Cleric Subclasses">
+     <param name="Local" value="77_ClericSubclasses.htm#node76">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="生命领域Life Domain">
+     <param name="Local" value="78_LifeDomain.htm#node77">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="光明领域Light Domain">
+     <param name="Local" value="79_LightDomain.htm#node78">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="诡术领域Trickery Domain">
+     <param name="Local" value="80_TrickeryDomain.htm#node79">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战争领域War Domain">
+     <param name="Local" value="81_WarDomain.htm#node80">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="德鲁伊 Druid">
+     <param name="Local" value="82_Druid.htm#node81">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="德鲁伊法术列表Druid Spell List">
+     <param name="Local" value="83_DruidSpellList.htm#node82">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="德鲁伊子职业Druid Subclasses">
+     <param name="Local" value="84_DruidSubclasses.htm#node83">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="大地结社 Circle of the Land">
+     <param name="Local" value="85_CircleoftheLand.htm#node84">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="月亮结社Circle of the Moon">
+     <param name="Local" value="86_CircleoftheMoon.htm#node85">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="海洋结社Circle of the Sea">
+     <param name="Local" value="87_CircleoftheSea.htm#node86">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="星辰结社Circle of the Stars">
+     <param name="Local" value="88_CircleoftheStars.htm#node87">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战士Fighter">
+     <param name="Local" value="89_Fighter.htm#node88">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战士子职业Fighter Subclasses">
+     <param name="Local" value="90_FighterSubclasses.htm#node89">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战斗大师Battle Master">
+     <param name="Local" value="91_BattleMaster.htm#node90">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战技项Maneuver Options">
+     <param name="Local" value="92_ManeuverOptions.htm#node91">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="勇士Champion">
+     <param name="Local" value="93_Champion.htm#node92">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="奥法骑士Eldritch Knight">
+     <param name="Local" value="94_EldritchKnight.htm#node93">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="灵能武士Psi Warrior">
+     <param name="Local" value="95_PsiWarrior.htm#node94">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="武僧 Monk">
+     <param name="Local" value="96_Monk.htm#node95">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="武僧子职业 Monk Subclass">
+     <param name="Local" value="97_MonkSubclass.htm#node96">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="命流武者Warrior of Mercy">
+     <param name="Local" value="98_WarriorofMercy.htm#node97">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="暗影武者Warrior of Shadow">
+     <param name="Local" value="99_WarriorofShadow.htm#node98">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="四象武者Warrior of Elements">
+     <param name="Local" value="100_WarriorofElements.htm#node99">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="散打武者Warrior of The Hand">
+     <param name="Local" value="101_WarriorofTheHand.htm#node100">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="圣武士 Paladin">
+     <param name="Local" value="102_Paladin.htm#node101">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="圣武士法术列表 Paladin Spell List">
+     <param name="Local" value="103_PaladinSpellList.htm#node102">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="圣武士子职业 Paladin Subclass">
+     <param name="Local" value="104_PaladinSubclass.htm#node103">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="奉献之誓Oath of Devotion">
+     <param name="Local" value="105_OathofDevotion.htm#node104">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="荣耀之誓Oath of Glory">
+     <param name="Local" value="106_OathofGlory.htm#node105">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="古贤之誓Oath of the Ancients">
+     <param name="Local" value="107_OathoftheAncients.htm#node106">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="复仇之誓Oath of Vengeance">
+     <param name="Local" value="108_OathofVengeance.htm#node107">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游侠 Ranger">
+     <param name="Local" value="109_Ranger.htm#node108">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游侠法术列表Ranger Spell List">
+     <param name="Local" value="110_RangerSpellList.htm#_Hlk175768871">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游侠子职Ranger Subclasses">
+     <param name="Local" value="111_RangerSubclasses.htm#node109">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="驯兽师Beast Master">
+     <param name="Local" value="112_BeastMaster.htm#node110">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="大地野兽Beast of the Land">
+     <param name="Local" value="113_BeastoftheLand.htm#_Hlk182719876">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="天空野兽Beast of the Sky">
+     <param name="Local" value="114_BeastoftheSky.htm#node111">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="海洋野兽Beast of the Sea">
+     <param name="Local" value="115_BeastoftheSea.htm#node112">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="妖精漫游者Fey Wanderer">
+     <param name="Local" value="116_FeyWanderer.htm#node113">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="幽域追猎者Gloom Stalker">
+     <param name="Local" value="117_GloomStalker.htm#node114">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="猎人Hunter">
+     <param name="Local" value="118_Hunter.htm#node115">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游荡者 Rogue">
+     <param name="Local" value="119_Rogue.htm#node116">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="游荡者子职业Rogue Subclasses">
+     <param name="Local" value="120_RogueSubclasses.htm#node117">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="诡术师Arcane Trickster">
+     <param name="Local" value="121_ArcaneTrickster.htm#node118">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="刺客Assassin">
+     <param name="Local" value="122_Assassin.htm#node119">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魂刃Soulknife">
+     <param name="Local" value="123_Soulknife.htm#node120">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="盗贼Thief">
+     <param name="Local" value="124_Thief.htm#node121">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="术士Sorcerer">
+     <param name="Local" value="125_Sorcerer.htm#node122">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="超魔法选项Metamagic Options">
+     <param name="Local" value="126_MetamagicOptions.htm#node123">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="术士法表Sorcerer Spell List">
+     <param name="Local" value="127_SorcererSpellList.htm#node124">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="术士子职 Sorcerer Subclass">
+     <param name="Local" value="128_SorcererSubclass.htm#node125">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="畸变术法Aberrant Sorcery">
+     <param name="Local" value="129_AberrantSorcery.htm#node126">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="时械术法Clockwork Sorcery">
+     <param name="Local" value="130_ClockworkSorcery.htm#node127">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="龙族术法Draconic Sorcery">
+     <param name="Local" value="131_DraconicSorcery.htm#node128">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="狂野术法Wild Magic Sorcery">
+     <param name="Local" value="132_WildMagicSorcery.htm#node129">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔契师 Warlock">
+     <param name="Local" value="133_Warlock.htm#node130">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔能祈唤选项Eldritch Invocation Options">
+     <param name="Local" value="134_EldritchInvocationOptions.htm#node131">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔契师法术列表Warlock Spell List">
+     <param name="Local" value="135_WarlockSpellList.htm#node132">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔契师子职业Warlock Subclasses">
+     <param name="Local" value="136_WarlockSubclasses.htm#node133">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="至高妖精宗主Archfey Patron">
+     <param name="Local" value="137_ArchfeyPatron.htm#node134">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="天界宗主Celestial Patron">
+     <param name="Local" value="138_CelestialPatron.htm#node135">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="邪魔宗主Fiend Patron">
+     <param name="Local" value="139_FiendPatron.htm#node136">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="旧日支配者宗主Great Old One Patron">
+     <param name="Local" value="140_GreatOldOnePatron.htm#node137">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法师 Wizard">
+     <param name="Local" value="141_Wizard.htm#node138">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法师法表Wizard Spell List">
+     <param name="Local" value="142_WizardSpellList.htm#node139">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法师子职 Wizard Subclass">
+     <param name="Local" value="143_WizardSubclass.htm#_Hlk173618576">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="防护师Abjurer">
+     <param name="Local" value="144_Abjurer.htm#node140">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="预言师Diviner">
+     <param name="Local" value="145_Diviner.htm#node141">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="塑能师Evoker">
+     <param name="Local" value="146_Evoker.htm#node142">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="幻术师Illusionist">
+     <param name="Local" value="147_Illusionist.htm#node143">
+     </OBJECT>
+
+</UL>
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第四章：角色起源 Character Origins">
+     <param name="Local" value="148_CharacterOrigins.htm#node144">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="起源的构成部分 Origin Component">
+     <param name="Local" value="149_OriginComponent.htm#node145">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="背景详述 Background Descriptions">
+     <param name="Local" value="150_BackgroundDescriptions.htm#node146">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="侍僧Acolyte">
+     <param name="Local" value="151_Acolyte.htm#node147">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="工匠Artisan">
+     <param name="Local" value="152_Artisan.htm#node148">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="骗子Charlatan">
+     <param name="Local" value="153_Charlatan.htm#node149">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="罪犯Criminal">
+     <param name="Local" value="154_Criminal.htm#node150">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="艺人Entertainer">
+     <param name="Local" value="155_Entertainer.htm#node151">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="农民Farmer">
+     <param name="Local" value="156_Farmer.htm#node152">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="警卫Guard">
+     <param name="Local" value="157_Guard.htm#node153">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="向导Guide">
+     <param name="Local" value="158_Guide.htm#node154">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="隐士Hermit">
+     <param name="Local" value="159_Hermit.htm#node155">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="商人Merchant">
+     <param name="Local" value="160_Merchant.htm#node156">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="贵族Noble">
+     <param name="Local" value="161_Noble.htm#node157">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="智者Sage">
+     <param name="Local" value="162_Sage.htm#node158">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="水手Sailor">
+     <param name="Local" value="163_Sailor.htm#node159">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="抄写员Scribe">
+     <param name="Local" value="164_Scribe.htm#node160">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="士兵Soldier">
+     <param name="Local" value="165_Soldier.htm#node161">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="流浪者Wayfarer">
+     <param name="Local" value="166_Wayfarer.htm#node162">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="种族描述 Species Descriptions">
+     <param name="Local" value="167_SpeciesDescriptions.htm#node163">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="阿斯莫Aasimar">
+     <param name="Local" value="168_Aasimar.htm#node164">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="龙裔Dragonborn">
+     <param name="Local" value="169_Dragonborn.htm#node165">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="矮人Dwarf">
+     <param name="Local" value="170_Dwarf.htm#node166">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="精灵Elf">
+     <param name="Local" value="171_Elf.htm#node167">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="侏儒Gnome">
+     <param name="Local" value="172_Gnome.htm#node168">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="歌利亚Goliath">
+     <param name="Local" value="173_Goliath.htm#node169">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="半身人Halfling">
+     <param name="Local" value="174_Halfling.htm#node170">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="人类Human">
+     <param name="Local" value="175_Human.htm#node171">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="兽人Orc">
+     <param name="Local" value="176_Orc.htm#node172">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="提夫林Tiefling">
+     <param name="Local" value="177_Tiefling.htm#node173">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第五章：专长 Feats">
+     <param name="Local" value="178_Feats.htm#node174">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="专长描述 Feat Descriptions">
+     <param name="Local" value="179_FeatDescriptions.htm#node175">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="起源专长Origin Feats">
+     <param name="Local" value="180_OriginFeats.htm#node176">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="通用专长General Feats">
+     <param name="Local" value="181_GeneralFeats.htm#node177">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="战斗风格专长Fighting Style Feats">
+     <param name="Local" value="182_FightingStyleFeats.htm#node178">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="传奇恩惠专长Epic Boon Feats">
+     <param name="Local" value="183_EpicBoonFeats.htm#node179">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第六章：装备 Equipment">
+     <param name="Local" value="184_Equipment.htm#node180">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="钱币 Coins">
+     <param name="Local" value="185_Coins.htm#node181">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="武器 Weapons">
+     <param name="Local" value="186_Weapons.htm#node182">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="词条Properties">
+     <param name="Local" value="187_Properties.htm#node183">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="精通词条Mastery Properties">
+     <param name="Local" value="188_MasteryProperties.htm#node184">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="护甲 Armor">
+     <param name="Local" value="189_Armor.htm#node185">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="工具 Tools">
+     <param name="Local" value="190_Tools.htm#node186">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="工匠工具Artisan’s Tools">
+     <param name="Local" value="191_ArtisansTools.htm#node187">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="其他工具Other Tools">
+     <param name="Local" value="192_OtherTools.htm#node188">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="冒险装备 Adventuring Gear">
+     <param name="Local" value="193_AdventuringGear.htm#node189">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="冒险装备表Adventuring Gear">
+     <param name="Local" value="194_AdventuringGear.htm#node190">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="坐骑与载具 Mounts and Vehicles">
+     <param name="Local" value="195_MountsandVehicles.htm#node191">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="服务 Services">
+     <param name="Local" value="196_Services.htm#node192">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔法物品 Magic Items">
+     <param name="Local" value="197_MagicItems.htm#node193">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="制作装备 Crafting Equipment">
+     <param name="Local" value="198_CraftingEquipment.htm#node194">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="第七章：法术 Spells">
+     <param name="Local" value="199_Spells.htm#node195">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="获得法术 Gaining&nbsp;Spells">
+     <param name="Local" value="200_GainingSpells.htm#node196">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="施展法术 Casting&nbsp;Spells">
+     <param name="Local" value="201_CastingSpells.htm#node197">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法术环阶Spell&nbsp;Level">
+     <param name="Local" value="202_SpellLevel.htm#node198">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="魔法学派Schools&nbsp;of&nbsp;Magic">
+     <param name="Local" value="203_SchoolsofMagic.htm#node199">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="职业法术列表Class&nbsp;Spell&nbsp;Lists">
+     <param name="Local" value="204_ClassSpellLists.htm#node200">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="施法时间Casting&nbsp;Time">
+     <param name="Local" value="205_CastingTime.htm#node201">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="施法距离Range">
+     <param name="Local" value="206_Range.htm#node202">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法术成分Components">
+     <param name="Local" value="207_Components.htm#node203">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="持续时间Duration">
+     <param name="Local" value="208_Duration.htm#node204">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法术效应Effects">
+     <param name="Local" value="209_Effects.htm#node205">
+     </OBJECT>
+
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="法术详述 Spell Descriptions">
+     <param name="Local" value="210_SpellDescriptions.htm#node206">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="戏法（0环） Cantrip (Level 0 Spells)">
+     <param name="Local" value="211_0CantripLevel0Spells.htm#node207">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="1环法术 Level 1 Spells">
+     <param name="Local" value="212_1Level1Spells.htm#node208">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="2环法术 Level 2 Spells">
+     <param name="Local" value="213_2Level2Spells.htm#node209">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="3环法术 Level 3 Spells">
+     <param name="Local" value="214_3Level3Spells.htm#node210">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="4环法术 Level 4 Spells">
+     <param name="Local" value="215_4Level4Spells.htm#node211">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="5环法术 Level 5 Spells">
+     <param name="Local" value="216_5Level5Spells.htm#node212">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="6环法术 Level 6 Spells">
+     <param name="Local" value="217_6Level6Spells.htm#node213">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="7环法术 Level 7 Spells">
+     <param name="Local" value="218_7Level7Spells.htm#node214">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="8环法术 Level 8 Spells">
+     <param name="Local" value="219_8Level8Spells.htm#node215">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="9环法术 Level 9 Spells">
+     <param name="Local" value="220_9Level9Spells.htm#node216">
+     </OBJECT>
+
+</UL>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="附录A：多元宇宙 Appendix A: The Multiverse">
+     <param name="Local" value="221_AAppendixATheMultiverse.htm#node217">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="附录B：生物数据卡 Appendix C: Creature Stat Blocks">
+     <param name="Local" value="222_BAppendixCCreatureStatBlocks.htm#node218">
+     </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="附录C：术语汇编 Appendix C: Rules Glossary">
+     <param name="Local" value="223_CAppendixCRulesGlossary.htm#node219">
+     </OBJECT>
+
+<UL>
+<LI> <OBJECT type="text/sitemap">
+     <param name="Name" value="术语释义 Rules Definitions">
+     <param name="Local" value="224_RulesDefinitions.htm#node220">
+     </OBJECT>
+
+</UL>
+</UL>
+</BODY></HTML>
