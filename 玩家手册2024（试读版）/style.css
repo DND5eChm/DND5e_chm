@@ -3,8 +3,13 @@ html,body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 /*标题颜色*/
-h1,h2,h3,h4{
+h1,h2,h3{
 	color:#800000;
+}
+/*列表聚拢*/
+UL {
+	margin-top: -16px;
+	margin-bottom: -16px;
 }
 /*下划线→术语格式*/
 U{
@@ -15,19 +20,26 @@ U{
 /*下划线+斜体→法术格式*/
 U EM,U I{
 	color: #704CD9;
-	font-style: normal;
-	font-weight: normal;
-	/*font-family: "Times New Roman","仿宋","sans-serif";*/
+	font-style: italic;
+	font-weight: bold;
+
 }
 /*斜体+下划线→魔法物品格式*/
 EM U,I U{
 	color: #0000ff;
-	font-style: normal;
-	font-weight: normal;
-	/*font-family: "Times New Roman","仿宋","sans-serif";*/
+	font-style: italic;
+	font-weight: bold;
+
 }
 /*粗体+下划线→怪物格式*/
 B U,U B,STRONG U,U STRONG{
 	color: #ee3300;
-	/*font-family: "Times New Roman","仿宋","sans-serif";*/
+	font-style: italic;
+	font-weight: bold
+}
+/*法术页使用h4*/
+h4 {
+    color: #704cd9;
+    margin-bottom: -20px;
+	font-size: 24px;
 }
