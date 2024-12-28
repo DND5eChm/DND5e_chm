@@ -1,7 +1,7 @@
 import os
 from 文件遍历 import walk_through_files
 
-TARGET = "星界冒险者指南/新法术详述.htm"
+TARGET = iuput("输入要处理的文件的名字")
 
 def process_file(file_path: str,file_name: str):
     contents = []
