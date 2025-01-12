@@ -210,7 +210,7 @@ if __name__ == "__main__":
         contents = []
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
-                contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level]])+"</p>")
+                contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level] if spell.legacy == False])+"</p>")
         with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
     # 生成速查大表
