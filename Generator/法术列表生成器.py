@@ -172,12 +172,12 @@ def process_file(file_path: str,file_name: str):
             
             if spell.spell_id in big_spell_list.keys():
                 big_spell_list[spell.spell_id].legacy = True
-                big_spell_list[spell.spell_id+"_old"] = big_spell_list[spell.spell_id]
-                big_spell_list_keys.append(spell.spell_id+"_old")
+                big_spell_list["zzzzzzzzz"+spell.spell_id] = big_spell_list[spell.spell_id]
+                big_spell_list_keys.append("zzzzzzzzz"+spell.spell_id)
             elif spell.spell_id in spell_conflict.keys() and spell_conflict[spell.spell_id] in big_spell_list.keys():
                 big_spell_list[spell_conflict[spell.spell_id]].legacy = True
-                big_spell_list[spell_conflict[spell.spell_id]+"_old"] = big_spell_list[spell_conflict[spell.spell_id]]
-                big_spell_list_keys.append(spell_conflict[spell.spell_id]+"_old")
+                big_spell_list[spell_conflict["zzzzzzzzz"+spell.spell_id]] = big_spell_list[spell_conflict[spell.spell_id]]
+                big_spell_list_keys.append(spell_conflict["zzzzzzzzz"+spell.spell_id])
             else:
                 big_spell_list_keys.append(spell.spell_id)
             
