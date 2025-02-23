@@ -35,9 +35,12 @@ source_tag: dict[str,str] = {
 }
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
 
-level_list = ["戏法(0环)","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
+level_list = ["戏法(零环)","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
 
-spell_conflict = {}
+spell_conflict: dict[str,str] = {
+    "Feeblemind": "zzzzzzzzzFeeblemind",      
+    "Branding_Smite": "zzzzzzzzzBranding_Smite"  
+}
 
 html_template = "../空白页模板/法术列表模板.htm"
 
@@ -74,7 +77,7 @@ class Spell:
         if "仪式" in self.spell_subline or "或仪式" in lines[2]:
             self.spell_ritual = True
         if "戏法" in self.spell_subline:
-            self.spell_level = "戏法(0环)"
+            self.spell_level = "戏法(零环)"
         elif "一环" in self.spell_subline:
             self.spell_level = "一环"
         elif "二环" in self.spell_subline:
@@ -109,12 +112,13 @@ class Spell:
     def output_id_and_link(self,_class="术士") -> str:
         display_name = self.spell_name+self.spell_name_en
         
-        #if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师"]:
-        if self.spell_ritual:
-            display_name += "<em>(仪)</em>"
-        
-        if _class == "法师":
+          # 职业判断逻辑显示学派
+        if _class in ["法师", "万法大全"]:
             display_name = self.spell_school+" - "+display_name
+
+        #if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师", "万法大全"]:
+        if self.spell_ritual:
+            display_name += "(仪)"
         
         if self.legacy:
             id_and_link = "<a class=\"legacy\" href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
@@ -171,11 +175,13 @@ def process_file(file_path: str,file_name: str):
                 big_spell_list[spell.spell_id].legacy = True
                 big_spell_list["zzzzzzzzz"+spell.spell_id] = big_spell_list[spell.spell_id]
                 big_spell_list_keys.append("zzzzzzzzz"+spell.spell_id)
-            elif spell.spell_id in spell_conflict.keys() and spell_conflict[spell.spell_id] in big_spell_list.keys():
-                big_spell_list[spell_conflict[spell.spell_id]].legacy = True
-                big_spell_list[spell_conflict["zzzzzzzzz"+spell.spell_id]] = big_spell_list[spell_conflict[spell.spell_id]]
-                big_spell_list_keys.append(spell_conflict["zzzzzzzzz"+spell.spell_id])
+            elif spell.spell_id in spell_conflict.keys():#手动冲突检测
+                new_id = spell_conflict[spell.spell_id]
+                big_spell_list[new_id] = spell
+                big_spell_list_keys.append(new_id)
+                spell.legacy = True  # 标记为过时
             else:
+                big_spell_list[spell.spell_id] = spell
                 big_spell_list_keys.append(spell.spell_id)
             
             big_spell_list[spell.spell_id] = spell
@@ -214,7 +220,7 @@ if __name__ == "__main__":
     big_spell_list_keys.sort()
     print("已发现合计 "+str(len(big_spell_list_keys))+" 个法术。")
     with open("../速查/法术速查/5E万法大全.html",mode="w",encoding="gbk") as _f:
-        _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","<br>\n".join([big_spell_list[spell_id].output_id_and_link() for spell_id in big_spell_list_keys])))
+        _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","<br>\n".join([big_spell_list[spell_id].output_id_and_link(_class="万法大全") for spell_id in big_spell_list_keys])))
     
 
     template = ""
