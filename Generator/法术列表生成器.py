@@ -58,6 +58,7 @@ spell_conflict: dict[str,str] = {
 }
 
 html_template = "../空白页模板/法术列表模板.htm"
+html_template_big = "../空白页模板/法术大速查模板.htm"
 
 class Spell:
     def __init__(self, content, chm_path="", source_tag="PHB"):
@@ -141,6 +142,9 @@ class Spell:
             id_and_link = "<a href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
         if self.spell_source_tag != "":
             id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
+        
+        if _class == "万法大全":
+            id_and_link = "<span>" + id_and_link + "</span>"
         return id_and_link
     
     def output_database(self) -> list[str]:
@@ -221,9 +225,12 @@ if __name__ == "__main__":
 
     # 生成速查
     template = ""
+    template_big = ""
     
     with open(html_template,mode="r",encoding="gbk") as _f:
         template = _f.read()
+    with open(html_template_big,mode="r",encoding="gbk") as _f:
+        template_big = _f.read()
     for c in class_list:
         contents = []
         for level in level_list:
@@ -247,9 +254,10 @@ if __name__ == "__main__":
     big_spell_list_keys.sort()
     print("已发现合计 "+str(len(big_spell_list_keys))+" 个法术。")
     with open("../速查/法术速查/5E万法大全.html",mode="w",encoding="gbk") as _f:
-        _f.write(template.replace("法术列表模板","5E万法大全").replace("{{内容}}","<br>\n".join([big_spell_list[spell_id].output_id_and_link(_class="万法大全") for spell_id in big_spell_list_keys])))
+        _f.write(template_big.replace("法术列表模板","5E万法大全").replace("{{内容}}","\n".join([big_spell_list[spell_id].output_id_and_link(_class="万法大全") for spell_id in big_spell_list_keys])))
     
 
+    """
     template = ""
     with open("../空白页模板/法术快速复制页模板.htm",mode="r",encoding="gbk") as _f:
         template = _f.read()
@@ -259,7 +267,7 @@ if __name__ == "__main__":
     for spell_id in big_spell_list_keys:
         ws.append(big_spell_list[spell_id].output_database())
     wb.save("../速查/法术速查/5E万法大全.xlsx")
-    """
+    
     with open("./Generated/法术快速复制页.html",mode="w",encoding="gbk") as _f:
         _f.write(template.replace("法术列表模板","法术快速复制页").replace("{{内容}}","\n".join([spell.output_id_and_link for spell in big_spell_list])))
     """

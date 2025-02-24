@@ -1,0 +1,62 @@
+<!-- coding: gbk --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>法术大速查模板</title>
+<meta name="GENERATOR" content="WinCHM">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<style>
+html,body { 
+	font-family: Arial, Helvetica, sans-serif;
+}
+a {
+	color: #704cd9;
+	text-decoration:none;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 20px;
+}
+span {
+	display: block;
+}
+.legacy {
+	color: #777777;
+	text-decoration: line-through;
+}
+p {
+	line-height: 150%;
+}
+
+sup {
+	line-height: 0;
+	margin-left: 0.2rem;
+}
+</style>
+<script>
+function search() {
+    var keyword = document.getElementById("input").value.toLowerCase();
+    var elements = document.getElementsByTagName("span");
+	if (keyword != '') {
+		for (var i = 0; i < elements.length; i++) {
+			var content = elements[i].textContent.toLowerCase();
+			if (content.includes(keyword)) {
+				elements[i].style.display = "block";
+			} else {
+				elements[i].style.display = "none";
+			}
+		}
+	} else {
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].style.display = "block";
+		}
+	}
+}
+</script>
+</head>
+<body>
+<div style="margin-left:20px" >
+<input id="input" type="text" name="q" placeholder="搜索..."><button onclick="search()">搜索</button>
+</div>
+<hr>
+{{内容}}
+</body>
+</html>
