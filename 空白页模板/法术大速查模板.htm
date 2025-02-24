@@ -35,10 +35,11 @@ sup {
 function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
 	var cb_school = document.getElementsByName("school");
-	var cb_school = document.getElementsByName("class");
+	var cb_class = document.getElementsByName("class");
 	var cb_level = document.getElementsByName("level");
 	var choosen_school = [];
 	var choosen_class = [];
+	var choosen_level = [];
 	for (var i = 0; i < cb_school.length; i++) {
 		if (cb_school[i].checked) {
 			choosen_school.push(cb_school[i].value)
@@ -51,7 +52,7 @@ function search() {
 	}
 	for (var i = 0; i < cb_level.length; i++) {
 		if (cb_level[i].checked) {
-			choosen_class.push(cb_level[i].value)
+			choosen_level.push(cb_level[i].value)
 		}
 	}
 	
