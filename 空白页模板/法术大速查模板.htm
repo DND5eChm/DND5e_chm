@@ -34,19 +34,63 @@ sup {
 <script>
 function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
+	var cb_school = document.getElementsByName("school");
+	var cb_school = document.getElementsByName("class");
+	var cb_level = document.getElementsByName("level");
+	var choosen_school = [];
+	var choosen_class = [];
+	for (var i = 0; i < cb_school.length; i++) {
+		if (cb_school[i].checked) {
+			choosen_school.push(cb_school[i].value)
+		}
+	}
+	for (var i = 0; i < cb_class.length; i++) {
+		if (cb_class[i].checked) {
+			choosen_class.push(cb_class[i].value)
+		}
+	}
+	for (var i = 0; i < cb_level.length; i++) {
+		if (cb_level[i].checked) {
+			choosen_class.push(cb_level[i].value)
+		}
+	}
+	
     var elements = document.getElementsByTagName("span");
-	if (keyword != '') {
-		for (var i = 0; i < elements.length; i++) {
+	for (var i = 0; i < elements.length; i++) {
+		var has_word = false;
+		if (keyword != '') {
 			var content = elements[i].textContent.toLowerCase();
 			if (content.includes(keyword)) {
-				elements[i].style.display = "block";
-			} else {
-				elements[i].style.display = "none";
+				has_word = true
+			}
+		} else {
+			has_word = true
+		}
+		var has_school = false;
+		var tags = elements[i].getAttribute("tags");
+		for (var j = 0; j < choosen_school.length && !has_school; j++) {
+			if (tags.includes(choosen_school[j])) {
+				has_school = true;
 			}
 		}
-	} else {
-		for (var i = 0; i < elements.length; i++) {
+		var has_class = false;
+		var tags = elements[i].getAttribute("tags");
+		for (var j = 0; j < choosen_class.length && !has_class; j++) {
+			if (tags.includes(choosen_class[j])) {
+				has_class = true;
+			}
+		}
+		var has_level = false;
+		var tags = elements[i].getAttribute("tags");
+		for (var j = 0; j < choosen_level.length && !has_level; j++) {
+			if (tags.includes(choosen_level[j])) {
+				has_level = true;
+			}
+		}
+		if (has_word && has_school && has_class && has_level) {
 			elements[i].style.display = "block";
+		} else {
+			elements[i].style.display = "none";
 		}
 	}
 }
@@ -55,6 +99,36 @@ function search() {
 <body>
 <div style="margin-left:20px" >
 <input id="input" type="text" name="q" placeholder="搜索..."><button onclick="search()">搜索</button>
+<br>
+<input type="checkbox" id="sc1" name="school" value="防护" checked><label for="sc1">防护</label>
+<input type="checkbox" id="sc2" name="school" value="咒法" checked><label for="sc2">咒法</label>
+<input type="checkbox" id="sc3" name="school" value="预言" checked><label for="sc3">预言</label>
+<input type="checkbox" id="sc4" name="school" value="惑控" checked><label for="sc4">惑控</label>
+<input type="checkbox" id="sc5" name="school" value="塑能" checked><label for="sc5">塑能</label>
+<input type="checkbox" id="sc6" name="school" value="幻术" checked><label for="sc6">幻术</label>
+<input type="checkbox" id="sc7" name="school" value="死灵" checked><label for="sc7">死灵</label>
+<input type="checkbox" id="sc8" name="school" value="变化" checked><label for="sc8">变化</label>
+<br>
+<input type="checkbox" id="cl1" name="class" value="奇械师" checked><label for="cl1">奇械师</label>
+<input type="checkbox" id="cl2" name="class" value="吟游诗人" checked><label for="cl2">吟游诗人</label>
+<input type="checkbox" id="cl3" name="class" value="牧师" checked><label for="cl3">牧师</label>
+<input type="checkbox" id="cl4" name="class" value="德鲁伊" checked><label for="cl4">德鲁伊</label>
+<input type="checkbox" id="cl5" name="class" value="圣武士" checked><label for="cl5">圣武士</label>
+<input type="checkbox" id="cl6" name="class" value="游侠" checked><label for="cl6">游侠</label>
+<input type="checkbox" id="cl7" name="class" value="术士" checked><label for="cl7">术士</label>
+<input type="checkbox" id="cl8" name="class" value="法师" checked><label for="cl8">法师</label>
+<input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
+<br>
+<input type="checkbox" id="le1" name="level" value="戏法" checked><label for="le1">戏法(零环)</label>
+<input type="checkbox" id="le2" name="level" value="一环" checked><label for="le2">一环</label>
+<input type="checkbox" id="le3" name="level" value="二环" checked><label for="le3">二环</label>
+<input type="checkbox" id="le4" name="level" value="三环" checked><label for="le4">三环</label>
+<input type="checkbox" id="le5" name="level" value="四环" checked><label for="le5">四环</label>
+<input type="checkbox" id="le6" name="level" value="五环" checked><label for="le6">五环</label>
+<input type="checkbox" id="le7" name="level" value="六环" checked><label for="le7">六环</label>
+<input type="checkbox" id="le8" name="level" value="七环" checked><label for="le8">七环</label>
+<input type="checkbox" id="le9" name="level" value="八环" checked><label for="le9">八环</label>
+<input type="checkbox" id="le10" name="level" value="九环" checked><label for="le10">九环</label>
 </div>
 <hr>
 {{内容}}

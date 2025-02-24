@@ -144,7 +144,7 @@ class Spell:
             id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         
         if _class == "万法大全":
-            id_and_link = "<span>" + id_and_link + "</span>"
+            id_and_link = "<span tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+"\">" + id_and_link + "</span>"
         return id_and_link
     
     def output_database(self) -> list[str]:
