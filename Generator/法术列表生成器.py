@@ -33,6 +33,21 @@ source_tag: dict[str,str] = {
     "万象无常书" : "BMT",
     "玩家手册2024" : "PHB24"
 }
+source_priority = {
+    "PHB24": 0,    # 最高优先级
+    "PHB": 1,       # 第二优先级（原PHB14）
+    "XGE": 2,
+    "TCE": 3,
+    "FTD": 4,
+    "BMT": 5,
+    "GGR": 6,
+    "AI": 7,
+    "EGW": 8,
+    "SCC": 9,
+    "AAG": 10,
+    "SO": 11
+}
+
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
 
 level_list = ["戏法(零环)","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
@@ -213,9 +228,21 @@ if __name__ == "__main__":
         contents = []
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
-                contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level] if spell.legacy == False])+"</p>")
+                #原代码留档：contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level] if spell.legacy == False])+"</p>")
+                # +++ 新增排序逻辑：PHB24优先 +++
+                sorted_spells = sorted(
+                    [spell for spell in class_spell_list[c][level] if not spell.legacy],
+                    key=lambda x: (
+                        source_priority.get(x.spell_source_tag, 999),  # 按资料优先级
+                        x.spell_name  # 次优先级按名称排序
+                    )               
+                )
+            contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join(
+                [spell.output_id_and_link(c) for spell in sorted_spells]  # ← 使用排序后的列表
+            )+"</p>")
         with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
+
     # 生成速查大表
     big_spell_list_keys.sort()
     print("已发现合计 "+str(len(big_spell_list_keys))+" 个法术。")
