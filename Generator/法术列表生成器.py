@@ -57,7 +57,7 @@ short_cut: dict[str,str] = {
     "游侠" : "软",
     "术士" : "术",
     "法师" : "法",
-    "奇械师" : "奇",
+    "奇械师" : "械",
     "其他" : "无"
 }
 
@@ -83,10 +83,14 @@ class Spell:
         
         self.spell_classes = []
         self.spell_level = ""
+        self.spell_verbal = False
+        self.spell_somatic = False
+        self.spell_material = False
+        self.spell_material_sp = False
         self.spell_ritual = False
+        self.spell_concentration = False
         self.spell_school = ""
         self.spell_source_tag = source_tag
-        self.spell_ritual_a = ""
         
         self.chm_path = chm_path
         self.legacy = False
@@ -106,26 +110,23 @@ class Spell:
         print(self.spell_name+" · "+self.spell_subline)
         if "仪式" in self.spell_subline or "或仪式" in lines[2]:
             self.spell_ritual = True
+        if "专注" in lines[5]:
+            self.spell_concentration = True
+        if "V" in lines[4]:
+            self.spell_verbal = True
+        if "S" in lines[4]:
+            self.spell_somatic = True
+        if "M" in lines[4]:
+            self.spell_material = True
+            if "价值" in lines[4] or "耗材" in lines[4] or "消耗" in lines[4]:
+                self.spell_material_sp = True
         if "戏法" in self.spell_subline:
             self.spell_level = "戏法(零环)"
-        elif "一环" in self.spell_subline:
-            self.spell_level = "一环"
-        elif "二环" in self.spell_subline:
-            self.spell_level = "二环"
-        elif "三环" in self.spell_subline:
-            self.spell_level = "三环"
-        elif "四环" in self.spell_subline:
-            self.spell_level = "四环"
-        elif "五环" in self.spell_subline:
-            self.spell_level = "五环"
-        elif "六环" in self.spell_subline:
-            self.spell_level = "六环"
-        elif "七环" in self.spell_subline:
-            self.spell_level = "七环"
-        elif "八环" in self.spell_subline:
-            self.spell_level = "八环"
-        elif "九环" in self.spell_subline:
-            self.spell_level = "九环"
+        elif "环" in self.spell_subline:
+            for level in ["一环","二环","三环","四环","五环","六环","七环","八环","九环"]:
+                if level in self.spell_subline:
+                    self.spell_level = level
+                    break
         else:
             print(id_and_link + " 解析出错！")
         
@@ -149,10 +150,6 @@ class Spell:
             #display_name = self.spell_school+" - "+display_name
 
         # if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师", "万法大全"]:
-        if self.spell_ritual:
-            self.spell_ritual_a = "√"
-        else:
-            self.spell_ritual_a = "×"
         
         if self.legacy:
             id_and_link = "<a class=\"legacy\" href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
@@ -162,7 +159,37 @@ class Spell:
             # id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         
         if _class == "万法大全":
-            id_and_link = "<TR tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+" "+self.spell_source_tag+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+id_and_link +"</TD><TD>"+self.spell_level+"</TD><TD>"+self.spell_school+"</TD><TD>"+"、".join([short_cut[_class] for _class in self.spell_classes])+"</TD><TD>"+self.spell_ritual_a+"</TD><TD>"+self.spell_source_tag+"</TD></TR>"
+            tags = [
+                self.spell_school,
+                " ".join(self.spell_classes),
+                self.spell_level,
+                self.spell_source_tag
+            ]
+            if self.spell_verbal:
+                tags.append("言语")
+            if self.spell_somatic:
+                tags.append("姿势")
+            if self.spell_material:
+                tags.append("材料")
+            if self.spell_material_sp:
+                tags.append("价耗")
+            if self.spell_ritual:
+                tags.append("仪式")
+            if self.spell_concentration:
+                tags.append("专注")
+            labels = [
+                id_and_link, #法术名（带链接）
+                self.spell_level, #法术环阶
+                self.spell_school, #法术学派
+                "".join([short_cut[_class] for _class in self.spell_classes]), #法术职业简写
+                "V" if self.spell_verbal else "", #言语成分
+                "S" if self.spell_somatic else "", #姿势成分
+                "M*" if self.spell_material_sp else ("M" if self.spell_material else ""), #材料成分
+                "√" if self.spell_ritual else "×", #
+                "√" if self.spell_concentration else "×", #专注
+                self.spell_source_tag #来源
+            ]
+            id_and_link = "<TR tags=\"" +" ".join(tags)+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
         return id_and_link
     
     def output_database(self) -> list[str]:

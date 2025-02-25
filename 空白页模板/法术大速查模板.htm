@@ -1,4 +1,4 @@
-<!-- coding: gbk --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- coding: gbk --><!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>全扩全法术</title>
@@ -62,8 +62,8 @@ function search() {
 			choosen_book.push(cb_book[i].value)
 		}
 	}
-    var elements = document.getElementsByTagName("TR");
-	for (var i = 1; i < elements.length; i++) {
+    var elements = document.getElementsByTagName("tr");
+	for (var i = 0; i < elements.length; i++) {
 		var has_word = false;
 		if (keyword != '') {
 			var content = elements[i].getAttribute("spell");
@@ -73,38 +73,55 @@ function search() {
 		} else {
 			has_word = true
 		}
-		var has_school = false;
 		var tags = elements[i].getAttribute("tags");
-		for (var j = 1; j < choosen_school.length && !has_school; j++) {
-			if (tags.indexOf(choosen_school[j]) != -1) {
-				has_school = true;
+		if (tags != null) {
+			var has_school = false;
+			for (var j = 0; j < choosen_school.length && !has_school; j++) {
+				if (tags.indexOf(choosen_school[j]) != -1) {
+					has_school = true;
+				}
+			}
+			var has_class = false;
+			for (var j = 0; j < choosen_class.length && !has_class; j++) {
+				if (tags.indexOf(choosen_class[j]) != -1) {
+					has_class = true;
+				}
+			}
+			var has_level = false;
+			for (var j = 0; j < choosen_level.length && !has_level; j++) {
+				if (tags.indexOf(choosen_level[j]) != -1) {
+					has_level = true;
+				}
+			}
+			var has_book = false;
+			for (var j = 0; j < choosen_book.length && !has_book; j++) {
+				if (tags.indexOf(choosen_book[j]) != -1) {
+					has_book = true;
+				}
+			}
+			if (has_word && has_school && has_class && has_level && has_book) {
+				elements[i].style.display = "";
+			} else {
+				elements[i].style.display = "none";
 			}
 		}
-		var has_class = false;
-		var tags = elements[i].getAttribute("tags");
-		for (var j = 1; j < choosen_class.length && !has_class; j++) {
-			if (tags.indexOf(choosen_class[j]) != -1) {
-				has_class = true;
-			}
+	}
+}
+function select_all(type_name){
+	var cb = document.getElementsByName(type_name);
+	var all_selected = true;
+	for (var i = 0; i < cb.length && all_selected; i++) {
+		if (all_selected && !(cb[i].checked)) {
+			all_selected = false;
 		}
-		var has_level = false;
-		var tags = elements[i].getAttribute("tags");
-		for (var j = 1; j < choosen_level.length && !has_level; j++) {
-			if (tags.indexOf(choosen_level[j]) != -1) {
-				has_level = true;
-			}
+	}
+	if (all_selected) {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = false;
 		}
-		var has_book = false;
-		var tags = elements[i].getAttribute("tags");
-		for (var j = 1; j < choosen_book.length && !has_book; j++) {
-			if (tags.indexOf(choosen_book[j]) != -1) {
-				has_book = true;
-			}
-		}
-		if (has_word && has_school && has_class && has_level && has_book) {
-			elements[i].style.display = "block";
-		} else {
-			elements[i].style.display = "none";
+	} else {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = true;
 		}
 	}
 }
@@ -113,8 +130,8 @@ function search() {
 <body>
 <div style="MARGIN-BOTTOM: 20px; MARGIN-LEFT: 20px">
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button></div>
-<div style="MARGIN-LEFT: 20px"><STRONG>环阶：</STRONG>
-
+<div style="MARGIN-LEFT: 20px"><b>环阶：</b>
+<button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
 <input type="checkbox" id="le1" name="level" value="一环" checked><label for="le1">一</label>
 <input type="checkbox" id="le2" name="level" value="二环" checked><label for="le2">二</label>
@@ -125,8 +142,8 @@ function search() {
 <input type="checkbox" id="le7" name="level" value="七环" checked><label for="le7">七</label>
 <input type="checkbox" id="le8" name="level" value="八环" checked><label for="le8">八</label>
 <input type="checkbox" id="le9" name="level" value="九环" checked><label for="le9">九</label>
-<br><STRONG>学派：</STRONG>
-
+<br><b>学派：</b>
+<button onclick="select_all('school')">全选</button>
 <input type="checkbox" id="sc1" name="school" value="防护" checked><label for="sc1">防护</label>
 <input type="checkbox" id="sc2" name="school" value="咒法" checked><label for="sc2">咒法</label>
 <input type="checkbox" id="sc3" name="school" value="预言" checked><label for="sc3">预言</label>
@@ -135,8 +152,8 @@ function search() {
 <input type="checkbox" id="sc6" name="school" value="幻术" checked><label for="sc6">幻术</label>
 <input type="checkbox" id="sc7" name="school" value="死灵" checked><label for="sc7">死灵</label>
 <input type="checkbox" id="sc8" name="school" value="变化" checked><label for="sc8">变化</label>
-<br><STRONG>职业：</STRONG>
-
+<br><b>职业：</b>
+<button onclick="select_all('class')">全选</button>
 <input type="checkbox" id="cl1" name="class" value="奇械师" checked><label for="cl1">奇械师</label>
 <input type="checkbox" id="cl2" name="class" value="吟游诗人" checked><label for="cl2">吟游诗人</label>
 <input type="checkbox" id="cl3" name="class" value="牧师" checked><label for="cl3">牧师</label>
@@ -147,7 +164,8 @@ function search() {
 <input type="checkbox" id="cl8" name="class" value="法师" checked><label for="cl8">法师</label>
 <input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
 <input type="checkbox" id="cl10" name="class" value="其他" checked><label for="cl10">其他</label>
-<BR><STRONG>来源：</STRONG>
+<BR><b>来源：</b>
+<button onclick="select_all('book')">全选</button>
 <input type="checkbox" id="bk1" name="book" value="PHB24" checked><label for="bk1">PHB24</label>
 <input type="checkbox" id="bk2" name="book" value="PHB14"><label for="bk2">PHB14</label>
 <input type="checkbox" id="bk3" name="book" value="XGE" checked><label for="bk3">XGE</label>
@@ -162,9 +180,9 @@ function search() {
 <input type="checkbox" id="bk12" name="book" value="SO" checked><label for="bk12">SO</label>
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
-<TABLE style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
-<TR tags="防护 咒法 预言 惑控 塑能 幻术 死灵 变化德鲁伊 游侠 术士 法师 奇械师 一环 XGE" spell="吸收元素Absorb Elements"><TD><STRONG>法术名</STONG></TD><TD width=120><STRONG>环阶</STONG></TD><TD width=60><STRONG>学派</STONG></TD><TD><STRONG>职业</STONG></TD><TD><STRONG>R</STONG></TD><TD><STRONG>来源</STONG></TD></TR>
+<table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<div style="display:table-row"><td><b>法术名</b></td><td width=120><b>环阶</b></td><td width=60><b>学派</b></td><td><b>职业</b></td><td><b>言语</b></td><td><b>姿势</b></td><td><b>材料</b></td><td><b>仪式</b></td><td><b>专注</b></td><td><b>来源</b></td></div>
 {{内容}}
-</TABLE>
+</table>
 </body>
 </html>
