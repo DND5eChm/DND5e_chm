@@ -1,7 +1,7 @@
 <!-- coding: gbk --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>法术大速查模板</title>
+<title>全扩全法术</title>
 <meta name="GENERATOR" content="WinCHM">
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <style>
@@ -37,9 +37,11 @@ function search() {
 	var cb_school = document.getElementsByName("school");
 	var cb_class = document.getElementsByName("class");
 	var cb_level = document.getElementsByName("level");
+	var cb_book = document.getElementsByName("book");
 	var choosen_school = [];
 	var choosen_class = [];
 	var choosen_level = [];
+	var choosen_book = [];
 	for (var i = 0; i < cb_school.length; i++) {
 		if (cb_school[i].checked) {
 			choosen_school.push(cb_school[i].value)
@@ -55,13 +57,16 @@ function search() {
 			choosen_level.push(cb_level[i].value)
 		}
 	}
-	
-    var elements = document.getElementsByTagName("span");
+	for (var i = 0; i < cb_book.length; i++) {
+		if (cb_book[i].checked) {
+			choosen_book.push(cb_book[i].value)
+		}
+	}
+    var elements = document.getElementsByTagName("TR");
 	for (var i = 0; i < elements.length; i++) {
 		var has_word = false;
-		if (keyword != '') {
-			var content = elements[i].textContent.toLowerCase();
-			if (content.includes(keyword)) {
+		var tags = elements[i].getAttribute("spell"););
+			if (content.indexOf(keyword) != -1) {
 				has_word = true
 			}
 		} else {
@@ -70,25 +75,32 @@ function search() {
 		var has_school = false;
 		var tags = elements[i].getAttribute("tags");
 		for (var j = 0; j < choosen_school.length && !has_school; j++) {
-			if (tags.includes(choosen_school[j])) {
+			if (tags.indexOf(choosen_school[j]) != -1) {
 				has_school = true;
 			}
 		}
 		var has_class = false;
 		var tags = elements[i].getAttribute("tags");
 		for (var j = 0; j < choosen_class.length && !has_class; j++) {
-			if (tags.includes(choosen_class[j])) {
+			if (tags.indexOf(choosen_class[j]) != -1) {
 				has_class = true;
 			}
 		}
 		var has_level = false;
 		var tags = elements[i].getAttribute("tags");
 		for (var j = 0; j < choosen_level.length && !has_level; j++) {
-			if (tags.includes(choosen_level[j])) {
+			if (tags.indexOf(choosen_level[j]) != -1) {
 				has_level = true;
 			}
 		}
-		if (has_word && has_school && has_class && has_level) {
+		var has_book = false;
+		var tags = elements[i].getAttribute("tags");
+		for (var j = 0; j < choosen_book.length && !has_book; j++) {
+			if (tags.indexOf(choosen_book[j]) != -1) {
+				has_book = true;
+			}
+		}
+		if (has_word && has_school && has_class && has_level && has_book) {
 			elements[i].style.display = "block";
 		} else {
 			elements[i].style.display = "none";
@@ -98,9 +110,22 @@ function search() {
 </script>
 </head>
 <body>
-<div style="margin-left:20px" >
-<input id="input" type="text" name="q" placeholder="搜索..."><button onclick="search()">搜索</button>
-<br>
+<div style="MARGIN-BOTTOM: 20px; MARGIN-LEFT: 20px">
+<input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button></div>
+<div style="MARGIN-LEFT: 20px"><STRONG>环阶：</STRONG>
+
+<input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
+<input type="checkbox" id="le1" name="level" value="一环" checked><label for="le1">一</label>
+<input type="checkbox" id="le2" name="level" value="二环" checked><label for="le2">二</label>
+<input type="checkbox" id="le3" name="level" value="三环" checked><label for="le3">三</label>
+<input type="checkbox" id="le4" name="level" value="四环" checked><label for="le4">四</label>
+<input type="checkbox" id="le5" name="level" value="五环" checked><label for="le5">五</label>
+<input type="checkbox" id="le6" name="level" value="六环" checked><label for="le6">六</label>
+<input type="checkbox" id="le7" name="level" value="七环" checked><label for="le7">七</label>
+<input type="checkbox" id="le8" name="level" value="八环" checked><label for="le8">八</label>
+<input type="checkbox" id="le9" name="level" value="九环" checked><label for="le9">九</label>
+<br><STRONG>学派：</STRONG>
+
 <input type="checkbox" id="sc1" name="school" value="防护" checked><label for="sc1">防护</label>
 <input type="checkbox" id="sc2" name="school" value="咒法" checked><label for="sc2">咒法</label>
 <input type="checkbox" id="sc3" name="school" value="预言" checked><label for="sc3">预言</label>
@@ -109,7 +134,8 @@ function search() {
 <input type="checkbox" id="sc6" name="school" value="幻术" checked><label for="sc6">幻术</label>
 <input type="checkbox" id="sc7" name="school" value="死灵" checked><label for="sc7">死灵</label>
 <input type="checkbox" id="sc8" name="school" value="变化" checked><label for="sc8">变化</label>
-<br>
+<br><STRONG>职业：</STRONG>
+
 <input type="checkbox" id="cl1" name="class" value="奇械师" checked><label for="cl1">奇械师</label>
 <input type="checkbox" id="cl2" name="class" value="吟游诗人" checked><label for="cl2">吟游诗人</label>
 <input type="checkbox" id="cl3" name="class" value="牧师" checked><label for="cl3">牧师</label>
@@ -119,19 +145,25 @@ function search() {
 <input type="checkbox" id="cl7" name="class" value="术士" checked><label for="cl7">术士</label>
 <input type="checkbox" id="cl8" name="class" value="法师" checked><label for="cl8">法师</label>
 <input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
-<br>
-<input type="checkbox" id="le1" name="level" value="戏法" checked><label for="le1">戏法(零环)</label>
-<input type="checkbox" id="le2" name="level" value="一环" checked><label for="le2">一环</label>
-<input type="checkbox" id="le3" name="level" value="二环" checked><label for="le3">二环</label>
-<input type="checkbox" id="le4" name="level" value="三环" checked><label for="le4">三环</label>
-<input type="checkbox" id="le5" name="level" value="四环" checked><label for="le5">四环</label>
-<input type="checkbox" id="le6" name="level" value="五环" checked><label for="le6">五环</label>
-<input type="checkbox" id="le7" name="level" value="六环" checked><label for="le7">六环</label>
-<input type="checkbox" id="le8" name="level" value="七环" checked><label for="le8">七环</label>
-<input type="checkbox" id="le9" name="level" value="八环" checked><label for="le9">八环</label>
-<input type="checkbox" id="le10" name="level" value="九环" checked><label for="le10">九环</label>
+<input type="checkbox" id="cl10" name="class" value="其他" checked><label for="cl10">其他</label>
+<BR><STRONG>来源：</STRONG>
+<input type="checkbox" id="bk1" name="book" value="PHB24" checked><label for="bk1">PHB24</label>
+<input type="checkbox" id="bk2" name="book" value="PHB14"><label for="bk2">PHB14</label>
+<input type="checkbox" id="bk3" name="book" value="XGE" checked><label for="bk3">XGE</label>
+<input type="checkbox" id="bk4" name="book" value="TCE" checked><label for="bk4">TCE</label>
+<input type="checkbox" id="bk5" name="book" value="FTD" checked><label for="bk5">FTD</label>
+<input type="checkbox" id="bk6" name="book" value="BMT" checked><label for="bk6">BMT</label>
+<input type="checkbox" id="bk7" name="book" value="GGR" checked><label for="bk7">GGR</label>
+<input type="checkbox" id="bk8" name="book" value="AI" checked><label for="bk8">AI</label>
+<input type="checkbox" id="bk9" name="book" value="EGW" checked><label for="bk9">EGW</label>
+<input type="checkbox" id="bk10" name="book" value="SCC" checked><label for="bk10">SCC</label>
+<input type="checkbox" id="bk11" name="book" value="AAG" checked><label for="bk11">AAG</label>
+<input type="checkbox" id="bk12" name="book" value="SO" checked><label for="bk12">SO</label>
 </div>
-<hr>
+<HR style="HEIGHT: 2px; COLOR: #b79c61">
+<TABLE style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<TR><TD><STRONG>法术名</STONG></TD><TD width=120><STRONG>环阶</STONG></TD><TD width=60><STRONG>学派</STONG></TD><TD><STRONG>职业</STONG></TD><TD><STRONG>R</STONG></TD><TD><STRONG>来源</STONG></TD></TR>
 {{内容}}
+</TABLE>
 </body>
 </html>

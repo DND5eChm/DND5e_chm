@@ -73,6 +73,7 @@ class Spell:
         self.spell_ritual = False
         self.spell_school = ""
         self.spell_source_tag = source_tag
+        self.spell_ritual_a = ""
         
         self.chm_path = chm_path
         self.legacy = False
@@ -124,27 +125,31 @@ class Spell:
                 self.spell_classes.append(_class)
         if "邪术师" in self.spell_subline:
             self.spell_classes.append("魔契师")
+        if len(self.spell_classes) == 0:  # 如果没有匹配到任何职业
+            self.spell_classes.append("其他")
                 
-    def output_id_and_link(self,_class="术士") -> str:
+    def output_id_and_link(self,_class="万法大全") -> str:
         display_name = self.spell_name+self.spell_name_en
         
           # 职业判断逻辑显示学派
-        if _class in ["法师", "万法大全"]:
-            display_name = self.spell_school+" - "+display_name
+        #if _class in ["法师", "万法大全"]:
+            #display_name = self.spell_school+" - "+display_name
 
-        #if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师", "万法大全"]:
+        # if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师", "万法大全"]:
         if self.spell_ritual:
-            display_name += "(仪)"
+            self.spell_ritual_a = "√"
+        else:
+            self.spell_ritual_a = "×"
         
         if self.legacy:
             id_and_link = "<a class=\"legacy\" href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
         else:
             id_and_link = "<a href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
-        if self.spell_source_tag != "":
-            id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
+        #原后标代码留档 if self.spell_source_tag != "":
+            # id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         
         if _class == "万法大全":
-            id_and_link = "<span tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+"\">" + id_and_link + "</span>"
+            id_and_link = "<TR tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+" "+self.spell_source_tag+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+id_and_link +"</TD><TD>"+self.spell_level+"</TD><TD>"+self.spell_school+"</TD><TD>"+"，".join(self.spell_classes)+"</TD><TD>"+self.spell_ritual_a+"</TD><TD>"+self.spell_source_tag+"</TD></TR>"
         return id_and_link
     
     def output_database(self) -> list[str]:
