@@ -48,6 +48,19 @@ source_priority = {
     "SO": 11
 }
 
+short_cut: dict[str,str] = {
+    "圣武士" : "帕",
+    "吟游诗人" : "诗",
+    "牧师" : "牧",
+    "德鲁伊" : "德",
+    "魔契师" : "锁",
+    "游侠" : "软",
+    "术士" : "术",
+    "法师" : "法",
+    "奇械师" : "奇",
+    "其他" : "无"
+}
+
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
 
 level_list = ["戏法(零环)","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
@@ -149,7 +162,7 @@ class Spell:
             # id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         
         if _class == "万法大全":
-            id_and_link = "<TR tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+" "+self.spell_source_tag+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+id_and_link +"</TD><TD>"+self.spell_level+"</TD><TD>"+self.spell_school+"</TD><TD>"+"，".join(self.spell_classes)+"</TD><TD>"+self.spell_ritual_a+"</TD><TD>"+self.spell_source_tag+"</TD></TR>"
+            id_and_link = "<TR tags=\"" +self.spell_school+" "+" ".join(self.spell_classes)+" "+self.spell_level+" "+self.spell_source_tag+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+id_and_link +"</TD><TD>"+self.spell_level+"</TD><TD>"+self.spell_school+"</TD><TD>"+"、".join([short_cut[_class] for _class in self.spell_classes])+"</TD><TD>"+self.spell_ritual_a+"</TD><TD>"+self.spell_source_tag+"</TD></TR>"
         return id_and_link
     
     def output_database(self) -> list[str]:
