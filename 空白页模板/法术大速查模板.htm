@@ -63,9 +63,10 @@ function search() {
 		}
 	}
     var elements = document.getElementsByTagName("TR");
-	for (var i = 0; i < elements.length; i++) {
+	for (var i = 1; i < elements.length; i++) {
 		var has_word = false;
-		var tags = elements[i].getAttribute("spell"););
+		if (keyword != '') {
+			var content = elements[i].getAttribute("spell");
 			if (content.indexOf(keyword) != -1) {
 				has_word = true
 			}
@@ -74,28 +75,28 @@ function search() {
 		}
 		var has_school = false;
 		var tags = elements[i].getAttribute("tags");
-		for (var j = 0; j < choosen_school.length && !has_school; j++) {
+		for (var j = 1; j < choosen_school.length && !has_school; j++) {
 			if (tags.indexOf(choosen_school[j]) != -1) {
 				has_school = true;
 			}
 		}
 		var has_class = false;
 		var tags = elements[i].getAttribute("tags");
-		for (var j = 0; j < choosen_class.length && !has_class; j++) {
+		for (var j = 1; j < choosen_class.length && !has_class; j++) {
 			if (tags.indexOf(choosen_class[j]) != -1) {
 				has_class = true;
 			}
 		}
 		var has_level = false;
 		var tags = elements[i].getAttribute("tags");
-		for (var j = 0; j < choosen_level.length && !has_level; j++) {
+		for (var j = 1; j < choosen_level.length && !has_level; j++) {
 			if (tags.indexOf(choosen_level[j]) != -1) {
 				has_level = true;
 			}
 		}
 		var has_book = false;
 		var tags = elements[i].getAttribute("tags");
-		for (var j = 0; j < choosen_book.length && !has_book; j++) {
+		for (var j = 1; j < choosen_book.length && !has_book; j++) {
 			if (tags.indexOf(choosen_book[j]) != -1) {
 				has_book = true;
 			}
@@ -162,7 +163,7 @@ function search() {
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
 <TABLE style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
-<TR><TD><STRONG>法术名</STONG></TD><TD width=120><STRONG>环阶</STONG></TD><TD width=60><STRONG>学派</STONG></TD><TD><STRONG>职业</STONG></TD><TD><STRONG>R</STONG></TD><TD><STRONG>来源</STONG></TD></TR>
+<TR tags="防护 咒法 预言 惑控 塑能 幻术 死灵 变化德鲁伊 游侠 术士 法师 奇械师 一环 XGE" spell="吸收元素Absorb Elements"><TD><STRONG>法术名</STONG></TD><TD width=120><STRONG>环阶</STONG></TD><TD width=60><STRONG>学派</STONG></TD><TD><STRONG>职业</STONG></TD><TD><STRONG>R</STONG></TD><TD><STRONG>来源</STONG></TD></TR>
 {{内容}}
 </TABLE>
 </body>
