@@ -146,8 +146,8 @@ class Spell:
         display_name = self.spell_name+self.spell_name_en
         
           # 职业判断逻辑显示学派
-        #if _class in ["法师", "万法大全"]:
-            #display_name = self.spell_school+" - "+display_name
+        if _class in ["法师"]:
+            display_name = self.spell_school+" - "+display_name
 
         # if self.spell_ritual and _class in ["法师","吟游诗人","牧师","德鲁伊","奇械师", "万法大全"]:
         
@@ -181,10 +181,10 @@ class Spell:
                 id_and_link, #法术名（带链接）
                 self.spell_level, #法术环阶
                 self.spell_school, #法术学派
-                "".join([short_cut[_class] for _class in self.spell_classes]), #法术职业简写
-                "V" if self.spell_verbal else "", #言语成分
-                "S" if self.spell_somatic else "", #姿势成分
-                "M*" if self.spell_material_sp else ("M" if self.spell_material else ""), #材料成分
+                " ".join([short_cut[_class] for _class in self.spell_classes]), #法术职业简写
+                "V" if self.spell_verbal else "×", #言语成分
+                "S" if self.spell_somatic else "×", #姿势成分
+                "M*" if self.spell_material_sp else ("M" if self.spell_material else "×"), #材料成分
                 "√" if self.spell_ritual else "×", #
                 "√" if self.spell_concentration else "×", #专注
                 self.spell_source_tag #来源
