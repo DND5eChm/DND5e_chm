@@ -123,15 +123,23 @@ function search() {
 		}
 	}
 }
-function toggle_all(type_name) {
-	var btn = document.getElementById("toggle" + type_name.charAt(0).toUpperCase() + type_name.slice(1));
+function select_all(type_name){
 	var cb = document.getElementsByName(type_name);
-	var shouldCheck = btn.innerHTML === "全选";
-    
-	for (var i = 0; i < cb.length; i++) {
-		cb[i].checked = shouldCheck;
+	var all_selected = true;
+	for (var i = 0; i < cb.length && all_selected; i++) {
+		if (all_selected && !(cb[i].checked)) {
+			all_selected = false;
+		}
 	}
-	btn.innerHTML = shouldCheck ? "全不选" : "全选"; // 切换按钮文字
+	if (all_selected) {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = false;
+		}
+	} else {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = true;
+		}
+	}
 }
 function toggleVisibility() {
 			var div = document.getElementById("filterDiv");
@@ -154,7 +162,7 @@ function toggleVisibility() {
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
 <b>特殊：</b>
-<button onclick="toggle_all('special')" id="togglespecial">全不选</button>
+<button onclick="select_all('special')">全选</button>
 <input type="checkbox" id="sp0" name="special" value="专注" checked><label for="sp0">C</label>
 <input type="checkbox" id="sp1" name="special" value="仪式" checked><label for="sp1">R</label>
 <input type="checkbox" id="sp2" name="special" value="言语" checked><label for="sp2">V</label>
@@ -162,7 +170,7 @@ function toggleVisibility() {
 <input type="checkbox" id="sp4" name="special" value="材料" checked><label for="sp4">M</label>
 <input type="checkbox" id="sp5" name="special" value="价耗" checked><label for="sp5">M*</label>
 <br><b>环阶：</b>
-<button onclick="toggle_all('level')" id="togglelevel">全不选</button>
+<button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
 <input type="checkbox" id="le1" name="level" value="一环" checked><label for="le1">一</label>
 <input type="checkbox" id="le2" name="level" value="二环" checked><label for="le2">二</label>
@@ -174,7 +182,7 @@ function toggleVisibility() {
 <input type="checkbox" id="le8" name="level" value="八环" checked><label for="le8">八</label>
 <input type="checkbox" id="le9" name="level" value="九环" checked><label for="le9">九</label>
 <br><b>学派：</b>
-<button onclick="toggle_all('school')" id="toggleschool">全不选</button>
+<button onclick="select_all('school')">全选</button>
 <input type="checkbox" id="sc1" name="school" value="防护" checked><label for="sc1">防护</label>
 <input type="checkbox" id="sc2" name="school" value="咒法" checked><label for="sc2">咒法</label>
 <input type="checkbox" id="sc3" name="school" value="预言" checked><label for="sc3">预言</label>
@@ -184,7 +192,7 @@ function toggleVisibility() {
 <input type="checkbox" id="sc7" name="school" value="死灵" checked><label for="sc7">死灵</label>
 <input type="checkbox" id="sc8" name="school" value="变化" checked><label for="sc8">变化</label>
 <br><b>职业：</b>
-<button onclick="toggle_all('class')" id="toggleclass">全不选</button>
+<button onclick="select_all('class')">全选</button>
 <input type="checkbox" id="cl1" name="class" value="奇械师" checked><label for="cl1">奇械师</label>
 <input type="checkbox" id="cl2" name="class" value="吟游诗人" checked><label for="cl2">吟游诗人</label>
 <input type="checkbox" id="cl3" name="class" value="牧师" checked><label for="cl3">牧师</label>
@@ -196,7 +204,7 @@ function toggleVisibility() {
 <input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
 <input type="checkbox" id="cl10" name="class" value="其他" checked><label for="cl10">其他</label>
 <BR><b>来源：</b>
-<button onclick="toggle_all('book')" id="togglebook">全不选</button>
+<button onclick="select_all('book')">全选</button>
 <input type="checkbox" id="bk1" name="book" value="PHB24" checked><label for="bk1">PHB24</label>
 <input type="checkbox" id="bk2" name="book" value="PHB14" checked><label for="bk2">PHB14</label>
 <input type="checkbox" id="bk3" name="book" value="XGE" checked><label for="bk3">XGE</label>
