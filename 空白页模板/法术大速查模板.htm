@@ -77,7 +77,7 @@ function search() {
 		var has_word = false;
 		if (keyword != '') {
 			var content = elements[i].getAttribute("spell");
-			if (content.indexOf(keyword) != -1) {
+			if (content.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
 				has_word = true
 			}
 		} else {
