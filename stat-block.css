@@ -14,10 +14,10 @@ html,body {
 	border-radius: 8px;border:3px double rgb(139,137,136);
 }
 .stat-block h5,.stat-block h6{
-	color: #793A2F;
+	color: #800000;
 	font-weight: bold;
 	border-bottom: 1px;
-	border-color: rgb(121,58,47);
+	border-color: #800000;
 	border-style: none none solid none;
 }
 .stat-block h5{
@@ -31,12 +31,12 @@ html,body {
 	margin-bottom: -12px;
 }
 .stat-block .sub-line{
-	color: rgb(102,100,100);
+	color: #808080;
 	font-style: italic;
 }
 .stat-block table{
 	width: 100%;
-	color: #793A2F;
+	color: #800000;
 	white-space: nowrap;
 	border-collapse: collapse
 }
@@ -49,7 +49,7 @@ html,body {
 .stat-abilities th{
 	width: 40px;
 	font-size: 12px;
-	color: rgb(102,100,100);
+	color: #808080;
 }
 .stat-abilities td{
 	padding: 2px 0px 2px 0px;
