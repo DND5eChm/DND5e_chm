@@ -54,6 +54,23 @@ html,body {
 .stat-abilities td{
 	padding: 2px 0px 2px 0px;
 }
+.c1{
+	BACKGROUND-COLOR:#e9e3d6;
+}
+.c2{
+	BACKGROUND-COLOR: #d8d0c9
+}
+.c3{
+	BACKGROUND-COLOR: #d2d6ce
+}
+.c4{
+	BACKGROUND-COLOR: #cbc6c6
+}
+.hr-up{
+	HEIGHT: 1px; 
+	MARGIN-TOP: -8px; 
+	COLOR: #800000;
+}
 /*下划线→术语格式*/
 U{
 	color: #008000;
@@ -79,9 +96,4 @@ B U,U B,STRONG U,U STRONG{
 	color: #ee3300;
 	font-style: italic;
 	font-weight: bold
-}
-.stat-block HR{
-	HEIGHT: 1px; 
-	MARGIN-TOP: -8px; 
-	COLOR: #800000;
 }
