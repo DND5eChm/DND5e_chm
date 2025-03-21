@@ -1,8 +1,8 @@
+/*仅限2024版本数据卡使用*/
 html,body { 
 	font-family: Arial, Helvetica, sans-serif;
 }
 .stat-block{
-	display: block;
 	margin-left: 22px;
 	width: 500px;
 	background-color: #F8F8F6;
@@ -103,7 +103,6 @@ B U,U B,STRONG U,U STRONG{
 }
 .little-paper {          
 	padding: 20px;
-	width: 300px;
 	border:3px double #9E6859;
 	background-color: #FAF0EB;
 	font-family: 仿宋, Arial, Helvetica, sans-serif;

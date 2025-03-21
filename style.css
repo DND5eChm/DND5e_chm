@@ -49,6 +49,7 @@ h5 {
     margin-bottom: -20px;
 	font-size: 18px;
 }
+/*居中框*/
 .center-div{
 	BORDER-TOP: #656565 2px solid;
 	BORDER-RIGHT: #656565 2px solid;
@@ -62,4 +63,12 @@ h5 {
 	PADDING-RIGHT: 50px;
 	MARGIN-RIGHT: 8%;
 	BACKGROUND-COLOR: #ebd6c1;
+}
+/*备用数据卡框*/
+.stat-block{
+	margin-left: 22px;
+	width: 500px;
+	background-color: #F8F8F6;
+	padding: 15px;
+	border:3px double #808080;
 }
