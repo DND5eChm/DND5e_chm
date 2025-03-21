@@ -6,12 +6,8 @@ html,body {
 	margin-left: 22px;
 	width: 500px;
 	background-color: #F8F8F6;
-	box-shadow: 0px 0px 3px 0px #aaa;
-	border: 1px solid #d4d0ce;
-	border-radius: 5px;
-	column-count: 1;
 	padding: 15px;
-	border-radius: 8px;border:3px double rgb(139,137,136);
+	border:3px double #808080;
 }
 .stat-block h5,.stat-block h6{
 	color: #800000;
@@ -26,7 +22,7 @@ html,body {
 }
 .stat-block h6{
 	font-size: 16px;
-	margin-top: 4px;
+	margin-top: 12px;
 	margin-bottom: -12px;
 }
 .stat-block .sub-line{
@@ -66,10 +62,20 @@ html,body {
 .c4{
 	BACKGROUND-COLOR: #cbc6c6
 }
-.hr-up{
+HR{
 	HEIGHT: 1px; 
-	MARGIN-TOP: -8px; 
-	COLOR: #800000;
+	MARGIN-TOP: -8px;
+	COLOR: #b79c61;
+}
+/*标题颜色*/
+h1,h2{
+	color:#800000;
+}
+h3{
+	font-size:22px;
+	MARGIN-TOP: -15px;
+	font-family: 仿宋;
+	font-weight: bold;
 }
 /*下划线→术语格式*/
 U{
@@ -82,18 +88,36 @@ U EM,U I{
 	color: #704CD9;
 	font-style: italic;
 	font-weight: bold;
-
 }
 /*斜体+下划线→魔法物品格式*/
 EM U,I U{
 	color: #0000ff;
 	font-style: italic;
 	font-weight: bold;
-
 }
 /*粗体+下划线→怪物格式*/
 B U,U B,STRONG U,U STRONG{
 	color: #ee3300;
 	font-style: italic;
 	font-weight: bold
+}
+.little-paper {          
+	padding: 20px;
+	width: 300px;
+	border:3px double #9E6859;
+	background-color: #FAF0EB;
+	font-family: 仿宋, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 18px;
+}
+.HT {
+	padding: 5px;
+	border-top:3px solid #D1BC90;
+	background-color: #F0E9DA;
+	MARGIN-TOP: -7px;
+	width: 500px;
+}
+.PS {
+	MARGIN-BOTTOM: 0px; 
+	MARGIN-TOP: -12px;
 }

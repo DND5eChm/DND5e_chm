@@ -49,3 +49,17 @@ h5 {
     margin-bottom: -20px;
 	font-size: 18px;
 }
+.center-div{
+	BORDER-TOP: #656565 2px solid;
+	BORDER-RIGHT: #656565 2px solid;
+	WIDTH: 100%;
+	BORDER-BOTTOM: #656565 2px solid;
+	PADDING-BOTTOM: 10px;
+	PADDING-TOP: 10px;
+	PADDING-LEFT: 50px;
+	MARGIN-LEFT: 8%;
+	BORDER-LEFT: #656565 2px solid;
+	PADDING-RIGHT: 50px;
+	MARGIN-RIGHT: 8%;
+	BACKGROUND-COLOR: #ebd6c1;
+}
