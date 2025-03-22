@@ -114,14 +114,18 @@ B U,U B,STRONG U,U STRONG{
 	font-weight: bold
 }
 /*小纸条*/
-.little-paper {          
-	padding: 20px;
+.little-paper {       
+	padding: 15px;
 	border:3px double #9E6859;
 	background-color: #FAF0EB;
 	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	TEXT-ALIGN: center;
 	font-size: 16px;
+	margin-bottom:20px;
+}
+.little-paper P{
+	margin-top: 7px;
+	margin-bottom: 7px;
 }
 /*栖息地与宝藏*/
 .HT {
