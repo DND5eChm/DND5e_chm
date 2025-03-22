@@ -51,15 +51,12 @@ h5 {
 }
 /*居中框*/
 .center-div{
-	BORDER-TOP: #656565 2px solid;
-	BORDER-RIGHT: #656565 2px solid;
+	BORDER: #656565 2px solid;
 	WIDTH: 100%;
-	BORDER-BOTTOM: #656565 2px solid;
 	PADDING-BOTTOM: 10px;
 	PADDING-TOP: 10px;
 	PADDING-LEFT: 50px;
 	MARGIN-LEFT: 8%;
-	BORDER-LEFT: #656565 2px solid;
 	PADDING-RIGHT: 50px;
 	MARGIN-RIGHT: 8%;
 	BACKGROUND-COLOR: #ebd6c1;
@@ -71,4 +68,29 @@ h5 {
 	background-color: #F8F8F6;
 	padding: 15px;
 	border:3px double #808080;
+}
+/*实例文本框*/
+.example{
+	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
+	WIDTH: 100%; 
+	BACKGROUND: #fff2cc; 
+	PADDING-BOTTOM: 10px; 
+	PADDING-TOP: 10px; 
+	PADDING-LEFT: 10px; 
+	MARGIN-LEFT: 5%; 
+	PADDING-RIGHT: 10px; 
+	MARGIN-RIGHT: 5%
+}
+/*实例右框*/
+.ex-right{
+	BORDER: #656565 2px solid; 
+	WIDTH: 250px;
+	FLOAT: right; 
+	PADDING: 10px; 
+	BACKGROUND-COLOR: #ebd6c1; 
+	MARGIN-RIGHT: -10px
+}
+/*普通表格*/
+.TN{
+	BORDER-COLLAPSE: collapse
 }

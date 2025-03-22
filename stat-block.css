@@ -8,6 +8,7 @@ html,body {
 	background-color: #F8F8F6;
 	padding: 15px;
 	border:3px double #808080;
+	font-size: 16px;
 }
 .stat-block h5,.stat-block h6{
 	color: #800000;
@@ -16,31 +17,38 @@ html,body {
 	border-color: #800000;
 }
 .stat-block h5{
-	font-size: 20px;
+	font-size: 22px;
 	margin-top: 0px;
 	margin-bottom: 5px;
+	border-bottom: 1px;
+	border-color: #800000;
+	border-style: none none solid none;
 }
 .stat-block h6{
-	font-size: 16px;
-	margin-top: 12px;
+	font-size: 18px;
+	margin-top: 17px;
 	margin-bottom: -12px;
+	border-bottom: 1px;
+	border-color: #800000;
+	border-style: none none solid none;
 }
 .stat-block .sub-line{
 	color: #808080;
 	font-style: italic;
-	MARGIN-TOP: -15px;
+	MARGIN-TOP: -3px;
 }
 .stat-block table{
 	width: 100%;
 	color: #800000;
 	white-space: nowrap;
-	border-collapse: collapse
+	border-collapse: collapse;
 }
 .stat-abilities{
 	min-width: 500px;
 	text-align: center;
 	white-space: nowrap;
-	border-collapse: collapse
+	border-collapse: collapse;
+	margin-bottom: 15px;
 }
 .stat-abilities th{
 	width: 40px;
@@ -49,6 +57,7 @@ html,body {
 }
 .stat-abilities td{
 	padding: 2px 0px 2px 0px;
+	font-size: 16px;
 }
 .c1{
 	BACKGROUND-COLOR:#e9e3d6;
@@ -62,20 +71,23 @@ html,body {
 .c4{
 	BACKGROUND-COLOR: #cbc6c6
 }
-HR{
-	HEIGHT: 1px; 
-	MARGIN-TOP: -8px;
-	COLOR: #b79c61;
-}
 /*标题颜色*/
-h1,h2{
+h1{
 	color:#800000;
+}
+h2{
+	color:#800000;
+	border-bottom: 1px;
+	border-color: #b79c61;
+	border-style: none none solid none;
 }
 h3{
 	font-size:22px;
 	MARGIN-TOP: -15px;
-	font-family: 仿宋;
+	margin-bottom: 13px;
+	color: #808080;
 	font-weight: bold;
+	font-family: "fangsong","仿宋";
 }
 /*下划线→术语格式*/
 U{
@@ -101,22 +113,22 @@ B U,U B,STRONG U,U STRONG{
 	font-style: italic;
 	font-weight: bold
 }
+/*小纸条*/
 .little-paper {          
 	padding: 20px;
 	border:3px double #9E6859;
 	background-color: #FAF0EB;
-	font-family: 仿宋, Arial, Helvetica, sans-serif;
+	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	font-size: 18px;
+	TEXT-ALIGN: center;
+	font-size: 16px;
 }
+/*栖息地与宝藏*/
 .HT {
 	padding: 5px;
 	border-top:3px solid #D1BC90;
 	background-color: #F0E9DA;
 	MARGIN-TOP: -7px;
 	width: 500px;
-}
-.PS {
-	MARGIN-BOTTOM: 0px; 
-	MARGIN-TOP: -12px;
+	font-size: 16px;
 }
