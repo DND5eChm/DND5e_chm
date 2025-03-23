@@ -94,3 +94,12 @@ h5 {
 .TN{
 	BORDER-COLLAPSE: collapse
 }
+.line-down{
+	border-bottom: #b79c61 1px solid;
+}
+.line-line{
+	border-bottom: #b79c61 3px double;
+}
+.line-bold{
+	border-bottom: #b79c61 2px solid;
+}

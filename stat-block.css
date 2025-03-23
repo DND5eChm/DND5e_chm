@@ -72,17 +72,11 @@ html,body {
 	BACKGROUND-COLOR: #cbc6c6
 }
 /*标题颜色*/
-h1{
+h1,h2{
 	color:#800000;
-}
-h2{
-	color:#800000;
-	border-bottom: 1px;
-	border-color: #b79c61;
-	border-style: none none solid none;
 }
 h3{
-	font-size:22px;
+	font-size:20px;
 	MARGIN-TOP: -15px;
 	margin-bottom: 13px;
 	color: #808080;
@@ -136,3 +130,4 @@ B U,U B,STRONG U,U STRONG{
 	width: 500px;
 	font-size: 16px;
 }
+
