@@ -90,16 +90,3 @@ h5 {
 	BACKGROUND-COLOR: #ebd6c1; 
 	MARGIN-RIGHT: -10px
 }
-/*普通表格*/
-.TN{
-	BORDER-COLLAPSE: collapse
-}
-.line-down{
-	border-bottom: #b79c61 1px solid;
-}
-.line-line{
-	border-bottom: #b79c61 3px double;
-}
-.line-bold{
-	border-bottom: #b79c61 2px solid;
-}
