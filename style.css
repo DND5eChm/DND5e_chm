@@ -50,7 +50,7 @@ h5 {
 	font-size: 18px;
 }
 /*居中框*/
-.center-div{
+div.center{
 	BORDER: #656565 2px solid;
 	WIDTH: 100%;
 	PADDING-BOTTOM: 10px;
@@ -62,7 +62,7 @@ h5 {
 	BACKGROUND-COLOR: #ebd6c1;
 }
 /*备用数据卡框*/
-.stat-block{
+div.stat-block{
 	margin-left: 22px;
 	width: 500px;
 	background-color: #F8F8F6;
@@ -70,7 +70,7 @@ h5 {
 	border:3px double #808080;
 }
 /*实例文本框*/
-.example{
+div.example{
 	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
 	WIDTH: 100%; 
 	BACKGROUND: #fff2cc; 
@@ -82,7 +82,7 @@ h5 {
 	MARGIN-RIGHT: 5%
 }
 /*实例右框*/
-.ex-right{
+div.ex-right{
 	BORDER: #656565 2px solid; 
 	WIDTH: 250px;
 	FLOAT: right; 
@@ -90,3 +90,15 @@ h5 {
 	BACKGROUND-COLOR: #ebd6c1; 
 	MARGIN-RIGHT: -10px
 }
+/*基础表格*/
+table.basic{
+	width: 500px;
+	border-collapse: collapse;
+	margin-left: 22px;
+	border-spacing: 0;
+	border: 0;	
+}
+table.basic td{
+	padding: 2px;
+	}
+	
