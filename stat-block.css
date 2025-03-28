@@ -9,6 +9,7 @@ div.stat-block{
 	padding: 15px;
 	border:3px double #808080;
 	font-size: 16px;
+	margin-bottom:20px;
 }
 div.stat-block h5,div.stat-block h6{
 	color: #800000;
