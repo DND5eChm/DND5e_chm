@@ -27,14 +27,14 @@ U EM,U I{
 /*斜体+下划线→魔法物品格式*/
 EM U,I U{
 	color: #0000ff;
-	font-style: italic;
+	font-style: normal;
 	font-weight: bold;
 
 }
 /*粗体+下划线→怪物格式*/
 B U,U B,STRONG U,U STRONG{
 	color: #ee3300;
-	font-style: italic;
+	font-style: normal;
 	font-weight: bold
 }
 /*法术页使用h4*/
