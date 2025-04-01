@@ -43,8 +43,16 @@ h4 {
     margin-bottom: -20px;
 	font-size: 24px;
 }
-/*道具页使用h5*/
-h5 {
+/*怪物页使用h5*/
+div h5{
+	color: #800000;
+	font-weight: bold;
+	font-size: 24px;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+/*道具页使用h6*/
+h6 {
 	color: #800000;
     margin-bottom: -20px;
 	font-size: 18px;
@@ -100,5 +108,4 @@ table.basic{
 }
 table.basic td{
 	padding: 2px;
-	}
-	
+}

@@ -14,24 +14,17 @@ div.stat-block{
 div.stat-block h5,div.stat-block h6{
 	color: #800000;
 	font-weight: bold;
-	border-bottom: 1px;
-	border-color: #800000;
+	border-bottom: 1px #800000 solid;
 }
 div.stat-block h5{
 	font-size: 22px;
 	margin-top: 0px;
 	margin-bottom: 5px;
-	border-bottom: 1px;
-	border-color: #800000;
-	border-style: none none solid none;
 }
 div.stat-block h6{
 	font-size: 18px;
 	margin-top: 17px;
 	margin-bottom: -12px;
-	border-bottom: 1px;
-	border-color: #800000;
-	border-style: none none solid none;
 }
 div.stat-block .sub-line{
 	color: #808080;
