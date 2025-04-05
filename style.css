@@ -100,7 +100,7 @@ div.ex-right{
 }
 /*基础表格*/
 table.basic{
-	width: 500px;
+	width: auto;
 	border-collapse: collapse;
 	margin-left: 22px;
 	border-spacing: 0;
@@ -109,3 +109,30 @@ table.basic{
 table.basic td{
 	padding: 2px;
 }
+table.center{
+	width: auto;
+	border-collapse: collapse;
+	margin-left: 22px;
+	border-spacing: 0;
+	border: 0;	
+	text-align:center;
+}
+table.center td{
+	padding: 2px;
+}
+table.part {
+	width: auto;
+	border-collapse: collapse;
+	margin-left: 22px;
+	border-spacing: 0;
+	border: 0;	
+}
+table.part td{
+	padding: 2px;
+}
+table.part th{
+	padding: 2px;
+	font-weight: normal;
+	text-align: center;
+}
+

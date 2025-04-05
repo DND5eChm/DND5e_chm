@@ -126,7 +126,6 @@ div.HT {
 }
 /*表格*/
 table.inspire {
-	width: 500px;
 	border-collapse: collapse;
 	margin-left: 22px;
 	border-spacing: 0;
@@ -136,6 +135,7 @@ table.inspire {
 table.inspire td{
 padding: 2px;
 }
+
 div.center{
 	BORDER: #656565 2px solid;
 	WIDTH: 100%;
