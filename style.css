@@ -11,6 +11,10 @@ UL {
 	margin-top: -16px;
 	margin-bottom: -16px;
 }
+OL {
+	margin-top: -16px;
+	margin-bottom: -16px;
+}
 /*下划线→术语格式*/
 U{
 	color: #008000;
@@ -41,13 +45,13 @@ B U,U B,STRONG U,U STRONG{
 h4 {
     color: #704cd9;
     margin-bottom: -20px;
-	font-size: 24px;
+	font-size: 22px;
 }
 /*怪物页使用h5*/
 div h5{
 	color: #800000;
 	font-weight: bold;
-	font-size: 24px;
+	font-size: 22px;
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
@@ -102,7 +106,6 @@ div.ex-right{
 table.basic{
 	width: auto;
 	border-collapse: collapse;
-	margin-left: 22px;
 	border-spacing: 0;
 	border: 0;	
 }
@@ -112,7 +115,6 @@ table.basic td{
 table.center{
 	width: auto;
 	border-collapse: collapse;
-	margin-left: 22px;
 	border-spacing: 0;
 	border: 0;	
 	text-align:center;
@@ -123,7 +125,6 @@ table.center td{
 table.part {
 	width: auto;
 	border-collapse: collapse;
-	margin-left: 22px;
 	border-spacing: 0;
 	border: 0;	
 }
@@ -135,4 +136,12 @@ table.part th{
 	font-weight: normal;
 	text-align: center;
 }
+P.sum{
+	font-size:18px;
+	MARGIN-TOP: -8px;
+	margin-bottom: -8px;
+	color: #808080;
+	font-weight: bold;
+	font-family: "fangsong","仿宋";
 
+}

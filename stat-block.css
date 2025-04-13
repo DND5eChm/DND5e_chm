@@ -66,16 +66,8 @@ td.c4{
 	BACKGROUND-COLOR: #cbc6c6
 }
 /*标题颜色*/
-h1,h2{
+h1,h2,h3{
 	color:#800000;
-}
-h3{
-	font-size:20px;
-	MARGIN-TOP: -15px;
-	margin-bottom: 13px;
-	color: #808080;
-	font-weight: bold;
-	font-family: "fangsong","仿宋";
 }
 /*下划线→术语格式*/
 U{
@@ -127,7 +119,6 @@ div.HT {
 /*表格*/
 table.inspire {
 	border-collapse: collapse;
-	margin-left: 22px;
 	border-spacing: 0;
 	border: 0;
 }
@@ -135,7 +126,40 @@ table.inspire {
 table.inspire td{
 padding: 2px;
 }
-
+/*基础表格*/
+table.basic{
+	width: auto;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 0;	
+}
+table.basic td{
+	padding: 2px;
+}
+table.center{
+	width: auto;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 0;	
+	text-align:center;
+}
+table.center td{
+	padding: 2px;
+}
+table.part {
+	width: auto;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 0;	
+}
+table.part td{
+	padding: 2px;
+}
+table.part th{
+	padding: 2px;
+	font-weight: normal;
+	text-align: center;
+}
 div.center{
 	BORDER: #656565 2px solid;
 	WIDTH: 100%;
@@ -146,4 +170,13 @@ div.center{
 	PADDING-RIGHT: 50px;
 	MARGIN-RIGHT: 8%;
 	BACKGROUND-COLOR: #ebd6c1;
+}
+P.sum{
+	font-size:18px;
+	MARGIN-TOP: -15px;
+	margin-bottom: 13px;
+	color: #808080;
+	font-weight: bold;
+	font-family: "fangsong","仿宋";
+
 }
