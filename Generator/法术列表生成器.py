@@ -35,7 +35,7 @@ source_tag: dict[str,str] = {
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
-    "PHB": 1,   # 第二优先级（原PHB14）
+    "PHB14": 1,   # 第二优先级
     "XGE": 2,
     "TCE": 3,
     "FTD": 4,
@@ -74,7 +74,7 @@ html_template = "../空白页模板/法术列表模板.htm"
 html_template_big = "../空白页模板/法术大速查模板.htm"
 
 class Spell:
-    def __init__(self, content, chm_path="", source_tag="PHB"):
+    def __init__(self, content, chm_path="", source_tag="PHB14"):
         self.spell_name = ""
         self.spell_name_en = ""
         self.spell_id = ""
@@ -189,7 +189,7 @@ class Spell:
                 self.spell_source_tag #来源
             ]
             id_and_link = "<TR tags=\"" +" ".join(tags)+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
-        elif self.spell_source_tag not in ["","PHB","PHB24"]: #角标
+        elif self.spell_source_tag not in ["","PHB14","PHB24"]: #角标
             id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         return id_and_link
     
@@ -281,8 +281,8 @@ if __name__ == "__main__":
         contents = []
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
-                # 排序并输出
-                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy] # 忽略legacy内容
+                # 去legacy，排序并输出
+                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy or c == "奇械师"] # 忽略legacy内容
                 sorted_spells = sorted(sorted_spells,key=lambda x: (x.spell_source_priority,x.spell_name_en))# 排序：来源优先，法术名次优先
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in sorted_spells])+"</p>")
         with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk") as _f:
