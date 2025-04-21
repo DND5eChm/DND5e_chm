@@ -32,7 +32,7 @@ div.stat-block .sub-line{
 	MARGIN-TOP: -3px;
 }
 div.stat-block table{
-	width: 100%;
+	width: 500px;
 	color: #800000;
 	white-space: nowrap;
 	border-collapse: collapse;
@@ -115,16 +115,6 @@ div.HT {
 	MARGIN-TOP: -7px;
 	width: 500px;
 	font-size: 16px;
-}
-/*表格*/
-table.inspire {
-	border-collapse: collapse;
-	border-spacing: 0;
-	border: 0;
-}
-/* 仅作用于 inspire 类表格内的 td/th 单元格 */
-table.inspire td{
-padding: 2px;
 }
 /*基础表格*/
 table.basic{
