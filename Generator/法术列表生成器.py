@@ -33,9 +33,9 @@ source_tag: dict[str,str] = {
     "万象无常书" : "BMT",
     "玩家手册2024" : "PHB24"
 }
-source_priority = {
-    "PHB24": 0,    # 最高优先级
-    "PHB": 1,       # 第二优先级（原PHB14）
+source_priority: dict[str,int] = {
+    "PHB24": 0, # 最高优先级
+    "PHB": 1,   # 第二优先级（原PHB14）
     "XGE": 2,
     "TCE": 3,
     "FTD": 4,
@@ -91,6 +91,7 @@ class Spell:
         self.spell_concentration = False
         self.spell_school = ""
         self.spell_source_tag = source_tag
+        self.spell_source_priority = source_priority[source_tag]
         
         self.chm_path = chm_path
         self.legacy = False
@@ -155,8 +156,6 @@ class Spell:
             id_and_link = "<a class=\"legacy\" href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
         else:
             id_and_link = "<a href=\""+self.chm_path+"#"+self.spell_id+"\">"+display_name+"</a>"
-        #原后标代码留档 if self.spell_source_tag != "":
-            # id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         
         if _class == "万法大全":
             tags = [
@@ -190,6 +189,8 @@ class Spell:
                 self.spell_source_tag #来源
             ]
             id_and_link = "<TR tags=\"" +" ".join(tags)+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
+        elif self.spell_source_tag not in ["","PHB","PHB24"]: #角标
+            id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         return id_and_link
     
     def output_database(self) -> list[str]:
@@ -280,18 +281,10 @@ if __name__ == "__main__":
         contents = []
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
-                #原代码留档：contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in class_spell_list[c][level] if spell.legacy == False])+"</p>")
-                # +++ 新增排序逻辑：PHB24优先 +++
-                sorted_spells = sorted(
-                    [spell for spell in class_spell_list[c][level] if not spell.legacy],
-                    key=lambda x: (
-                        source_priority.get(x.spell_source_tag, 999),  # 按资料优先级
-                        x.spell_name  # 次优先级按名称排序
-                    )               
-                )
-            contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join(
-                [spell.output_id_and_link(c) for spell in sorted_spells]  # ← 使用排序后的列表
-            )+"</p>")
+                # 排序并输出
+                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy] # 忽略legacy内容
+                sorted_spells = sorted(sorted_spells,key=lambda x: (x.spell_source_priority,x.spell_name_en))# 排序：来源优先，法术名次优先
+                contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in sorted_spells])+"</p>")
         with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk") as _f:
             _f.write(template.replace("法术列表模板",c+"法术列表").replace("{{内容}}","\n".join(contents)))
 
