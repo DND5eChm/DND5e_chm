@@ -34,12 +34,12 @@ div.stat-block .sub-line{
 div.stat-block table{
 	width: 500px;
 	color: #800000;
-	white-space: nowrap;
 	border-collapse: collapse;
 }
 table.stat-abilities{
 	text-align: center;
 	margin-bottom: 15px;
+	white-space: nowrap;
 }
 table.stat-abilities th{
 	width: 40px;
