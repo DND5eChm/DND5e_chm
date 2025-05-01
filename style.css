@@ -80,6 +80,8 @@ div.stat-block{
 	background-color: #F8F8F6;
 	padding: 15px;
 	border:3px double #808080;
+	font-size: 16px;
+	margin-bottom:20px;
 }
 /*实例文本框*/
 div.example{

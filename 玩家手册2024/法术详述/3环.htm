@@ -1,9 +1,60 @@
-<!-- coding: gbk --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- coding: gbk -->
 <html>
-<head>
-<title>三环</title>
+<head><title>三环</title>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link rel="stylesheet" href="../../style.css">
+<style>
+div.stat-block h5,div.stat-block h6{
+	color: #800000;
+	font-weight: bold;
+	border-bottom: 1px #800000 solid;
+}
+div.stat-block h5{
+	font-size: 22px;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+div.stat-block h6{
+	font-size: 18px;
+	margin-top: 17px;
+	margin-bottom: -12px;
+}
+div.stat-block .sub-line{
+	color: #808080;
+	font-style: italic;
+	MARGIN-TOP: -3px;
+}
+div.stat-block table{
+	width: 500px;
+	color: #800000;
+	border-collapse: collapse;
+}
+table.stat-abilities{
+	text-align: center;
+	margin-bottom: 15px;
+	white-space: nowrap;
+}
+table.stat-abilities th{
+	width: 40px;
+	font-size: 12px;
+	color: #808080;
+}
+table.stat-abilities td{
+	padding: 2px 0px 2px 0px;
+	font-size: 16px;
+}
+td.c1{
+	BACKGROUND-COLOR:#e9e3d6;
+}
+td.c2{
+	BACKGROUND-COLOR: #d8d0c9
+}
+td.c3{
+	BACKGROUND-COLOR: #d2d6ce
+}
+td.c4{
+	BACKGROUND-COLOR: #cbc6c6
+}</style>
 </head>
 <body>
 <H4 id="Animate_Dead">活化死尸｜Animate Dead</H4>
@@ -153,31 +204,90 @@ Horse</U></STRONG>的数据（见附录B），不过其具有100尺速度，每小时可行进13里。法术
 Wind</EM></U>创造的强风）将其吹散为止。<BR>如果一个生物在其回合开始时位于云团内，则它必须成功通过一次体质豁免。否则将陷入<U>中毒</U>状态直到其当前回合结束。因此而陷入<U>中毒</U>状态期间，该生物无法执行动作或附赠动作。</P>
 <H4 id="Summon_Fey">妖精召唤术｜Summon Fey</H4>
 <P><EM>三环 咒法（德鲁伊、游侠、魔契师、法师）</EM> <BR><STRONG>施法时间：</STRONG>动作<BR><STRONG>施法距离：</STRONG>90 尺<BR><STRONG>法术成分：</STRONG>V, S, M（一朵价值300+GP的镀金花）<BR><STRONG>持续时间：</STRONG>专注，至多1小时<BR>你唤来一个妖精灵魄。其使用下文妖精灵魄的数据，并会在施法距离内一处你可见的未被占据的空间中显现。当你施展法术时，从愤怒、欢欣、诡诈中选择一种情绪，该生物会显现为一个受你所选情绪所影响的妖精生物，其数据中的部分特性也受此影响。该生物会在生命值降为0或是法术结束时消失。<BR>该生物是你的盟友（对你的其他盟友亦是如此）。它在战斗中使用你的先攻，并在你回合结束后立即行动。它遵从于你的口头指令（无需任何动作）。如果你不发令，它将执行回避动作并远离危险。<BR><STRONG>升环施法。</STRONG>该生物的数据使用新的法术环阶。</P>
-<BLOCKQUOTE>
-<P><STRONG><FONT color=#800000>妖精灵魄Fey 
-  Spirit</FONT></STRONG> <BR><EM>小型妖精，绝对中立</EM><BR>AC 12+法术环阶<BR>HP 30+每比3环高的法术环阶10点<BR>速度30尺，飞行30尺<BR>力量13|+1|+1 敏捷16|+3|+3 体质14|+2|+2<BR>智力14|+2|+2 感知11|+0|+0 魅力16|+3|+3<BR>免疫：魅惑<BR>感官：黑暗视觉60尺，被动察觉10<BR>语言：木族语，理解你的语言<BR>CR无（XP0；PB等于你的熟练加值）<BR><STRONG><FONT color=#800000>动作Actions</FONT></STRONG><BR><STRONG>多重攻击Multiattack。</STRONG>灵魄发动等于法术环阶一半次数的妖精之剑攻击（向下取整）。<BR><STRONG>妖精之剑Fey 
-  Blade。</STRONG>近战攻击检定：加值等于你的法术攻击加值，触及5尺。命中：2d6+3+法术环阶的力场伤害。<BR><STRONG><FONT color=#800000>附赠动作Bonus 
-  Actions</FONT></STRONG> <BR><STRONG>妖精步伐Fey 
-  Step。</STRONG>灵魄魔法地传送至多30尺至一处它可见的未被占据空间。随后根据所选情绪，灵魄触发以下效果之一：</P>
-  <UL>
-    <LI>
-<DIV 
-    ><STRONG>愤怒Fuming。</STRONG>妖精在此回合结束前的下一次攻击检定具有优势。</DIV>
-    <LI>
-<DIV 
-    ><STRONG>欢欣Mirthful。</STRONG>感知豁免：DC等于你的法术豁免DC，单一灵魄10尺内它可见的生物。失败：目标受你和灵魄魅惑1分钟或直到目标受到任意伤害。</DIV>
-    <LI>
-<DIV 
-    ><STRONG>诡诈Tricksy。</STRONG>灵魄令魔法黑暗充斥于它5尺内的一处10尺立方区域，持续直到灵魄的下一回合结束。</DIV></LI></UL></BLOCKQUOTE>
+<div class="stat-block">
+<h5>妖精灵魄Fey Spirit</h5>
+<div class="sub-line">小型妖精，绝对中立</div>
+<table><tr><td><STRONG>AC </STRONG>12+法术环阶</td><td width="40%"><strong>先攻 </strong>+3（13）</td></tr>
+<tr><td colspan=2><STRONG>HP 
+  </STRONG>30+每比三环高一法术环阶10</td></tr>
+<tr><td colspan=2><strong>速度 </strong>30尺，飞行30尺</td></tr></table>
+<table class="stat-abilities"><tr><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th></tr>
+<tr><td class="c1"><strong>力量</strong></td><td class="c1">13</td><td class="c2">+1</td><td class="c2">+1</td>
+<td></td>
+<td class="c1"><strong>敏捷</strong></td><td class="c1">16</td><td class="c2">+3</td><td class="c2">+3</td>
+<td></td>
+<td class="c1"><strong>体质</strong></td><td class="c1">14</td><td class="c2">+2</td><td class="c2">+2</td></tr>
+<tr><td class="c3"><strong>智力</strong></td><td class="c3">14</td><td class="c4">+2</td><td class="c4">+2</td>
+<td></td>
+<td class="c3"><strong>感知</strong></td><td class="c3">11</td><td class="c4">+0</td><td class="c4">+0</td>
+<td></td>
+<td class="c3"><strong>魅力</strong></td><td class="c3">16</td><td class="c4">+3</td><td class="c4">+3</td></tr>
+</table>
+<table>
+<tr><td><strong>免疫 </strong>魅惑</td></tr>
+<tr><td><strong>感官 </strong>黑暗视觉60尺，被动察觉10</td></tr>
+<tr><td><strong>语言 </strong>木族语，理解你的语言</td></tr>
+<tr><td><strong>CR </strong>无（XP0；PB等于你的熟练加值）</td></tr>
+</table>
+<P>
+</P>
+<h6>动作Actions</h6>
+<p>
+<strong>多重攻击Multiattack。</strong>灵魄发动等于法术环阶一半次数的妖精之剑攻击（向下取整）。<br>
+<strong>妖精之剑Fey Blade。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及5尺。<em>命中：</em>2d6+3+法术环阶的力场伤害。<br>
+</p>
+<h6>附赠动作Bonus Actions</h6>
+<p>
+<strong>妖精步伐Fey Step。</strong>灵魄魔法地传送至多30尺至一处它可见的未被占据空间。随后根据所选情绪，灵魄触发以下效果之一：<br>
+<strong><FONT color=#ff0000><EM>愤怒Fuming。</EM></FONT></strong>妖精在此回合结束前的下一次攻击检定具有优势。<br>
+<strong><EM><FONT color=#800080>欢欣Mirthful。</FONT></EM></strong>感知豁免：DC等于你的法术豁免DC，单一灵魄10尺内它可见的生物。<em>失败：</em>目标受你和灵魄<u>魅惑</u>1分钟或在目标受到任意伤害时提前结束。<br>
+<strong><FONT color=#008080><EM>诡诈Tricksy。</EM></FONT></strong>灵魄令魔法<u>黑暗</u>充斥于它5尺内的一处10尺<u>立方</u>区域，持续至灵魄的下个回合结束。
+</p>
+</div>
+
 <H4 id="Summon_Undead">亡灵召唤术｜Summon Undead</H4>
 <P><EM>三环 死灵（魔契师、法师）</EM> <BR><STRONG>施法时间：</STRONG>动作<BR><STRONG>施法距离：</STRONG>90 尺<BR><STRONG>法术成分：</STRONG>V, S, M（一个价值300+GP的镀金头骨）<BR><STRONG>持续时间：</STRONG>专注，至多1小时<BR>你唤来一个亡灵灵魄。其使用下文亡灵灵魄的数据，并会在施法距离内一处你可见的未被占据的空间中显现。当你施展法术时，从幽体，腐尸，骷髅中选择一类，该生物会显现为你所选的那类形态的亡灵生物，其数据中的部分特性也受此影响。该生物会在生命值降为0或是法术结束时消失。<BR>该生物是你的盟友（对你的其他盟友亦是如此）。它在战斗中使用你的先攻，并在你回合结束后立即行动。它遵从于你的口头指令（无需任何动作）。如果你不发令，它将执行回避动作并远离危险。<BR><STRONG>升环施法。</STRONG>该生物的数据使用新的法术环阶。</P>
-<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
-<P><STRONG><FONT color=#800000>亡灵灵魄Undead Spirit<BR></FONT></STRONG><EM>中型亡灵，绝对中立</EM><BR>AC 11+法术环阶<BR>HP 30（仅幽体和腐尸）或20（仅骷髅）+每比3环高的法术环阶10点<BR>速度30尺；飞行40尺（悬浮；仅幽体）<BR>力量12|+1|+1 敏捷16|+3|+3 体质15|+2|+2<BR>智力4|-3|-3 感知10|+0|+0 魅力9|-1|-1<BR>免疫：暗蚀，毒素；力竭，恐慌，麻痹，中毒<BR>感官：黑暗视觉60尺，被动察觉10<BR>语言：理解你说的语言<BR>CR无（XP0；PB等于你的熟练加值）<BR><STRONG><FONT color=#800000>特质Traits</FONT></STRONG><BR><STRONG>腐灭灵光Festering 
-  Aura（仅腐尸）。</STRONG>体质豁免：DC等于你的法术豁免DC，所有在以灵魄为源点5尺光环区域内开始其回合的生物（除了你）。失败：该生物陷入中毒状态，直至其下一回合开始。<BR><STRONG>虚体移动Incorporeal 
-  Movement（仅幽体）。</STRONG>灵魄可以虚体化并如同穿过困难地形一样穿过其他生物和物件。如果它在自己的回合结束时仍处在物件内部，则被挪到距离最近的未被占据的位置，且每因此移动5尺便受到1d10力场伤害。<BR><STRONG><FONT color=#800000>动作Actions</FONT></STRONG><BR>多重攻击Multiattack。灵魄发动等于法术环阶一半次数的攻击（向下取整）。<BR><STRONG>致死之触Deathly 
-  Touch（仅幽体）。</STRONG>近战攻击检定：加值等于你的法术攻击加值，触及5尺。命中：1d8+3+法术环阶的暗蚀伤害，且目标陷入恐慌状态直至其下一回合结束。<BR><STRONG>暗澹箭Grave 
-  Bolt（仅骷髅）。</STRONG>远程攻击检定：加值等于你的法术攻击加值，射程150尺。命中：2d4+3+法术环阶的暗蚀伤害。<BR><STRONG>腐灭爪击Rotting 
-  Claw（仅腐尸）。</STRONG>近战攻击检定：加值等于你的法术攻击加值，触及5尺。命中：1d6+3+法术环阶的挥砍伤害。若目标具有中毒状态，则其还会陷入麻痹状态，直至其下一回合结束。</P></BLOCKQUOTE>
+<div class="stat-block">
+<h5>亡灵灵魄Undead Spirit</h5>
+<div class="sub-line">中型亡灵，绝对中立</div>
+<table><tr><td><strong>AC </strong>11+法术环阶</td><td width="40%"><strong>先攻 </strong>+3（13）</td></tr>
+<tr><td colspan=2><strong> HP </strong>30（仅幽体和腐尸）或20（仅骷髅）+每比三环高一法术环阶10
+</td></tr>
+<tr><td colspan=2><strong>速度 </strong>30尺；飞行40尺（悬浮；仅幽体）</td></tr></table>
+<table class="stat-abilities"><tr><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th></tr>
+<tr><td class="c1"><strong>力量</strong></td><td class="c1">12</td><td class="c2">+1</td><td class="c2">+1</td>
+<td></td>
+<td class="c1"><strong>敏捷</strong></td><td class="c1">16</td><td class="c2">+3</td><td class="c2">+3</td>
+<td></td>
+<td class="c1"><strong>体质</strong></td><td class="c1">15</td><td class="c2">+2</td><td class="c2">+2</td></tr>
+<tr><td class="c3"><strong>智力</strong></td><td class="c3">4</td><td class="c4">-3</td><td class="c4">-3</td>
+<td></td>
+<td class="c3"><strong>感知</strong></td><td class="c3">10</td><td class="c4">+0</td><td class="c4">+0</td>
+<td></td>
+<td class="c3"><strong>魅力</strong></td><td class="c3">9</td><td class="c4">-1</td><td class="c4">-1</td></tr>
+</table>
+<table>
+<tr><td><strong>免疫 </strong>暗蚀，毒素；力竭，恐慌，麻痹，中毒</td></tr>
+<tr><td><strong>感官 </strong>黑暗视觉60尺，被动察觉10</td></tr>
+<tr><td><strong>语言 </strong>理解你说的语言</td></tr>
+<tr><td><strong>CR </strong>无（XP0；PB等于你的熟练加值）</td></tr>
+</table>
+<P>
+</P>
+<h6>特质Traits</h6>
+<p>
+<strong>腐灭灵光Festering Aura（仅腐尸）。</strong>体质豁免：DC等于你的法术豁免DC，源自灵魄的5尺<u>光环</u>区域内开始其回合的每名生物（除你以外）。<em>失败：</em>该生物陷入<u>中毒</u>状态，直至其下个回合开始。<br>
+<strong>虚体通行Incorporeal Passage（仅幽体）。</strong>灵魄可以移动穿过其他生物或物件，如同穿过困难地形一般。在其回合结束时，若灵魄还处于物件内，则其被挪到距离最近的未占据空间，且每因此移动5尺便受到1d10力场伤害。
+</p>
+<h6>动作Actions</h6>
+<p>
+<strong>多重攻击Multiattack。</strong>灵魄发动等于法术环阶一半次数的攻击（向下取整）。<br>
+<strong>致死之触Deathly Touch（仅幽体）。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及5尺。<em>命中：</em>1d8+3+法术环阶的暗蚀伤害，且目标陷入<u>恐慌</u>状态直至其下哥回合结束。<br>
+<strong>暗澹箭Grave Bolt（仅骷髅）。</strong><em>远程攻击检定：</em>加值等于你的法术攻击加值，射程150尺。<em>命中：</em>2d4+3+法术环阶的暗蚀伤害。<br>
+<strong>腐灭爪击Rotting Claw（仅腐尸）。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及5尺。<em>命中：</em>1d6+3+法术环阶的挥砍伤害。若目标已陷入<u>中毒</u>状态，则其还会陷入<u>麻痹</u>状态，直至其下个回合结束。
+</p>
+</div>
+
 <H4 id="Tongues">巧言术｜Tongues</H4>
 <P><EM>三环 预言（吟游诗人、牧师、术士、魔契师、法师）</EM> <BR><STRONG>施法时间：</STRONG>动作<BR><STRONG>施法距离：</STRONG>触碰<BR><STRONG>法术成分：</STRONG>V、M（一座微缩庙塔）<BR><STRONG>持续时间：</STRONG>1小时<BR>此法术赋予你触碰的一名生物理解任何其能看见或听见的口语或手语的能力。此外，当目标生物以口语或手语进行交流时，任何能听见其话语或看见其手语，且知道至少一门语言的生物都能理解它。</P>
 <H4 id="Vampiric_Touch">吸血鬼之触｜Vampiric Touch</H4>
