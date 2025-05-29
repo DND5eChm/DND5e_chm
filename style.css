@@ -104,6 +104,24 @@ div.ex-right{
 	BACKGROUND-COLOR: #ebd6c1; 
 	MARGIN-RIGHT: -10px
 }
+/*小纸条框*/
+div.paper{
+	BORDER: #000000 1px solid; 
+	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
+	PADDING-BOTTOM: 10px; 
+	PADDING-TOP: 10px; 
+	PADDING-LEFT: 50px; 
+	MARGIN-LEFT: 50px;
+	PADDING-RIGHT: 50px; 
+	MARGIN-RIGHT: 50px;
+	BACKGROUND-COLOR: #f3f6f9
+}
+/*签名*/
+img.xge{
+	HEIGHT: 40px;
+	WIDTH: 40px;
+	MARGIN-RIGHT: 20px
+}
 /*基础表格*/
 table.basic{
 	width: auto;
