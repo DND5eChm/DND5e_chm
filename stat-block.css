@@ -8,7 +8,7 @@ div.stat-block{
 	background-color: #F8F8F6;
 	padding: 15px;
 	border:3px double #808080;
-	font-size: 16px;
+	font-size: 100%;
 	margin-bottom:20px;
 }
 div.stat-block h5,div.stat-block h6{
@@ -17,12 +17,12 @@ div.stat-block h5,div.stat-block h6{
 	border-bottom: 1px #800000 solid;
 }
 div.stat-block h5{
-	font-size: 22px;
+	font-size: 140%;
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
 div.stat-block h6{
-	font-size: 18px;
+	font-size: 115%;
 	margin-top: 17px;
 	margin-bottom: -12px;
 }
@@ -43,12 +43,12 @@ table.stat-abilities{
 }
 table.stat-abilities th{
 	width: 40px;
-	font-size: 12px;
+	font-size: 75%;
 	color: #808080;
 }
 table.stat-abilities td{
-	padding: 2px 0px 2px 0px;
-	font-size: 16px;
+	padding: 2px 0px 0px 0px;
+	font-size: 100%;
 }
 td.c1{
 	BACKGROUND-COLOR:#e9e3d6;
@@ -97,7 +97,7 @@ div.little-paper {
 	background-color: #FAF0EB;
 	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 100%;
 	margin-bottom:20px;
 }
 div.little-paper P{
@@ -111,7 +111,7 @@ div.HT {
 	background-color: #F0E9DA;
 	MARGIN-TOP: -7px;
 	width: 500px;
-	font-size: 16px;
+	font-size: 100%;
 }
 /*基础表格*/
 table.basic{
@@ -159,7 +159,7 @@ div.center{
 	BACKGROUND-COLOR: #ebd6c1;
 }
 P.sum{
-	font-size:18px;
+	font-size: 115%;
 	MARGIN-TOP: -15px;
 	margin-bottom: 13px;
 	color: #808080;
