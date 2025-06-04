@@ -45,13 +45,13 @@ B U,U B,STRONG U,U STRONG{
 h4 {
     color: #704cd9;
     margin-bottom: -20px;
-	font-size: 140%;
+	font-size: 22px;
 }
 /*怪物页使用h5*/
 div h5{
 	color: #800000;
 	font-weight: bold;
-	font-size: 140%;
+	font-size: 22px;
 	margin-top: 0px;
 	margin-bottom: 5px;
 }
@@ -59,7 +59,7 @@ div h5{
 h6 {
 	color: #800000;
     margin-bottom: -20px;
-	font-size: 115%;
+	font-size: 18px;
 }
 /*居中框*/
 div.center{
@@ -80,7 +80,7 @@ div.stat-block{
 	background-color: #F8F8F6;
 	padding: 15px;
 	border:3px double #808080;
-	font-size: 100%;;
+	font-size: 16px;
 	margin-bottom:20px;
 }
 /*实例文本框*/
@@ -103,24 +103,6 @@ div.ex-right{
 	PADDING: 10px; 
 	BACKGROUND-COLOR: #ebd6c1; 
 	MARGIN-RIGHT: -10px
-}
-/*小纸条框*/
-div.paper{
-	BORDER: #000000 1px solid; 
-	font-family: "fangsong","仿宋",Arial, Helvetica, sans-serif;
-	PADDING-BOTTOM: 10px; 
-	PADDING-TOP: 10px; 
-	PADDING-LEFT: 50px; 
-	MARGIN-LEFT: 50px;
-	PADDING-RIGHT: 50px; 
-	MARGIN-RIGHT: 50px;
-	BACKGROUND-COLOR: #f3f6f9
-}
-/*签名*/
-img.xge{
-	HEIGHT: 40px;
-	WIDTH: 40px;
-	MARGIN-RIGHT: 20px
 }
 /*基础表格*/
 table.basic{
@@ -157,7 +139,7 @@ table.part th{
 	text-align: center;
 }
 P.sum{
-	font-size: 115%;
+	font-size:18px;
 	MARGIN-TOP: -8px;
 	margin-bottom: -8px;
 	color: #808080;
