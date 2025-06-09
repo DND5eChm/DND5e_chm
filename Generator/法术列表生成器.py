@@ -15,8 +15,7 @@ spell_file_list = [
     "星界冒险者指南/新法术详述.htm",
     "印记城与外域/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm",
-    "玩家手册2024/法术详述",
-    "模组/夸力许/新法术.html"
+    "玩家手册2024/法术详述"
 ]
 
 source_tag: dict[str,str] = {
@@ -30,8 +29,7 @@ source_tag: dict[str,str] = {
     "星界冒险者指南" : "AAG",
     "印记城与外域" : "SO",
     "万象无常书" : "BMT",
-    "玩家手册2024" : "PHB24",
-    "模组" : "模组"
+    "玩家手册2024" : "PHB24"
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
@@ -45,8 +43,7 @@ source_priority: dict[str,int] = {
     "EGW": 8,
     "SCC": 9,
     "AAG": 10,
-    "SO": 11,
-    "模组": 12
+    "SO": 11
 }
 
 short_cut: dict[str,str] = {
