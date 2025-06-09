@@ -21,7 +21,8 @@ def checkout(file_path: str,file_name: str):
             with open(file_path,mode="r",encoding="gbk",errors='ignore') as _f:
                 content = _f.read()
     new_content = content
-    if not new_content.startswith("<!-- coding: gbk -->"):
+    # 无编码标识
+    if new_content.find("coding: gbk") == -1:
         new_content = "<!-- coding: gbk -->" + new_content
         need_rewrite = True
         print(file_path+" 缺少coding标识")
