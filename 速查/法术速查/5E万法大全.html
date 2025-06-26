@@ -108,10 +108,10 @@ function search() {
 					has_book = true;
 				}
 			}
-			var has_special = false;
-			for (var j = 0; j < choosen_special.length && !has_special; j++) {
-				if (tags.indexOf(choosen_special[j]) != -1) {
-					has_special = true;
+			var has_special = true;
+			for (var j = 0; j < choosen_special.length && has_special; j++) {
+				if (tags.indexOf(choosen_special[j]) == -1) {
+					has_special = false;
 				}
 			}
 			if (has_word && has_school && has_class && has_level && has_book && has_special) {
@@ -161,13 +161,12 @@ function toggleVisibility() {
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
 <b>特殊：</b>
-<button onclick="select_all('special')">全选</button>
-<input type="checkbox" id="sp0" name="special" value="专注" checked><label for="sp0">C</label>
-<input type="checkbox" id="sp1" name="special" value="仪式" checked><label for="sp1">R</label>
-<input type="checkbox" id="sp2" name="special" value="言语" checked><label for="sp2">V</label>
-<input type="checkbox" id="sp3" name="special" value="姿势" checked><label for="sp3">S</label>
-<input type="checkbox" id="sp4" name="special" value="材料" checked><label for="sp4">M</label>
-<input type="checkbox" id="sp5" name="special" value="价耗" checked><label for="sp5">M*</label>
+<input type="checkbox" id="sp0" name="special" value="专注"><label for="sp0">专注</label>
+<input type="checkbox" id="sp1" name="special" value="仪式"><label for="sp1">仪式</label>
+<input type="checkbox" id="sp2" name="special" value="言语"><label for="sp2">言语成分</label>
+<input type="checkbox" id="sp3" name="special" value="姿势"><label for="sp3">姿势成分</label>
+<input type="checkbox" id="sp4" name="special" value="材料"><label for="sp4">材料成分</label>
+<input type="checkbox" id="sp5" name="special" value="价耗"><label for="sp5">有价值/会消耗的材料成分</label>
 <br><b>环阶：</b>
 <button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
@@ -515,7 +514,7 @@ function toggleVisibility() {
 <TR tags="变化 德鲁伊 奇械师 魔契师 戏法(零环) XGE 言语 姿势" spell="魔石术Magic Stone"><TD><a href="珊娜萨的万事指南/法术/法术详述/戏法.html#Magic_Stone">魔石术Magic Stone</a></TD><TD>戏法(零环)</TD><TD>变化</TD><TD>德 械 锁</TD><TD>V</TD><TD>S</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>XGE</TD></TR>
 <TR tags="变化 圣武士 游侠 术士 法师 二环 PHB24 言语 姿势" spell="魔化武器Magic Weapon"><TD><a href="玩家手册2024/法术详述/2环.htm#Magic_Weapon">魔化武器Magic Weapon</a></TD><TD>二环</TD><TD>变化</TD><TD>帕 软 术 法</TD><TD>V</TD><TD>S</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>PHB24</TD></TR>
 <TR tags="幻术 吟游诗人 术士 法师 魔契师 三环 PHB24 言语 姿势 材料 专注" spell="高级幻影Major Image"><TD><a href="玩家手册2024/法术详述/3环.htm#Major_Image">高级幻影Major Image</a></TD><TD>三环</TD><TD>幻术</TD><TD>诗 术 法 锁</TD><TD>V</TD><TD>S</TD><TD>M</TD><TD>×</TD><TD>√</TD><TD>PHB24</TD></TR>
-<TR tags="塑能 吟游诗人 牧师 德鲁伊 五环 PHB24 言语 姿势" spell="群体疗伤术Mass Cure Wounds"><TD><a href="玩家手册2024/法术详述/5环.htm#Mass_Cure_Wounds">群体疗伤术Mass Cure Wounds</a></TD><TD>五环</TD><TD>塑能</TD><TD>诗 牧 德</TD><TD>V</TD><TD>S</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>PHB24</TD></TR>
+<TR tags="防护 吟游诗人 牧师 德鲁伊 五环 PHB24 言语 姿势" spell="群体疗伤术Mass Cure Wounds"><TD><a href="玩家手册2024/法术详述/5环.htm#Mass_Cure_Wounds">群体疗伤术Mass Cure Wounds</a></TD><TD>五环</TD><TD>防护</TD><TD>诗 牧 德</TD><TD>V</TD><TD>S</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>PHB24</TD></TR>
 <TR tags="防护 牧师 九环 PHB24 言语 姿势" spell="群体医疗术Mass Heal"><TD><a href="玩家手册2024/法术详述/9环.htm#Mass_Heal">群体医疗术Mass Heal</a></TD><TD>九环</TD><TD>防护</TD><TD>牧</TD><TD>V</TD><TD>S</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>PHB24</TD></TR>
 <TR tags="防护 吟游诗人 牧师 三环 PHB24 言语" spell="群体治愈真言Mass Healing Word"><TD><a href="玩家手册2024/法术详述/3环.htm#Mass_Healing_Word">群体治愈真言Mass Healing Word</a></TD><TD>三环</TD><TD>防护</TD><TD>诗 牧</TD><TD>V</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>×</TD><TD>PHB24</TD></TR>
 <TR tags="变化 吟游诗人 术士 法师 九环 XGE 言语 姿势 材料 专注" spell="群体变形术Mass Polymorph"><TD><a href="珊娜萨的万事指南/法术/法术详述/9环.html#Mass_Polymorph">群体变形术Mass Polymorph</a></TD><TD>九环</TD><TD>变化</TD><TD>诗 术 法</TD><TD>V</TD><TD>S</TD><TD>M</TD><TD>×</TD><TD>√</TD><TD>XGE</TD></TR>

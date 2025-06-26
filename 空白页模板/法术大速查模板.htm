@@ -108,10 +108,10 @@ function search() {
 					has_book = true;
 				}
 			}
-			var has_special = false;
-			for (var j = 0; j < choosen_special.length && !has_special; j++) {
-				if (tags.indexOf(choosen_special[j]) != -1) {
-					has_special = true;
+			var has_special = true;
+			for (var j = 0; j < choosen_special.length && has_special; j++) {
+				if (tags.indexOf(choosen_special[j]) == -1) {
+					has_special = false;
 				}
 			}
 			if (has_word && has_school && has_class && has_level && has_book && has_special) {
@@ -161,13 +161,12 @@ function toggleVisibility() {
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
 <b>特殊：</b>
-<button onclick="select_all('special')">全选</button>
-<input type="checkbox" id="sp0" name="special" value="专注" checked><label for="sp0">C</label>
-<input type="checkbox" id="sp1" name="special" value="仪式" checked><label for="sp1">R</label>
-<input type="checkbox" id="sp2" name="special" value="言语" checked><label for="sp2">V</label>
-<input type="checkbox" id="sp3" name="special" value="姿势" checked><label for="sp3">S</label>
-<input type="checkbox" id="sp4" name="special" value="材料" checked><label for="sp4">M</label>
-<input type="checkbox" id="sp5" name="special" value="价耗" checked><label for="sp5">M*</label>
+<input type="checkbox" id="sp0" name="special" value="专注"><label for="sp0">专注</label>
+<input type="checkbox" id="sp1" name="special" value="仪式"><label for="sp1">仪式</label>
+<input type="checkbox" id="sp2" name="special" value="言语"><label for="sp2">言语成分</label>
+<input type="checkbox" id="sp3" name="special" value="姿势"><label for="sp3">姿势成分</label>
+<input type="checkbox" id="sp4" name="special" value="材料"><label for="sp4">材料成分</label>
+<input type="checkbox" id="sp5" name="special" value="价耗"><label for="sp5">有价值/会消耗的材料成分</label>
 <br><b>环阶：</b>
 <button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
