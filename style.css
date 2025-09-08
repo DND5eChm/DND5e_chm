@@ -134,6 +134,10 @@ table.basic{
 table.basic td{
 	padding: 2px;
 }
+table.basic th{
+	padding: 2px;
+	text-align:left;
+}
 table.center{
 	width: auto;
 	border-collapse: collapse;
