@@ -65,7 +65,7 @@ short_cut: dict[str,str] = {
 
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
 
-level_list = ["戏法(零环)","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
+level_list = ["戏法","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
 
 spell_conflict: dict[str,str] = {
     "Feeblemind": "zzzzzzzzzFeeblemind",      
@@ -124,7 +124,7 @@ class Spell:
             if "价值" in lines[4] or "耗材" in lines[4] or "消耗" in lines[4]:
                 self.spell_material_sp = True
         if "戏法" in self.spell_subline:
-            self.spell_level = "戏法(零环)"
+            self.spell_level = "戏法"
         elif "环" in self.spell_subline:
             for level in ["一环","二环","三环","四环","五环","六环","七环","八环","九环"]:
                 if level in self.spell_subline:
@@ -168,16 +168,22 @@ class Spell:
             ]
             if self.spell_verbal:
                 tags.append("言语")
+            else:tags.append("非言")
             if self.spell_somatic:
                 tags.append("姿势")
+            else:tags.append("非姿")
             if self.spell_material:
                 tags.append("材料")
+            else:tags.append("非材")
             if self.spell_material_sp:
                 tags.append("价耗")
+            else:tags.append("无特")
             if self.spell_ritual:
                 tags.append("仪式")
+            else:tags.append("非仪")
             if self.spell_concentration:
                 tags.append("专注")
+            else:tags.append("非专")
             labels = [
                 id_and_link, #法术名（带链接）
                 self.spell_level, #法术环阶

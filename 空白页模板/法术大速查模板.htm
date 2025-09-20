@@ -157,7 +157,8 @@ function toggleVisibility() {
 </script>
 </head>
 <body>
-<div style="MARGIN-BOTTOM: 20px; MARGIN-LEFT: 20px">
+<h1><FONT color=#704cd9>万法大全速查表 List of Many Spells</FONT></h1>
+<div style="MARGIN: 20px">
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
 <b>特殊：</b>
@@ -167,6 +168,13 @@ function toggleVisibility() {
 <input type="checkbox" id="sp3" name="special" value="姿势"><label for="sp3">姿势成分</label>
 <input type="checkbox" id="sp4" name="special" value="材料"><label for="sp4">材料成分</label>
 <input type="checkbox" id="sp5" name="special" value="价耗"><label for="sp5">有价值/会消耗的材料成分</label>
+<br><b>凡骨：</b>
+<input type="checkbox" id="sp0" name="special" value="非专"><label for="sp0">无专注</label>
+<input type="checkbox" id="sp1" name="special" value="非仪"><label for="sp1">非仪式</label>
+<input type="checkbox" id="sp2" name="special" value="非言"><label for="sp2">无言语</label>
+<input type="checkbox" id="sp3" name="special" value="非姿"><label for="sp3">无姿势</label>
+<input type="checkbox" id="sp4" name="special" value="非材"><label for="sp4">无材料</label>
+<input type="checkbox" id="sp5" name="special" value="无特"><label for="sp5">无价值/不消耗的材料成分</label>
 <br><b>环阶：</b>
 <button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
