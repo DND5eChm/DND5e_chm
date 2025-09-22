@@ -8,6 +8,14 @@ def get_base_path():
     folder = os.path.abspath(os.path.join(os.path.abspath(__file__),"..\\..\\"))
     return folder
 
+def get_path_relative(file_path: str):
+    """
+    获取已有路径的相对工程的路径
+    """
+    base_path: str = get_base_path()
+    relative_path = os.path.relpath(file_path,base_path)
+    return relative_path
+
 def walk_through_files(process_func, folder_name: str = "", filename_re_exp: str = ".*\.htm*"):
     """
     遍历给定文件夹下的所有文件

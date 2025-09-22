@@ -1,6 +1,6 @@
 import os
 from tkinter import Tk, filedialog
-from 文件遍历 import walk_through_files
+from 文件遍历 import get_path_relative, walk_through_files
 
 
 def process_file(file_path: str,file_name: str):
@@ -47,6 +47,7 @@ if __name__ == "__main__":
         print("已获取文件列表")
         spell_path_list = list(spell_paths)
         for spell_path in spell_path_list:
-            print("开始为"+spell_path.name+"补充法术ID。")
-            walk_through_files(process_file,spell_path.name)
+            relative_path = get_path_relative(spell_path.name)
+            print("开始为"+relative_path+"补充法术ID。")
+            walk_through_files(process_file,relative_path)
     root.quit()
