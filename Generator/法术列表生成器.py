@@ -15,7 +15,7 @@ spell_file_list = [
     "费资本的巨龙宝库/玩家选项/巨龙法术详述.htm",
     "斯翠海文：混沌研习/玩家选项/法术详述.html",
     "星界冒险者指南/新法术详述.htm",
-    "印记城与外域/新法术详述.htm",
+    "印记城与外域/第一章/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm",
     "玩家手册2024/法术详述",
 ]
@@ -200,7 +200,7 @@ class Spell:
                 "√" if self.spell_concentration else "×", #专注
                 self.spell_source_tag #来源
             ]
-            id_and_link = "<TR tags=\"" +" ".join(tags)+"\" spell=\""+self.spell_name+self.spell_name_en+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
+            id_and_link = "<TR tags=\"" +" ".join(tags)+"\" spell=\""+self.spell_name+self.spell_name_en+"\">\r\n<TD>"+"</TD>\r\n<TD>".join(labels)+"</TD>\r\n</TR>"#换行增强可视性
         elif self.spell_source_tag not in ["","PHB14","PHB24"]: #角标
             id_and_link += "<sup>"+self.spell_source_tag+"</sup>"
         return id_and_link
@@ -221,8 +221,7 @@ def process_file(file_path: str,file_name: str):
         data = _f.read()
     data = data[data.find("<body>")+6:data.find("</body>")]
     contents = [("<H4" + content).strip() for content in data.split("<H4") if content.strip() != ""]
-    if not data.startswith("<H4"): #非全法术页面
-        contents = contents[1:] #第一个content肯定不是法术内容
+
     id_and_link = ""
     source = ""
     chm_path = file_path.replace("\\","/").split("DND5e_chm/")[1]
