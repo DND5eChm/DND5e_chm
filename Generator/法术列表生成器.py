@@ -32,7 +32,8 @@ source_tag: dict[str,str] = {
     "印记城与外域" : "SO",
     "万象无常书" : "BMT",
     "玩家手册2024" : "PHB24",
-    "模组" : "模组",
+    "夸力许" : "夸力许",
+    "冰风谷" : "冰风谷",
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
@@ -47,7 +48,8 @@ source_priority: dict[str,int] = {
     "SCC": 9,
     "AAG": 10,
     "SO": 11,
-    "模组": 12,
+    "夸力许": 12,
+    "冰风谷": 13,
 }
 
 short_cut: dict[str,str] = {
@@ -93,7 +95,9 @@ class Spell:
         self.spell_concentration = False
         self.spell_school = ""
         self.spell_source_tag = source_tag
-        self.spell_source_priority = source_priority[source_tag]
+        self.spell_source_priority = 99
+        if source_tag in source_priority.keys():
+            self.spell_source_priority = source_priority[source_tag]
         
         self.chm_path = chm_path
         self.legacy = False
@@ -131,7 +135,7 @@ class Spell:
                     self.spell_level = level
                     break
         else:
-            print(id_and_link + " 解析出错！")
+            print(self.spell_name + " 解析出错！未能在["+self.spell_subline+"]行找到环阶信息")
         
         for school in ["防护","咒法","预言","惑控","塑能","幻术","死灵","变化"]:
             if school in self.spell_subline:
@@ -227,13 +231,17 @@ def process_file(file_path: str,file_name: str):
             break
     '''
     book = chm_path.split("/")[0]
-    if book in source_tag.keys():
+    if book == "模组": #模组文件夹，取路径第二位
+        book = chm_path.split("/")[1]
+        source = source_tag[book]
+    elif book in source_tag.keys():
         source = source_tag[book]
     else:
         source = book
+    print("开始寻找 "+book+" 内的资源。")
     # 获取资源
     for content in contents:
-        try:
+        #try:
             # 获取法术
             spell = Spell(content,chm_path,source)
             
@@ -258,11 +266,11 @@ def process_file(file_path: str,file_name: str):
                 big_spell_list_keys.append(spell.spell_id)
             
             big_spell_list[spell.spell_id] = spell
-        except:
-            if len(content) > 40:
-                print(content[:40]+"... 解析出错")
-            else:
-                print(content+" 解析出错")
+        #except:
+        #    if len(content) > 100:
+        #        print(content[:100]+"... 解析出错")
+        #    else:
+        #        print(content+" 解析出错")
 
 if __name__ == "__main__":
 
