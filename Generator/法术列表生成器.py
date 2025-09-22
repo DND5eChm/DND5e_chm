@@ -221,7 +221,7 @@ def process_file(file_path: str,file_name: str):
         data = _f.read()
     data = data[data.find("<body>")+6:data.find("</body>")]
     contents = [("<H4" + content).strip() for content in data.split("<H4") if content.strip() != ""]
-    if not content.startwith("<H4"): #非全法术页面
+    if not data.startswith("<H4"): #非全法术页面
         contents = contents[1:] #第一个content肯定不是法术内容
     id_and_link = ""
     source = ""
