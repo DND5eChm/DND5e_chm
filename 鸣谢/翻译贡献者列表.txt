@@ -15,6 +15,7 @@ Code
 danwhisper
 DDD
 DearNanami
+Delta
 Delusion Ealiy
 diov
 Dongfeng & Death（东风）
@@ -69,6 +70,7 @@ PAX-12
 PAX-12（PAX-(13-1)）
 pdex
 penelope
+Pm
 Rantjasi
 reed
 Rik
@@ -77,6 +79,7 @@ shajj
 Sheepy
 shipiaozi
 snowknight
+SS
 Starlord
 Steven
 SumZan
@@ -97,6 +100,7 @@ yesterdayshadow
 Zeionises
 zghzgh1779
 zhangyan1100
+zhuo32
 \星尘/
 阿戳
 阿莱
@@ -107,6 +111,7 @@ zhangyan1100
 白兰
 白楼
 白薇
+悲灵
 北落
 笨哈
 冰原上的咸喵
@@ -115,6 +120,7 @@ zhangyan1100
 布谷鸟
 不死树
 不朽食物
+柴猫
 柴猫（猫柴）
 常乐
 车行天下
@@ -124,6 +130,7 @@ zhangyan1100
 吃海藻的委员长
 触手大魔王
 蠢蠢的骑士
+刺猬永念
 刺猬永念（萧永念）
 大KK的假粉
 大凤
@@ -159,9 +166,11 @@ zhangyan1100
 辉煌空羽
 机关人会跑AI团吗？
 姬小灯
+记忆remix
 精分的精神病院院长
 九河川
 久世
+桔橙属
 凯伊星国教牧师
 靠谱的沙夏
 克里斯
@@ -216,6 +225,7 @@ zhangyan1100
 强大的冒险者
 丘比
 犬良人
+热诚控诉
 肉冻云雀舌
 萨默克尔
 萨斯
@@ -289,6 +299,7 @@ zhangyan1100
 游啊游
 有风
 忧郁的狗头
+禹
 远星
 原野
 远云
