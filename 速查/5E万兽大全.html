@@ -1,14 +1,14 @@
 <!-- coding: gbk -->
 <html>
 <head>
-<title>万兽大全快查表</title>
+<title>万兽大全速查表</title>
 <meta content="text/html; charset=gb2312">
 <style>
 html,body { 
 	font-family: Arial, Helvetica, sans-serif;
 }
 a {
-	color: #704cd9;
+	color: #800000;
 	text-decoration:none;
 	font-weight: bold;
 	font-style: italic;
@@ -36,15 +36,9 @@ sup {
 .cr-range-container {
 	margin: 10px 0;
 }
-.cr-slider {
-	width: 300px;
+.cr-select {
 	margin: 0 10px;
-}
-.cr-values {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 5px;
-	font-size: 12px;
+	padding: 2px;
 }
 #crMinValue, #crMaxValue {
 	font-weight: bold;
@@ -55,37 +49,32 @@ sup {
 var crValues = ["0", "1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"];
 
 function updateCRValues() {
-	var minSlider = document.getElementById("crMinSlider");
-	var maxSlider = document.getElementById("crMaxSlider");
-	var minValue = document.getElementById("crMinValue");
-	var maxValue = document.getElementById("crMaxValue");
+	var minSelect = document.getElementById("crMinSelect");
+	var maxSelect = document.getElementById("crMaxSelect");
 	
-	var minIndex = parseInt(minSlider.value);
-	var maxIndex = parseInt(maxSlider.value);
+	var minIndex = parseInt(minSelect.value);
+	var maxIndex = parseInt(maxSelect.value);
 	
 	if (minIndex > maxIndex) {
-		if (minSlider === document.activeElement) {
-			maxSlider.value = minIndex;
-			maxIndex = minIndex;
+		if (minSelect === document.activeElement) {
+			maxSelect.value = minIndex;
 		} else {
-			minSlider.value = maxIndex;
-			minIndex = maxIndex;
+			minSelect.value = maxIndex;
 		}
 	}
-	
-	minValue.textContent = crValues[minIndex];
-	maxValue.textContent = crValues[maxIndex];
 }
 
 function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
 	var cb_type = document.getElementsByName("type");
 	var cb_size = document.getElementsByName("size");
+	var cb_legendary = document.getElementsByName("legendary");
 	var choosen_type = [];
 	var choosen_size = [];
+	var choosen_legendary = [];
 	
-	var minCRIndex = parseInt(document.getElementById("crMinSlider").value);
-	var maxCRIndex = parseInt(document.getElementById("crMaxSlider").value);
+	var minCRIndex = parseInt(document.getElementById("crMinSelect").value);
+	var maxCRIndex = parseInt(document.getElementById("crMaxSelect").value);
 	
 	for (var i = 0; i < cb_type.length; i++) {
 		if (cb_type[i].checked) {
@@ -95,6 +84,11 @@ function search() {
 	for (var i = 0; i < cb_size.length; i++) {
 		if (cb_size[i].checked) {
 			choosen_size.push(cb_size[i].value)
+		}
+	}
+	for (var i = 0; i < cb_legendary.length; i++) {
+		if (cb_legendary[i].checked) {
+			choosen_legendary.push(cb_legendary[i].value)
 		}
 	}
 	
@@ -123,6 +117,12 @@ function search() {
 					has_size = true;
 				}
 			}
+			var has_legendary = false;
+			for (var j = 0; j < choosen_legendary.length && !has_legendary; j++) {
+				if (tags.indexOf(choosen_legendary[j]) != -1) {
+					has_legendary = true;
+				}
+			}
 			
 			var has_cr = false;
 			var tagArray = tags.split(" ");
@@ -134,7 +134,7 @@ function search() {
 				}
 			}
 			
-			if (has_word && has_type && has_size && has_cr) {
+			if (has_word && has_type && has_size && has_legendary && has_cr) {
 				elements[i].style.display = "";
 			} else {
 				elements[i].style.display = "none";
@@ -179,19 +179,86 @@ function toggleVisibility() {
 </script>
 </head>
 <body>
-<h1><FONT color=#704cd9>万兽大全快查表 List of Many Monsters</FONT></h1>
+<h1><FONT color=#704cd9>万兽大全速查表 List of Many Monsters</FONT></h1>
 <div style="MARGIN: 20px">
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
 <div class="cr-range-container">
 <b>CR范围：</b><br>
-<label for="crMinSlider">最小值</label>
-<input type="range" id="crMinSlider" class="cr-slider" min="0" max="33" value="0" oninput="updateCRValues(); search();">
-<span id="crMinValue">0</span>
-<br>
-<label for="crMaxSlider">最大值</label>
-<input type="range" id="crMaxSlider" class="cr-slider" min="0" max="33" value="33" oninput="updateCRValues(); search();">
-<span id="crMaxValue">30</span>
+<label for="crMinSelect">最小值</label>
+<select id="crMinSelect" class="cr-select" onchange="updateCRValues(); search();">
+<option value="0">0</option>
+<option value="1">1/8</option>
+<option value="2">1/4</option>
+<option value="3">1/2</option>
+<option value="4">1</option>
+<option value="5">2</option>
+<option value="6">3</option>
+<option value="7">4</option>
+<option value="8">5</option>
+<option value="9">6</option>
+<option value="10">7</option>
+<option value="11">8</option>
+<option value="12">9</option>
+<option value="13">10</option>
+<option value="14">11</option>
+<option value="15">12</option>
+<option value="16">13</option>
+<option value="17">14</option>
+<option value="18">15</option>
+<option value="19">16</option>
+<option value="20">17</option>
+<option value="21">18</option>
+<option value="22">19</option>
+<option value="23">20</option>
+<option value="24">21</option>
+<option value="25">22</option>
+<option value="26">23</option>
+<option value="27">24</option>
+<option value="28">25</option>
+<option value="29">26</option>
+<option value="30">27</option>
+<option value="31">28</option>
+<option value="32">29</option>
+<option value="33">30</option>
+</select>
+<label for="crMaxSelect">最大值</label>
+<select id="crMaxSelect" class="cr-select" onchange="updateCRValues(); search();">
+<option value="0">0</option>
+<option value="1">1/8</option>
+<option value="2">1/4</option>
+<option value="3">1/2</option>
+<option value="4">1</option>
+<option value="5">2</option>
+<option value="6">3</option>
+<option value="7">4</option>
+<option value="8">5</option>
+<option value="9">6</option>
+<option value="10">7</option>
+<option value="11">8</option>
+<option value="12">9</option>
+<option value="13">10</option>
+<option value="14">11</option>
+<option value="15">12</option>
+<option value="16">13</option>
+<option value="17">14</option>
+<option value="18">15</option>
+<option value="19">16</option>
+<option value="20">17</option>
+<option value="21">18</option>
+<option value="22">19</option>
+<option value="23">20</option>
+<option value="24">21</option>
+<option value="25">22</option>
+<option value="26">23</option>
+<option value="27">24</option>
+<option value="28">25</option>
+<option value="29">26</option>
+<option value="30">27</option>
+<option value="31">28</option>
+<option value="32">29</option>
+<option value="33" selected>30</option>
+</select>
 </div>
 <br><b>生物类型：</b>
 <button onclick="select_all('type'); search();">全选</button>
@@ -209,6 +276,7 @@ function toggleVisibility() {
 <input type="checkbox" id="tp12" name="type" value="泥怪" checked><label for="tp12">泥怪</label>
 <input type="checkbox" id="tp13" name="type" value="植物" checked><label for="tp13">植物</label>
 <input type="checkbox" id="tp14" name="type" value="亡灵" checked><label for="tp14">亡灵</label>
+<input type="checkbox" id="tp15" name="type" value="天族或邪魔" checked><label for="tp15">天族或邪魔</label>
 <br><b>体型：</b>
 <button onclick="select_all('size'); search();">全选</button>
 <input type="checkbox" id="sz1" name="size" value="微型" checked><label for="sz1">微型</label>
@@ -217,516 +285,517 @@ function toggleVisibility() {
 <input type="checkbox" id="sz4" name="size" value="大型" checked><label for="sz4">大型</label>
 <input type="checkbox" id="sz5" name="size" value="巨型" checked><label for="sz5">巨型</label>
 <input type="checkbox" id="sz6" name="size" value="超巨型" checked><label for="sz6">超巨型</label>
+<br><b>传奇动作：</b>
+<button onclick="select_all('legendary'); search();">全选</button>
+<input type="checkbox" id="lg1" name="legendary" value="有" checked><label for="lg1">有</label>
+<input type="checkbox" id="lg2" name="legendary" value="无" checked><label for="lg2">无</label>
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
 <table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
-<tr><td><b>怪物名</b></td><td width=60><b>体型</b></td><td width=80><b>生物类型</b></td><td><b>体型</b></td><td width=50><b>CR</b></td></tr>
-<TR tags="中型 元素 4" monster="鸟羽人风舞术师Aarakocra Aeromancer"><TD><a href="../怪物图鉴2025/元素/鸟羽人/鸟羽人风舞术士.htm#Aarakocra_Aeromancer">鸟羽人风舞术师Aarakocra Aeromancer</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 元素 1/4" monster="鸟羽人翔空士Aarakocra Skirmisher"><TD><a href="../怪物图鉴2025/元素/鸟羽人/鸟羽人翔空士.htm#Aarakocra_Skirmisher">鸟羽人翔空士Aarakocra Skirmisher</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="小型 类人 8" monster="异怪邪教徒Aberrant Cultist"><TD><a href="../怪物图鉴2025/类人/邪教徒/异怪邪教徒.htm#Aberrant_Cultist">异怪邪教徒Aberrant Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="大型 异怪 10" monster="底栖魔鱼Aboleth"><TD><a href="../怪物图鉴2025/异怪/底栖魔鱼.htm#Aboleth">底栖魔鱼Aboleth</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>10</TD></TR>
-<TR tags="巨型 怪兽 9" monster="巨恶雪怪Abominable Yeti"><TD><a href="../怪物图鉴2025/怪兽/雪怪/巨恶雪怪.htm#Abominable_Yeti">巨恶雪怪Abominable Yeti</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>9</TD></TR>
-<TR tags="巨型 龙类 14" monster="成年黑龙Adult Black Dragon"><TD><a href="../怪物图鉴2025/龙类/黑龙/成年黑龙.htm#Adult_Black_Dragon">成年黑龙Adult Black Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>14</TD></TR>
-<TR tags="巨型 龙类 16" monster="成年蓝龙Adult Blue Dragon"><TD><a href="../怪物图鉴2025/龙类/蓝龙/成年蓝龙.htm#Adult_Blue_Dragon">成年蓝龙Adult Blue Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>16</TD></TR>
-<TR tags="巨型 龙类 13" monster="成年黄铜龙Adult Brass Dragon"><TD><a href="../怪物图鉴2025/龙类/黄铜龙/成年黄铜龙.htm#Adult_Brass_Dragon">成年黄铜龙Adult Brass Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>13</TD></TR>
-<TR tags="巨型 龙类 15" monster="成年青铜龙Adult Bronze Dragon"><TD><a href="../怪物图鉴2025/龙类/青铜龙/成年青铜龙.htm#Adult_Bronze_Dragon">成年青铜龙Adult Bronze Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>15</TD></TR>
-<TR tags="巨型 龙类 14" monster="成年赤铜龙Adult Copper Dragon"><TD><a href="../怪物图鉴2025/龙类/赤铜龙/成年赤铜龙.htm#Adult_Copper_Dragon">成年赤铜龙Adult Copper Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>14</TD></TR>
-<TR tags="巨型 龙类 17" monster="成年金龙Adult Gold Dragon"><TD><a href="../怪物图鉴2025/龙类/金龙/成年金龙.htm#Adult_Gold_Dragon">成年金龙Adult Gold Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>17</TD></TR>
-<TR tags="巨型 龙类 15" monster="成年绿龙Adult Green Dragon"><TD><a href="../怪物图鉴2025/龙类/绿龙/成年绿龙.htm#Adult_Green_Dragon">成年绿龙Adult Green Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>15</TD></TR>
-<TR tags="巨型 龙类 17" monster="成年红龙Adult Red Dragon"><TD><a href="../怪物图鉴2025/龙类/红龙/成年红龙.htm#Adult_Red_Dragon">成年红龙Adult Red Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>17</TD></TR>
-<TR tags="巨型 龙类 16" monster="成年银龙Adult Silver Dragon"><TD><a href="../怪物图鉴2025/龙类/银龙/成年银龙.htm#Adult_Silver_Dragon">成年银龙Adult Silver Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>16</TD></TR>
-<TR tags="巨型 龙类 13" monster="成年白龙Adult White Dragon"><TD><a href="../怪物图鉴2025/龙类/白龙/成年白龙.htm#Adult_White_Dragon">成年白龙Adult White Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>13</TD></TR>
-<TR tags="大型 元素 5" monster="气元素Air Elemental"><TD><a href="../怪物图鉴2025/元素/四元素/气元素.htm#Air_Elemental">气元素Air Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 野兽 2" monster="异特龙Allosaurus"><TD><a href="../怪物图鉴2025/附录A/恐龙/异特龙.htm#Allosaurus">异特龙Allosaurus</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="巨型 龙类 21" monster="远古黑龙Ancient Black Dragon"><TD><a href="../怪物图鉴2025/龙类/黑龙/远古黑龙.htm#Ancient_Black_Dragon">远古黑龙Ancient Black Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>21</TD></TR>
-<TR tags="巨型 龙类 23" monster="远古蓝龙Ancient Blue Dragon"><TD><a href="../怪物图鉴2025/龙类/蓝龙/远古蓝龙.htm#Ancient_Blue_Dragon">远古蓝龙Ancient Blue Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>23</TD></TR>
-<TR tags="巨型 龙类 20" monster="远古黄铜龙Ancient Brass Dragon"><TD><a href="../怪物图鉴2025/龙类/黄铜龙/远古黄铜龙.htm#Ancient_Brass_Dragon">远古黄铜龙Ancient Brass Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>20</TD></TR>
-<TR tags="巨型 龙类 22" monster="远古青铜龙Ancient Bronze Dragon"><TD><a href="../怪物图鉴2025/龙类/青铜龙/远古青铜龙.htm#Ancient_Bronze_Dragon">远古青铜龙Ancient Bronze Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>22</TD></TR>
-<TR tags="巨型 龙类 21" monster="远古赤铜龙Ancient Copper Dragon"><TD><a href="../怪物图鉴2025/龙类/赤铜龙/远古赤铜龙.htm#Ancient_Copper_Dragon">远古赤铜龙Ancient Copper Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>21</TD></TR>
-<TR tags="巨型 龙类 24" monster="远古金龙Ancient Gold Dragon"><TD><a href="../怪物图鉴2025/龙类/金龙/远古金龙.htm#Ancient_Gold_Dragon">远古金龙Ancient Gold Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>24</TD></TR>
-<TR tags="巨型 龙类 22" monster="远古绿龙Ancient Green Dragon"><TD><a href="../怪物图鉴2025/龙类/绿龙/远古绿龙.htm#Ancient_Green_Dragon">远古绿龙Ancient Green Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>22</TD></TR>
-<TR tags="巨型 龙类 24" monster="远古红龙Ancient Red Dragon"><TD><a href="../怪物图鉴2025/龙类/红龙/远古红龙.htm#Ancient_Red_Dragon">远古红龙Ancient Red Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>24</TD></TR>
-<TR tags="巨型 龙类 23" monster="远古银龙Ancient Silver Dragon"><TD><a href="../怪物图鉴2025/龙类/银龙/远古银龙.htm#Ancient_Silver_Dragon">远古银龙Ancient Silver Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>23</TD></TR>
-<TR tags="巨型 龙类 20" monster="远古白龙Ancient White Dragon"><TD><a href="../怪物图鉴2025/龙类/白龙/远古白龙.htm#Ancient_White_Dragon">远古白龙Ancient White Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>20</TD></TR>
-<TR tags="中型 天族 20" monster="兽主Animal Lord"><TD><a href="../怪物图鉴2025/天族/兽主.htm#Animal_Lord">兽主Animal Lord</a></TD><TD>中型</TD><TD>天族</TD><TD>中型</TD><TD>20</TD></TR>
-<TR tags="中型 构装 1" monster="活化盔甲Animated Armor"><TD><a href="../怪物图鉴2025/构装/活化物件/活化盔甲.htm#Animated_Armor">活化盔甲Animated Armor</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="小型 构装 1/4" monster="活化扫帚Animated Broom"><TD><a href="../怪物图鉴2025/构装/活化物件/活化扫帚.htm#Animated_Broom">活化扫帚Animated Broom</a></TD><TD>小型</TD><TD>构装</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="小型 构装 1/4" monster="活化凌空剑Animated Flying Sword"><TD><a href="../怪物图鉴2025/构装/活化物件/活化凌空剑.htm#Animated_Flying_Sword">活化凌空剑Animated Flying Sword</a></TD><TD>小型</TD><TD>构装</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="大型 构装 2" monster="活化闷人毯Animated Rug of Smothering"><TD><a href="../怪物图鉴2025/构装/活化物件/活化闷人毯.htm#Animated_Rug_of_Smothering">活化闷人毯Animated Rug of Smothering</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 怪兽 2" monster="掘地虫Ankheg"><TD><a href="../怪物图鉴2025/怪兽/掘地虫.htm#Ankheg">掘地虫Ankheg</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="巨型 野兽 3" monster="甲龙Ankylosaurus"><TD><a href="../怪物图鉴2025/附录A/恐龙/甲龙.htm#Ankylosaurus">甲龙Ankylosaurus</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>3</TD></TR>
-<TR tags="中型 野兽 1/2" monster="猿Ape"><TD><a href="../怪物图鉴2025/附录A/猿.htm#Ape">猿Ape</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 邪魔 12" monster="奥法罗斯魔Arcanaloth"><TD><a href="../怪物图鉴2025/邪魔/尤格罗斯魔/奥法罗斯魔.htm#Arcanaloth">奥法罗斯魔Arcanaloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>12</TD></TR>
-<TR tags="大型 妖精 21" monster="大鬼婆Arch-hag"><TD><a href="../怪物图鉴2025/多类型/鬼婆/大鬼婆.htm#Arch-hag">大鬼婆Arch-hag</a></TD><TD>大型</TD><TD>妖精</TD><TD>大型</TD><TD>21</TD></TR>
-<TR tags="巨型 野兽 4" monster="帝龟Archelon"><TD><a href="../怪物图鉴2025/附录A/恐龙/帝龟.htm#Archelon">帝龟Archelon</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>4</TD></TR>
-<TR tags="小型 类人 12" monster="大法师Archmage"><TD><a href="../怪物图鉴2025/类人/魔法师/大法师.htm#Archmage">大法师Archmage</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>12</TD></TR>
-<TR tags="小型 类人 12" monster="大祭司Archpriest"><TD><a href="../怪物图鉴2025/类人/祭司/大祭司.htm#Archpriest">大祭司Archpriest</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>12</TD></TR>
-<TR tags="小型 类人 8" monster="刺客Assassin"><TD><a href="../怪物图鉴2025/类人/刺客.htm#Assassin">刺客Assassin</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="小型 植物 0" monster="启蒙灌木Awakened Shrub"><TD><a href="../怪物图鉴2025/植物/启蒙植物/启蒙灌木.htm#Awakened_Shrub">启蒙灌木Awakened Shrub</a></TD><TD>小型</TD><TD>植物</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="巨型 植物 2" monster="启蒙大树Awakened Tree"><TD><a href="../怪物图鉴2025/植物/启蒙植物/启蒙大树.htm#Awakened_Tree">启蒙大树Awakened Tree</a></TD><TD>巨型</TD><TD>植物</TD><TD>巨型</TD><TD>2</TD></TR>
-<TR tags="大型 怪兽 1/4" monster="斧嘴鸟Axe Beak"><TD><a href="../怪物图鉴2025/怪兽/斧嘴鸟/斧嘴鸟.htm#Axe_Beak">斧嘴鸟Axe Beak</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="中型 元素 6" monster="火矮人烈炎术师Azer Pyromancer"><TD><a href="../怪物图鉴2025/元素/火矮人/火矮人烈炎术士.htm#Azer_Pyromancer">火矮人烈炎术师Azer Pyromancer</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 元素 2" monster="火矮人哨兵Azer Sentinel"><TD><a href="../怪物图鉴2025/元素/火矮人/火矮人哨兵.htm#Azer_Sentinel">火矮人哨兵Azer Sentinel</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="小型 野兽 0" monster="狒狒Baboon"><TD><a href="../怪物图鉴2025/附录A/狒狒.htm#Baboon">狒狒Baboon</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="微型 野兽 0" monster="獾Badger"><TD><a href="../怪物图鉴2025/附录A/獾.htm#Badger">獾Badger</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="巨型 邪魔 19" monster="炎魔Balor"><TD><a href="../怪物图鉴2025/邪魔/恶魔/炎魔.htm#Balor">炎魔Balor</a></TD><TD>巨型</TD><TD>邪魔</TD><TD>巨型</TD><TD>19</TD></TR>
-<TR tags="小型 类人 1/8" monster="匪徒Bandit"><TD><a href="../怪物图鉴2025/类人/匪徒/匪徒.htm#Bandit">匪徒Bandit</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 2" monster="匪帮队长Bandit Captain"><TD><a href="../怪物图鉴2025/类人/匪徒/匪帮队长.htm#Bandit_Captain">匪帮队长Bandit Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 类人 11" monster="匪帮祸首Bandit Crime Lord"><TD><a href="../怪物图鉴2025/类人/匪徒/匪帮祸首.htm#Bandit_Crime_Lord">匪帮祸首Bandit Crime Lord</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>11</TD></TR>
-<TR tags="小型 类人 7" monster="匪帮欺诈师Bandit Deceiver"><TD><a href="../怪物图鉴2025/类人/匪徒/匪帮欺诈师.htm#Bandit_Deceiver">匪帮欺诈师Bandit Deceiver</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>7</TD></TR>
-<TR tags="中型 亡灵 4" monster="报丧妖Banshee"><TD><a href="../怪物图鉴2025/亡灵/报丧妖.htm#Banshee">报丧妖Banshee</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 邪魔 5" monster="猬魔Barbed Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/猬魔.htm#Barbed_Devil">猬魔Barbed Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="大型 邪魔 5" monster="恶猿魔Barlgura"><TD><a href="../怪物图鉴2025/邪魔/恶魔/恶猿魔.htm#Barlgura">恶猿魔Barlgura</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 3" monster="石化蜥蜴Basilisk"><TD><a href="../怪物图鉴2025/怪兽/石化蜥蜴.htm#Basilisk">石化蜥蜴Basilisk</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="微型 野兽 0" monster="蝙蝠Bat"><TD><a href="../怪物图鉴2025/附录A/蝙蝠.htm#Bat">蝙蝠Bat</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="中型 邪魔 3" monster="须魔Bearded Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/须魔.htm#Bearded_Devil">须魔Bearded Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="巨型 怪兽 11" monster="青足龙蛇Behir"><TD><a href="../怪物图鉴2025/怪兽/青足龙蛇.htm#Behir">青足龙蛇Behir</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>11</TD></TR>
-<TR tags="大型 异怪 13" monster="眼魔Beholder"><TD><a href="../怪物图鉴2025/多类型/眼魔/眼魔.htm#Beholder">眼魔Beholder</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>13</TD></TR>
-<TR tags="大型 亡灵 5" monster="眼魔丧尸Beholder Zombie"><TD><a href="../怪物图鉴2025/亡灵/丧尸/眼魔丧尸.htm#Beholder_Zombie">眼魔丧尸Beholder Zombie</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="小型 类人 2" monster="狂战士Berserker"><TD><a href="../怪物图鉴2025/类人/狂战士/狂战士.htm#Berserker">狂战士Berserker</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 类人 8" monster="狂战将Berserker Commander"><TD><a href="../怪物图鉴2025/类人/狂战士/狂战将.htm#Berserker_Commander">狂战将Berserker Commander</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="中型 野兽 1/2" monster="黑熊Black Bear"><TD><a href="../怪物图鉴2025/附录A/黑熊.htm#Black_Bear">黑熊Black Bear</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 龙类 2" monster="黑龙雏龙Black Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/黑龙/黑龙雏龙.htm#Black_Dragon_Wyrmling">黑龙雏龙Black Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 泥怪 4" monster="黑布丁Black Pudding"><TD><a href="../怪物图鉴2025/泥怪/黑布丁.htm#Black_Pudding">黑布丁Black Pudding</a></TD><TD>大型</TD><TD>泥怪</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="中型 妖精 1/4" monster="闪现犬Blink Dog"><TD><a href="../怪物图鉴2025/妖精/闪现犬.htm#Blink_Dog">闪现犬Blink Dog</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 泥怪 23" monster="吞世黏浆Blob of Annihilation"><TD><a href="../怪物图鉴2025/多类型/泰坦/吞世黏浆.htm#Blob_of_Annihilation">吞世黏浆Blob of Annihilation</a></TD><TD>巨型</TD><TD>泥怪</TD><TD>巨型</TD><TD>23</TD></TR>
-<TR tags="小型 野兽 1/8" monster="血鹰Blood Hawk"><TD><a href="../怪物图鉴2025/附录A/血鹰.htm#Blood_Hawk">血鹰Blood Hawk</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="中型 龙类 3" monster="蓝龙雏龙Blue Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/蓝龙/蓝龙雏龙.htm#Blue_Dragon_Wyrmling">蓝龙雏龙Blue Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="大型 异怪 7" monster="史拉蓝蟾Blue Slaad"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉蓝蟾.htm#Blue_Slaad">史拉蓝蟾Blue Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="中型 野兽 1/4" monster="野猪Boar"><TD><a href="../怪物图鉴2025/附录A/野猪.htm#Boar">野猪Boar</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 邪魔 9" monster="骨魔Bone Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/骨魔.htm#Bone_Devil">骨魔Bone Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="大型 亡灵 4" monster="骸骨纳迦Bone Naga"><TD><a href="../怪物图鉴2025/多类型/纳迦/骸骨纳迦.htm#Bone_Naga">骸骨纳迦Bone Naga</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="中型 龙类 1" monster="黄铜龙雏龙Brass Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/黄铜龙/黄铜龙雏龙.htm#Brass_Dragon_Wyrmling">黄铜龙雏龙Brass Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 构装 9" monster="焚化铜牛Brazen Gorgon"><TD><a href="../怪物图鉴2025/构装/石化铁牛/焚化铜牛.htm#Brazen_Gorgon">焚化铜牛Brazen Gorgon</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="中型 龙类 2" monster="青铜龙雏龙Bronze Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/青铜龙/青铜龙雏龙.htm#Bronze_Dragon_Wyrmling">青铜龙雏龙Bronze Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 野兽 1" monster="棕熊Brown Bear"><TD><a href="../怪物图鉴2025/附录A/棕熊.htm#Brown_Bear">棕熊Brown Bear</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="中型 妖精 3" monster="熊地精追猎者Bugbear Stalker"><TD><a href="../怪物图鉴2025/妖精/熊地精/熊地精追猎者.htm#Bugbear_Stalker">熊地精追猎者Bugbear Stalker</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 妖精 1" monster="熊地精武者Bugbear Warrior"><TD><a href="../怪物图鉴2025/妖精/熊地精/熊地精武者.htm#Bugbear_Warrior">熊地精武者Bugbear Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 怪兽 5" monster="鲨蜥Bulette"><TD><a href="../怪物图鉴2025/怪兽/鲨蜥/鲨蜥.htm#Bulette">鲨蜥Bulette</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 2" monster="鲨蜥仔Bulette Pup"><TD><a href="../怪物图鉴2025/怪兽/鲨蜥/鲨蜥仔.htm#Bulette_Pup">鲨蜥仔Bulette Pup</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 妖精 4" monster="啵灵蛙沼地大贤Bullywug Bog Sage"><TD><a href="../怪物图鉴2025/妖精/啵灵蛙/啵灵蛙沼地大贤.htm#Bullywug_Bog_Sage">啵灵蛙沼地大贤Bullywug Bog Sage</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 妖精 1/4" monster="啵灵蛙武者Bullywug Warrior"><TD><a href="../怪物图鉴2025/妖精/啵灵蛙/啵灵蛙武者.htm#Bullywug_Warrior">啵灵蛙武者Bullywug Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="中型 邪魔 5" monster="坎比翁Cambion"><TD><a href="../怪物图鉴2025/邪魔/坎比翁.htm#Cambion">坎比翁Cambion</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="大型 野兽 1/8" monster="骆驼Camel"><TD><a href="../怪物图鉴2025/附录A/骆驼.htm#Camel">骆驼Camel</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/8</TD></TR>
-<TR tags="大型 怪兽 2" monster="食腐虫Carrion Crawler"><TD><a href="../怪物图鉴2025/怪兽/食腐虫.htm#Carrion_Crawler">食腐虫Carrion Crawler</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="微型 野兽 0" monster="猫Cat"><TD><a href="../怪物图鉴2025/附录A/猫.htm#Cat">猫Cat</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="大型 妖精 2" monster="人马骠骑Centaur Trooper"><TD><a href="../怪物图鉴2025/妖精/人马/人马骠骑.htm#Centaur_Trooper">人马骠骑Centaur Trooper</a></TD><TD>大型</TD><TD>妖精</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 妖精 7" monster="人马守望者Centaur Warden"><TD><a href="../怪物图鉴2025/妖精/人马/人马守望者.htm#Centaur_Warden">人马守望者Centaur Warden</a></TD><TD>大型</TD><TD>妖精</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="中型 邪魔 8" monster="链魔Chain Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/链魔.htm#Chain_Devil">链魔Chain Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>8</TD></TR>
-<TR tags="大型 邪魔 6" monster="喀嘶魔Chasme"><TD><a href="../怪物图鉴2025/邪魔/恶魔/喀嘶魔.htm#Chasme">喀嘶魔Chasme</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="大型 怪兽 6" monster="奇美拉Chimera"><TD><a href="../怪物图鉴2025/怪兽/奇美拉.htm#Chimera">奇美拉Chimera</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="大型 异怪 4" monster="甲伏怪Chuul"><TD><a href="../怪物图鉴2025/异怪/甲伏怪.htm#Chuul">甲伏怪Chuul</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="大型 构装 9" monster="黏土魔像Clay Golem"><TD><a href="../怪物图鉴2025/构装/魔像/黏土魔像.htm#Clay_Golem">黏土魔像Clay Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="大型 异怪 8" monster="斗篷怪Cloaker"><TD><a href="../怪物图鉴2025/异怪/斗篷怪.htm#Cloaker">斗篷怪Cloaker</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="巨型 巨人 9" monster="云巨人Cloud Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/云巨人.htm#Cloud_Giant">云巨人Cloud Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>9</TD></TR>
-<TR tags="小型 怪兽 1/2" monster="蛇鸡Cockatrice"><TD><a href="../怪物图鉴2025/怪兽/蛇鸡/蛇鸡.htm#Cockatrice">蛇鸡Cockatrice</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="大型 怪兽 8" monster="蛇鸡王Cockatrice Regent"><TD><a href="../怪物图鉴2025/怪兽/蛇鸡/蛇鸡王.htm#Cockatrice_Regent">蛇鸡王Cockatrice Regent</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="巨型 构装 25" monster="巨神兵Colossus"><TD><a href="../怪物图鉴2025/多类型/泰坦/巨神兵.htm#Colossus">巨神兵Colossus</a></TD><TD>巨型</TD><TD>构装</TD><TD>巨型</TD><TD>25</TD></TR>
-<TR tags="小型 类人 0" monster="平民Commoner"><TD><a href="../怪物图鉴2025/类人/平民.htm#Commoner">平民Commoner</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="大型 野兽 1/4" monster="蟒蛇Constrictor Snake"><TD><a href="../怪物图鉴2025/附录A/蟒蛇.htm#Constrictor_Snake">蟒蛇Constrictor Snake</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="中型 龙类 1" monster="赤铜龙雏龙Copper Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/赤铜龙/赤铜龙雏龙.htm#Copper_Dragon_Wyrmling">赤铜龙雏龙Copper Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 天族 4" monster="羽蛇Couatl"><TD><a href="../怪物图鉴2025/天族/羽蛇.htm#Couatl">羽蛇Couatl</a></TD><TD>中型</TD><TD>天族</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="微型 野兽 0" monster="蟹Crab"><TD><a href="../怪物图鉴2025/附录A/蟹.htm#Crab">蟹Crab</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="微型 亡灵 0" monster="蠕行之爪Crawling Claw"><TD><a href="../怪物图鉴2025/亡灵/蠕行之爪/蠕行之爪.htm#Crawling_Claw">蠕行之爪Crawling Claw</a></TD><TD>微型</TD><TD>亡灵</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="大型 野兽 1/2" monster="鳄鱼Crocodile"><TD><a href="../怪物图鉴2025/附录A/鳄鱼.htm#Crocodile">鳄鱼Crocodile</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 1/8" monster="邪教徒Cultist"><TD><a href="../怪物图鉴2025/类人/邪教徒/邪教徒.htm#Cultist">邪教徒Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 2" monster="邪教狂信者Cultist Fanatic"><TD><a href="../怪物图鉴2025/类人/邪教徒/邪教狂信者.htm#Cultist_Fanatic">邪教狂信者Cultist Fanatic</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 类人 10" monster="邪教教宗Cultist Hierophant"><TD><a href="../怪物图鉴2025/类人/邪教徒/邪教教宗.htm#Cultist_Hierophant">邪教教宗Cultist Hierophant</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>10</TD></TR>
-<TR tags="巨型 巨人 10" monster="独眼巨人先知Cyclops Oracle"><TD><a href="../怪物图鉴2025/巨人/独眼巨人/独眼巨人先知.htm#Cyclops_Oracle">独眼巨人先知Cyclops Oracle</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>10</TD></TR>
-<TR tags="巨型 巨人 6" monster="独眼巨人哨卫Cyclops Sentry"><TD><a href="../怪物图鉴2025/巨人/独眼巨人/独眼巨人哨卫.htm#Cyclops_Sentry">独眼巨人哨卫Cyclops Sentry</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>6</TD></TR>
-<TR tags="大型 元素 11" monster="土巨灵Dao"><TD><a href="../怪物图鉴2025/元素/巨灵/土巨灵.htm#Dao">土巨灵Dao</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="小型 异怪 1/2" monster="暗幕魔兽Darkmantle"><TD><a href="../怪物图鉴2025/异怪/暗幕魔兽.htm#Darkmantle">暗幕魔兽Darkmantle</a></TD><TD>小型</TD><TD>异怪</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 8" monster="死亡邪教徒Death Cultist"><TD><a href="../怪物图鉴2025/类人/邪教徒/死亡邪教徒.htm#Death_Cultist">死亡邪教徒Death Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="中型 怪兽 1" monster="亡命恶犬Death Dog"><TD><a href="../怪物图鉴2025/怪兽/亡命恶犬.htm#Death_Dog">亡命恶犬Death Dog</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="小型 亡灵 17" monster="死亡骑士Death Knight"><TD><a href="../怪物图鉴2025/亡灵/死亡骑士/死亡骑士.htm#Death_Knight">死亡骑士Death Knight</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>17</TD></TR>
-<TR tags="小型 亡灵 11" monster="死亡骑士志从Death Knight Aspirant"><TD><a href="../怪物图鉴2025/亡灵/死亡骑士/死亡骑士志从.htm#Death_Knight_Aspirant">死亡骑士志从Death Knight Aspirant</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>11</TD></TR>
-<TR tags="中型 异怪 10" monster="史拉亡蟾Death Slaad"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉亡蟾.htm#Death_Slaad">史拉亡蟾Death Slaad</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>10</TD></TR>
-<TR tags="大型 亡灵 14" monster="亡眼暴君Death Tyrant"><TD><a href="../怪物图鉴2025/多类型/眼魔/亡眼暴君.htm#Death_Tyrant">亡眼暴君Death Tyrant</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>14</TD></TR>
-<TR tags="中型 野兽 0" monster="鹿Deer"><TD><a href="../怪物图鉴2025/附录A/鹿.htm#Deer">鹿Deer</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="微型 亡灵 18" monster="半巫妖Demilich"><TD><a href="../怪物图鉴2025/亡灵/半巫妖.htm#Demilich">半巫妖Demilich</a></TD><TD>微型</TD><TD>亡灵</TD><TD>微型</TD><TD>18</TD></TR>
-<TR tags="中型 天族 10" monster="天神使徒Deva"><TD><a href="../怪物图鉴2025/天族/天使/天神使徒.htm#Deva">天神使徒Deva</a></TD><TD>中型</TD><TD>天族</TD><TD>中型</TD><TD>10</TD></TR>
-<TR tags="大型 野兽 1" monster="恐狼Dire Wolf"><TD><a href="../怪物图鉴2025/附录A/恐狼.htm#Dire_Wolf">恐狼Dire Wolf</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="巨型 妖精 10" monster="恐座狼Dire Worg"><TD><a href="../怪物图鉴2025/妖精/座狼/恐座狼.htm#Dire_Worg">恐座狼Dire Worg</a></TD><TD>巨型</TD><TD>妖精</TD><TD>巨型</TD><TD>10</TD></TR>
-<TR tags="大型 怪兽 3" monster="移位兽Displacer Beast"><TD><a href="../怪物图鉴2025/怪兽/移位兽.htm#Displacer_Beast">移位兽Displacer Beast</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="大型 元素 11" monster="气巨灵Djinni"><TD><a href="../怪物图鉴2025/元素/巨灵/气巨灵.htm#Djinni">气巨灵Djinni</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="中型 怪兽 3" monster="变形怪Doppelganger"><TD><a href="../怪物图鉴2025/怪兽/变形怪.htm#Doppelganger">变形怪Doppelganger</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="巨型 亡灵 17" monster="龙巫妖Dracolich"><TD><a href="../怪物图鉴2025/亡灵/龙巫妖.htm#Dracolich">龙巫妖Dracolich</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>巨型</TD><TD>17</TD></TR>
-<TR tags="大型 野兽 1/4" monster="驮用马Draft Horse"><TD><a href="../怪物图鉴2025/附录A/驮用马.htm#Draft_Horse">驮用马Draft Horse</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 龙类 17" monster="龙龟Dragon Turtle"><TD><a href="../怪物图鉴2025/龙类/龙龟.htm#Dragon_Turtle">龙龟Dragon Turtle</a></TD><TD>巨型</TD><TD>龙类</TD><TD>巨型</TD><TD>17</TD></TR>
-<TR tags="小型 邪魔 1/4" monster="怯魔Dretch"><TD><a href="../怪物图鉴2025/邪魔/恶魔/怯魔/怯魔.htm#Dretch">怯魔Dretch</a></TD><TD>小型</TD><TD>邪魔</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="大型 怪兽 6" monster="蛛化卓尔Drider"><TD><a href="../怪物图鉴2025/怪兽/蛛化卓尔.htm#Drider">蛛化卓尔Drider</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="小型 类人 2" monster="德鲁伊Druid"><TD><a href="../怪物图鉴2025/类人/德鲁伊.htm#Druid">德鲁伊Druid</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="中型 妖精 1" monster="树精Dryad"><TD><a href="../怪物图鉴2025/妖精/树精.htm#Dryad">树精Dryad</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="小型 元素 1/2" monster="尘魔蝠Dust Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/尘魔蝠.htm#Dust_Mephit">尘魔蝠Dust Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 野兽 0" monster="鹰Eagle"><TD><a href="../怪物图鉴2025/附录A/鹰.htm#Eagle">鹰Eagle</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="大型 元素 5" monster="土元素Earth Elemental"><TD><a href="../怪物图鉴2025/元素/四元素/土元素.htm#Earth_Elemental">土元素Earth Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 元素 11" monster="火巨灵Efreeti"><TD><a href="../怪物图鉴2025/元素/巨灵/火巨灵.htm#Efreeti">火巨灵Efreeti</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="巨型 元素 22" monster="元初天劫Elemental Cataclysm"><TD><a href="../怪物图鉴2025/多类型/泰坦/元初天劫.htm#Elemental_Cataclysm">元初天劫Elemental Cataclysm</a></TD><TD>巨型</TD><TD>元素</TD><TD>巨型</TD><TD>22</TD></TR>
-<TR tags="小型 类人 8" monster="元素邪教徒Elemental Cultist"><TD><a href="../怪物图鉴2025/类人/邪教徒/元素邪教徒.htm#Elemental_Cultist">元素邪教徒Elemental Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="巨型 野兽 4" monster="象Elephant"><TD><a href="../怪物图鉴2025/附录A/象.htm#Elephant">象Elephant</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>4</TD></TR>
-<TR tags="大型 野兽 1/4" monster="赤鹿Elk"><TD><a href="../怪物图鉴2025/附录A/赤鹿.htm#Elk">赤鹿Elk</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 天族 23" monster="至高天Empyrean"><TD><a href="../怪物图鉴2025/多类型/泰坦/至高天.htm#Empyrean">至高天Empyrean</a></TD><TD>巨型</TD><TD>天族</TD><TD>巨型</TD><TD>23</TD></TR>
-<TR tags="中型 天族 1" monster="至高天微尘Empyrean Iota"><TD><a href="../怪物图鉴2025/多类型/泰坦/至高天微尘.htm#Empyrean_Iota">至高天微尘Empyrean Iota</a></TD><TD>中型</TD><TD>天族</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 邪魔 12" monster="罪魔Erinyes"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/罪魔.htm#Erinyes">罪魔Erinyes</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>12</TD></TR>
-<TR tags="中型 怪兽 2" monster="伊特怪Ettercap"><TD><a href="../怪物图鉴2025/怪兽/伊特怪.htm#Ettercap">伊特怪Ettercap</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 巨人 4" monster="双头巨人Ettin"><TD><a href="../怪物图鉴2025/巨人/双头巨人.htm#Ettin">双头巨人Ettin</a></TD><TD>大型</TD><TD>巨人</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="微型 龙类 2" monster="妖精龙成体Faerie Dragon Adult"><TD><a href="../怪物图鉴2025/龙类/妖精龙/妖精龙成体.htm#Faerie_Dragon_Adult">妖精龙成体Faerie Dragon Adult</a></TD><TD>微型</TD><TD>龙类</TD><TD>微型</TD><TD>2</TD></TR>
-<TR tags="微型 龙类 1" monster="妖精龙青年体Faerie Dragon Youth"><TD><a href="../怪物图鉴2025/龙类/妖精龙/妖精龙青年体.htm#Faerie_Dragon_Youth">妖精龙青年体Faerie Dragon Youth</a></TD><TD>微型</TD><TD>龙类</TD><TD>微型</TD><TD>1</TD></TR>
-<TR tags="小型 类人 8" monster="邪魔邪教徒Fiend Cultist"><TD><a href="../怪物图鉴2025/类人/邪教徒/邪魔邪教徒.htm#Fiend_Cultist">邪魔邪教徒Fiend Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="大型 元素 5" monster="火元素Fire Elemental"><TD><a href="../怪物图鉴2025/元素/四元素/火元素.htm#Fire_Elemental">火元素Fire Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="巨型 巨人 9" monster="火巨人Fire Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/火巨人.htm#Fire_Giant">火巨人Fire Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>9</TD></TR>
-<TR tags="微型 亡灵 4" monster="燃焰之颅Flameskull"><TD><a href="../怪物图鉴2025/亡灵/燃焰之颅.htm#Flameskull">燃焰之颅Flameskull</a></TD><TD>微型</TD><TD>亡灵</TD><TD>微型</TD><TD>4</TD></TR>
-<TR tags="中型 亡灵 3" monster="燃火骷髅Flaming Skeleton"><TD><a href="../怪物图鉴2025/亡灵/骷髅/燃火骷髅.htm#Flaming_Skeleton">燃火骷髅Flaming Skeleton</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 构装 5" monster="血肉魔像Flesh Golem"><TD><a href="../怪物图鉴2025/构装/魔像/血肉魔像.htm#Flesh_Golem">血肉魔像Flesh Golem</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="小型 异怪 1/8" monster="呋噜Flumph"><TD><a href="../怪物图鉴2025/异怪/呋噜.htm#Flumph">呋噜Flumph</a></TD><TD>小型</TD><TD>异怪</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="微型 怪兽 1/8" monster="飞蛇Flying Snake"><TD><a href="../怪物图鉴2025/附录A/怪兽/飞蛇.htm#Flying_Snake">飞蛇Flying Snake</a></TD><TD>微型</TD><TD>怪兽</TD><TD>微型</TD><TD>1/8</TD></TR>
-<TR tags="巨型 巨人 8" monster="废陋巨人Fomorian"><TD><a href="../怪物图鉴2025/巨人/废陋巨人.htm#Fomorian">废陋巨人Fomorian</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>8</TD></TR>
-<TR tags="微型 野兽 0" monster="蛙Frog"><TD><a href="../怪物图鉴2025/附录A/蛙.htm#Frog">蛙Frog</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="巨型 巨人 8" monster="霜巨人Frost Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/霜巨人.htm#Frost_Giant">霜巨人Frost Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>8</TD></TR>
-<TR tags="中型 元素 6" monster="石人Galeb Duhr"><TD><a href="../怪物图鉴2025/元素/石人.htm#Galeb_Duhr">石人Galeb Duhr</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 元素 2" monster="石像鬼Gargoyle"><TD><a href="../怪物图鉴2025/元素/石像鬼.htm#Gargoyle">石像鬼Gargoyle</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 植物 1/2" monster="气孢菌Gas Spore Fungus"><TD><a href="../怪物图鉴2025/植物/真菌/气孢菌.htm#Gas_Spore_Fungus">气孢菌Gas Spore Fungus</a></TD><TD>大型</TD><TD>植物</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="大型 泥怪 2" monster="凝胶方块 Gelatinous Cube"><TD><a href="../怪物图鉴2025/泥怪/凝胶方块.htm#Gelatinous_Cube">凝胶方块 Gelatinous Cube</a></TD><TD>大型</TD><TD>泥怪</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="中型 亡灵 2" monster="妖鬼Ghast"><TD><a href="../怪物图鉴2025/亡灵/妖鬼/妖鬼.htm#Ghast">妖鬼Ghast</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 亡灵 6" monster="妖鬼坟语者Ghast Gravecaller"><TD><a href="../怪物图鉴2025/亡灵/妖鬼/妖鬼坟语者.htm#Ghast_Gravecaller">妖鬼坟语者Ghast Gravecaller</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 亡灵 4" monster="幽魂Ghost"><TD><a href="../怪物图鉴2025/亡灵/幽魂.htm#Ghost">幽魂Ghost</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 亡灵 1" monster="食尸鬼Ghoul"><TD><a href="../怪物图鉴2025/亡灵/食尸鬼/食尸鬼.htm#Ghoul">食尸鬼Ghoul</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="巨型 野兽 7" monster="巨猿Giant Ape"><TD><a href="../怪物图鉴2025/附录A/巨猿.htm#Giant_Ape">巨猿Giant Ape</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>7</TD></TR>
-<TR tags="巨型 怪兽 5" monster="巨斧嘴鸟Giant Axe Beak"><TD><a href="../怪物图鉴2025/怪兽/斧嘴鸟/巨斧嘴鸟.htm#Giant_Axe_Beak">巨斧嘴鸟Giant Axe Beak</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>5</TD></TR>
-<TR tags="中型 野兽 1/4" monster="巨獾Giant Badger"><TD><a href="../怪物图鉴2025/附录A/巨獾.htm#Giant_Badger">巨獾Giant Badger</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 野兽 1/4" monster="巨蝙蝠Giant Bat"><TD><a href="../怪物图鉴2025/附录A/巨蝙蝠.htm#Giant_Bat">巨蝙蝠Giant Bat</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="大型 野兽 2" monster="巨野猪Giant Boar"><TD><a href="../怪物图鉴2025/附录A/巨野猪.htm#Giant_Boar">巨野猪Giant Boar</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="小型 野兽 1/4" monster="巨蜈蚣Giant Centipede"><TD><a href="../怪物图鉴2025/附录A/巨蜈蚣.htm#Giant_Centipede">巨蜈蚣Giant Centipede</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 野兽 2" monster="巨蟒蛇Giant Constrictor Snake"><TD><a href="../怪物图鉴2025/附录A/巨蟒蛇.htm#Giant_Constrictor_Snake">巨蟒蛇Giant Constrictor Snake</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>2</TD></TR>
-<TR tags="中型 野兽 1/8" monster="巨蟹Giant Crab"><TD><a href="../怪物图鉴2025/附录A/巨蟹.htm#Giant_Crab">巨蟹Giant Crab</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="巨型 野兽 5" monster="巨鳄鱼Giant Crocodile"><TD><a href="../怪物图鉴2025/附录A/巨鳄鱼.htm#Giant_Crocodile">巨鳄鱼Giant Crocodile</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>5</TD></TR>
-<TR tags="大型 天族 1" monster="巨鹰Giant Eagle"><TD><a href="../怪物图鉴2025/附录A/天族/巨鹰.htm#Giant_Eagle">巨鹰Giant Eagle</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="巨型 天族 2" monster="巨赤鹿Giant Elk"><TD><a href="../怪物图鉴2025/附录A/天族/巨赤鹿.htm#Giant_Elk">巨赤鹿Giant Elk</a></TD><TD>巨型</TD><TD>天族</TD><TD>巨型</TD><TD>2</TD></TR>
-<TR tags="小型 野兽 0" monster="巨火甲虫Giant Fire Beetle"><TD><a href="../怪物图鉴2025/附录A/巨火甲虫.htm#Giant_Fire_Beetle">巨火甲虫Giant Fire Beetle</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="中型 野兽 1/4" monster="巨蛙Giant Frog"><TD><a href="../怪物图鉴2025/附录A/巨蛙.htm#Giant_Frog">巨蛙Giant Frog</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 野兽 1/2" monster="巨山羊Giant Goat"><TD><a href="../怪物图鉴2025/附录A/巨山羊.htm#Giant_Goat">巨山羊Giant Goat</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="大型 野兽 1" monster="巨鬣狗Giant Hyena"><TD><a href="../怪物图鉴2025/附录A/巨鬣狗.htm#Giant_Hyena">巨鬣狗Giant Hyena</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="大型 野兽 1/4" monster="巨蜥蜴Giant Lizard"><TD><a href="../怪物图鉴2025/附录A/巨蜥蜴.htm#Giant_Lizard">巨蜥蜴Giant Lizard</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="大型 野兽 1" monster="巨章鱼Giant Octopus"><TD><a href="../怪物图鉴2025/附录A/巨章鱼.htm#Giant_Octopus">巨章鱼Giant Octopus</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="大型 天族 1/4" monster="巨猫头鹰Giant Owl"><TD><a href="../怪物图鉴2025/附录A/天族/巨猫头鹰.htm#Giant_Owl">巨猫头鹰Giant Owl</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="小型 野兽 1/8" monster="巨鼠Giant Rat"><TD><a href="../怪物图鉴2025/附录A/巨鼠.htm#Giant_Rat">巨鼠Giant Rat</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="大型 野兽 3" monster="巨蝎Giant Scorpion"><TD><a href="../怪物图鉴2025/附录A/巨蝎.htm#Giant_Scorpion">巨蝎Giant Scorpion</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="大型 野兽 1/2" monster="巨海马Giant Seahorse"><TD><a href="../怪物图鉴2025/附录A/巨海马.htm#Giant_Seahorse">巨海马Giant Seahorse</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="巨型 野兽 5" monster="巨鲨Giant Shark"><TD><a href="../怪物图鉴2025/附录A/巨鲨.htm#Giant_Shark">巨鲨Giant Shark</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>5</TD></TR>
-<TR tags="大型 野兽 1" monster="巨蜘蛛Giant Spider"><TD><a href="../怪物图鉴2025/附录A/巨蜘蛛.htm#Giant_Spider">巨蜘蛛Giant Spider</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="巨型 野兽 6" monster="巨乌贼Giant Squid"><TD><a href="../怪物图鉴2025/附录A/巨乌贼.htm#Giant_Squid">巨乌贼Giant Squid</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>6</TD></TR>
-<TR tags="大型 野兽 1" monster="巨蟾蜍Giant Toad"><TD><a href="../怪物图鉴2025/附录A/巨蟾蜍.htm#Giant_Toad">巨蟾蜍Giant Toad</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="中型 野兽 1/4" monster="巨毒蛇Giant Venomous Snake"><TD><a href="../怪物图鉴2025/附录A/巨毒蛇.htm#Giant_Venomous_Snake">巨毒蛇Giant Venomous Snake</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 怪兽 1" monster="巨秃鹫Giant Vulture"><TD><a href="../怪物图鉴2025/附录A/怪兽/巨秃鹫.htm#Giant_Vulture">巨秃鹫Giant Vulture</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="中型 野兽 1/2" monster="巨黄蜂Giant Wasp"><TD><a href="../怪物图鉴2025/附录A/巨黄蜂.htm#Giant_Wasp">巨黄蜂Giant Wasp</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 野兽 1/8" monster="巨鼬Giant Weasel"><TD><a href="../怪物图鉴2025/附录A/巨鼬.htm#Giant_Weasel">巨鼬Giant Weasel</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="中型 野兽 1/4" monster="巨狼蛛Giant Wolf Spider"><TD><a href="../怪物图鉴2025/附录A/巨狼蛛.htm#Giant_Wolf_Spider">巨狼蛛Giant Wolf Spider</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="中型 异怪 2" monster="呓语之口Gibbering Mouther"><TD><a href="../怪物图鉴2025/异怪/呓语之口.htm#Gibbering_Mouther">呓语之口Gibbering Mouther</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 异怪 16" monster="吉斯洋基龙巫Githyanki Dracomancer"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯洋基龙巫.htm#Githyanki_Dracomancer">吉斯洋基龙巫Githyanki Dracomancer</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>16</TD></TR>
-<TR tags="中型 异怪 8" monster="吉斯洋基骑士Githyanki Knight"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯洋基骑士.htm#Githyanki_Knight">吉斯洋基骑士Githyanki Knight</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>8</TD></TR>
-<TR tags="中型 异怪 3" monster="吉斯洋基武者Githyanki Warrior"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯洋基武者.htm#Githyanki_Warrior">吉斯洋基武者Githyanki Warrior</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 异怪 2" monster="吉斯泽莱武僧Githzerai Monk"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯泽莱武僧.htm#Githzerai_Monk">吉斯泽莱武僧Githzerai Monk</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 异怪 12" monster="吉斯泽莱灵能使Githzerai Psion"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯泽莱灵能使.htm#Githzerai_Psion">吉斯泽莱灵能使Githzerai Psion</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>12</TD></TR>
-<TR tags="中型 异怪 6" monster="吉斯泽莱泽锡修士Githzerai Zerth"><TD><a href="../怪物图鉴2025/异怪/吉斯人/吉斯泽莱泽锡修士.htm#Githzerai_Zerth">吉斯泽莱泽锡修士Githzerai Zerth</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="大型 邪魔 9" monster="迷诱魔Glabrezu"><TD><a href="../怪物图鉴2025/邪魔/恶魔/迷诱魔.htm#Glabrezu">迷诱魔Glabrezu</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="小型 类人 5" monster="角斗士Gladiator"><TD><a href="../怪物图鉴2025/类人/角斗士.htm#Gladiator">角斗士Gladiator</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>5</TD></TR>
-<TR tags="中型 邪魔 8" monster="鬣狗人魔头Gnoll Demoniac"><TD><a href="../怪物图鉴2025/邪魔/鬣狗人/鬣狗人魔头.htm#Gnoll_Demoniac">鬣狗人魔头Gnoll Demoniac</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>8</TD></TR>
-<TR tags="中型 邪魔 4" monster="鬣狗人耶诺古之牙Gnoll Fang of Yeenoghu"><TD><a href="../怪物图鉴2025/邪魔/鬣狗人/鬣狗人耶诺古之牙.htm#Gnoll_Fang_of_Yeenoghu">鬣狗人耶诺古之牙Gnoll Fang of Yeenoghu</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 邪魔 2" monster="鬣狗人头目Gnoll Pack Lord"><TD><a href="../怪物图鉴2025/邪魔/鬣狗人/鬣狗人头目.htm#Gnoll_Pack_Lord">鬣狗人头目Gnoll Pack Lord</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 邪魔 1/2" monster="鬣狗人武者Gnoll Warrior"><TD><a href="../怪物图鉴2025/邪魔/鬣狗人/鬣狗人武者.htm#Gnoll_Warrior">鬣狗人武者Gnoll Warrior</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 野兽 0" monster="山羊Goat"><TD><a href="../怪物图鉴2025/附录A/山羊.htm#Goat">山羊Goat</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="小型 妖精 1" monster="地精老大Goblin Boss"><TD><a href="../怪物图鉴2025/妖精/地精/地精老大.htm#Goblin_Boss">地精老大Goblin Boss</a></TD><TD>小型</TD><TD>妖精</TD><TD>小型</TD><TD>1</TD></TR>
-<TR tags="小型 妖精 3" monster="地精咒术师Goblin Hexer"><TD><a href="../怪物图鉴2025/妖精/地精/地精咒术师.htm#Goblin_Hexer">地精咒术师Goblin Hexer</a></TD><TD>小型</TD><TD>妖精</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="小型 妖精 1/8" monster="地精喽Goblin Minion"><TD><a href="../怪物图鉴2025/妖精/地精/地精喽啰.htm#Goblin_Minion">地精喽Goblin Minion</a></TD><TD>小型</TD><TD>妖精</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 妖精 1/4" monster="地精武者Goblin Warrior"><TD><a href="../怪物图鉴2025/妖精/地精/地精武者.htm#Goblin_Warrior">地精武者Goblin Warrior</a></TD><TD>小型</TD><TD>妖精</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="中型 龙类 3" monster="金龙雏龙Gold Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/金龙/New_Item.htm#Gold_Dragon_Wyrmling">金龙雏龙Gold Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="大型 构装 5" monster="石化铁牛Gorgon"><TD><a href="../怪物图鉴2025/构装/石化铁牛/石化铁牛.htm#Gorgon">石化铁牛Gorgon</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="巨型 邪魔 17" monster="巨牛魔Goristro"><TD><a href="../怪物图鉴2025/邪魔/恶魔/巨牛魔.htm#Goristro">巨牛魔Goristro</a></TD><TD>巨型</TD><TD>邪魔</TD><TD>巨型</TD><TD>17</TD></TR>
-<TR tags="巨型 亡灵 7" monster="还魂尸山Graveyard Revenant"><TD><a href="../怪物图鉴2025/亡灵/还魂鬼/还魂尸山.htm#Graveyard_Revenant">还魂尸山Graveyard Revenant</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>巨型</TD><TD>7</TD></TR>
-<TR tags="中型 泥怪 1/2" monster="灰泥怪Gray Ooze"><TD><a href="../怪物图鉴2025/泥怪/灰泥怪/灰泥怪.htm#Gray_Ooze">灰泥怪Gray Ooze</a></TD><TD>中型</TD><TD>泥怪</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 异怪 9" monster="史拉灰蟾Gray Slaad"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉灰蟾.htm#Gray_Slaad">史拉灰蟾Gray Slaad</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>9</TD></TR>
-<TR tags="中型 龙类 2" monster="绿龙雏龙Green Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/绿龙/绿龙雏龙.htm#Green_Dragon_Wyrmling">绿龙雏龙Green Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 妖精 3" monster="绿鬼婆Green Hag"><TD><a href="../怪物图鉴2025/多类型/鬼婆/绿鬼婆.htm#Green_Hag">绿鬼婆Green Hag</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="大型 异怪 8" monster="史拉绿蟾Green Slaad"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉绿蟾.htm#Green_Slaad">史拉绿蟾Green Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="中型 异怪 3" monster="触须怪Grell"><TD><a href="../怪物图鉴2025/异怪/触须怪.htm#Grell">触须怪Grell</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 异怪 2" monster="穴居攫怪Grick"><TD><a href="../怪物图鉴2025/异怪/穴居攫怪/穴居攫怪.htm#Grick">穴居攫怪Grick</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 异怪 7" monster="远古穴居攫怪Grick Ancient"><TD><a href="../怪物图鉴2025/异怪/穴居攫怪/远古穴居攫怪.htm#Grick_Ancient">远古穴居攫怪Grick Ancient</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="大型 怪兽 2" monster="狮鹫Griffon"><TD><a href="../怪物图鉴2025/怪兽/狮鹫.htm#Griffon">狮鹫Griffon</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="中型 异怪 1/4" monster="幽邃盲族Grimlock"><TD><a href="../怪物图鉴2025/异怪/幽邃盲族.htm#Grimlock">幽邃盲族Grimlock</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="小型 类人 1/8" monster="警卫Guard"><TD><a href="../怪物图鉴2025/类人/警卫/警卫.htm#Guard">警卫Guard</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 4" monster="警卫队长Guard Captain"><TD><a href="../怪物图鉴2025/类人/警卫/警卫队长.htm#Guard_Captain">警卫队长Guard Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>4</TD></TR>
-<TR tags="大型 天族 10" monster="守秘纳迦Guardian Naga"><TD><a href="../怪物图鉴2025/多类型/纳迦/守秘纳迦.htm#Guardian_Naga">守秘纳迦Guardian Naga</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>10</TD></TR>
-<TR tags="巨型 植物 16" monster="甘提亚斯枯殖巨树Gulthias Blight"><TD><a href="../怪物图鉴2025/植物/枯萎怪/甘提亚斯枯殖巨树.htm#Gulthias_Blight">甘提亚斯枯殖巨树Gulthias Blight</a></TD><TD>巨型</TD><TD>植物</TD><TD>巨型</TD><TD>16</TD></TR>
-<TR tags="中型 龙类 5" monster="半龙Half-Dragon"><TD><a href="../怪物图鉴2025/龙类/半龙.htm#Half-Dragon">半龙Half-Dragon</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 1" monster="鸟妖Harpy"><TD><a href="../怪物图鉴2025/怪兽/鸟妖.htm#Harpy">鸟妖Harpy</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="巨型 亡灵 10" monster="还魂巨构Haunting Revenant"><TD><a href="../怪物图鉴2025/亡灵/还魂鬼/还魂巨构.htm#Haunting_Revenant">还魂巨构Haunting Revenant</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>巨型</TD><TD>10</TD></TR>
-<TR tags="微型 野兽 0" monster="隼Hawk"><TD><a href="../怪物图鉴2025/附录A/隼.htm#Hawk">隼Hawk</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="中型 邪魔 3" monster="地狱犬Hell Hound"><TD><a href="../怪物图鉴2025/邪魔/地狱犬.htm#Hell_Hound">地狱犬Hell Hound</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 构装 0" monster="恐怖铠甲Helmed Horror"><TD><a href="../怪物图鉴2025/构装/恐怖铠甲.htm#Helmed_Horror">恐怖铠甲Helmed Horror</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="大型 邪魔 8" monster="狂蟾魔Hezrou"><TD><a href="../怪物图鉴2025/邪魔/恶魔/狂蟾魔.htm#Hezrou">狂蟾魔Hezrou</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="巨型 巨人 5" monster="山丘巨人Hill Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/山丘巨人.htm#Hill_Giant">山丘巨人Hill Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>5</TD></TR>
-<TR tags="大型 怪兽 1" monster="骏鹰Hippogriff"><TD><a href="../怪物图鉴2025/怪兽/骏鹰.htm#Hippogriff">骏鹰Hippogriff</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="大型 野兽 4" monster="河马Hippopotamus"><TD><a href="../怪物图鉴2025/附录A/河马.htm#Hippopotamus">河马Hippopotamus</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="中型 妖精 3" monster="大地精长官Hobgoblin Captain"><TD><a href="../怪物图鉴2025/妖精/大地精/大地精长官.htm#Hobgoblin_Captain">大地精长官Hobgoblin Captain</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 妖精 6" monster="大地精军阀Hobgoblin Warlord"><TD><a href="../怪物图鉴2025/妖精/大地精/大地精军阀.htm#Hobgoblin_Warlord">大地精军阀Hobgoblin Warlord</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 妖精 1/2" monster="大地精武者Hobgoblin Warrior"><TD><a href="../怪物图鉴2025/妖精/大地精/大地精武者.htm#Hobgoblin_Warrior">大地精武者Hobgoblin Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="微型 构装 0" monster="人工生命体Homunculus"><TD><a href="../怪物图鉴2025/构装/人工生命体.htm#Homunculus">人工生命体Homunculus</a></TD><TD>微型</TD><TD>构装</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="大型 怪兽 3" monster="恐爪怪Hook Horror"><TD><a href="../怪物图鉴2025/怪兽/恐爪怪.htm#Hook_Horror">恐爪怪Hook Horror</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="大型 邪魔 11" monster="角魔Horned Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/角魔.htm#Horned_Devil">角魔Horned Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="大型 野兽 2" monster="寻猎鲨Hunter Shark"><TD><a href="../怪物图鉴2025/附录A/寻猎鲨.htm#Hunter_Shark">寻猎鲨Hunter Shark</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="巨型 怪兽 8" monster="多头蛇Hydra"><TD><a href="../怪物图鉴2025/怪兽/多头蛇.htm#Hydra">多头蛇Hydra</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>8</TD></TR>
-<TR tags="中型 野兽 0" monster="鬣狗Hyena"><TD><a href="../怪物图鉴2025/附录A/鬣狗.htm#Hyena">鬣狗Hyena</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="大型 邪魔 14" monster="冰魔Ice Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/冰魔.htm#Ice_Devil">冰魔Ice Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>14</TD></TR>
-<TR tags="小型 元素 1/2" monster="冰魔蝠Ice Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/冰魔蝠.htm#Ice_Mephit">冰魔蝠Ice Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="微型 邪魔 1" monster="小魔鬼Imp"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/小魔鬼.htm#Imp">小魔鬼Imp</a></TD><TD>微型</TD><TD>邪魔</TD><TD>微型</TD><TD>1</TD></TR>
-<TR tags="中型 邪魔 4" monster="梦魔Incubus"><TD><a href="../怪物图鉴2025/邪魔/梦魔.htm#Incubus">梦魔Incubus</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="微型 异怪 2" monster="噬脑怪Intellect Devourer"><TD><a href="../怪物图鉴2025/异怪/噬脑怪.htm#Intellect_Devourer">噬脑怪Intellect Devourer</a></TD><TD>微型</TD><TD>异怪</TD><TD>微型</TD><TD>2</TD></TR>
-<TR tags="大型 元素 6" monster="隐形追猎者Invisible Stalker"><TD><a href="../怪物图鉴2025/元素/隐形追猎者.htm#Invisible_Stalker">隐形追猎者Invisible Stalker</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="大型 构装 16" monster="铁魔像Iron Golem"><TD><a href="../怪物图鉴2025/构装/魔像/铁魔像.htm#Iron_Golem">铁魔像Iron Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>16</TD></TR>
-<TR tags="小型 野兽 0" monster="胡狼Jackal"><TD><a href="../怪物图鉴2025/附录A/胡狼.htm#Jackal">胡狼Jackal</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="小型 邪魔 1/2" monster="化形胡狼Jackalwere"><TD><a href="../怪物图鉴2025/邪魔/化形胡狼.htm#Jackalwere">化形胡狼Jackalwere</a></TD><TD>小型</TD><TD>邪魔</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="中型 龙类 4" monster="少年幽影龙Juvenile Shadow Dragon"><TD><a href="../怪物图鉴2025/龙类/幽影龙/少年幽影龙.htm#Juvenile_Shadow_Dragon">少年幽影龙Juvenile Shadow Dragon</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="中型 怪兽 1/4" monster="天狗Kenku"><TD><a href="../怪物图鉴2025/怪兽/天狗.htm#Kenku">天狗Kenku</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 野兽 3" monster="虎鲸Killer Whale"><TD><a href="../怪物图鉴2025/附录A/虎鲸.htm#Killer_Whale">虎鲸Killer Whale</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>3</TD></TR>
-<TR tags="小型 类人 3" monster="骑士Knight"><TD><a href="../怪物图鉴2025/类人/骑士/骑士.htm#Knight">骑士Knight</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="小型 龙类 1/8" monster="狗头人武者Kobold Warrior"><TD><a href="../怪物图鉴2025/龙类/狗头人/狗头人武者.htm#Kobold_Warrior">狗头人武者Kobold Warrior</a></TD><TD>小型</TD><TD>龙类</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="巨型 怪兽 23" monster="克拉肯Kraken"><TD><a href="../怪物图鉴2025/多类型/泰坦/克拉肯.htm#Kraken">克拉肯Kraken</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>23</TD></TR>
-<TR tags="中型 异怪 1/4" monster="寇涛Kuo-toa"><TD><a href="../怪物图鉴2025/异怪/寇涛/寇涛.htm#Kuo-toa">寇涛Kuo-toa</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="中型 异怪 6" monster="寇涛大祭司Kuo-toa Archpriest"><TD><a href="../怪物图鉴2025/异怪/寇涛/寇涛大祭司.htm#Kuo-toa_Archpriest">寇涛大祭司Kuo-toa Archpriest</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 异怪 3" monster="寇涛监察者Kuo-toa Monitor"><TD><a href="../怪物图鉴2025/异怪/寇涛/寇涛监察者.htm#Kuo-toa_Monitor">寇涛监察者Kuo-toa Monitor</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 异怪 1" monster="寇涛驱策者Kuo-toa Whip"><TD><a href="../怪物图鉴2025/异怪/寇涛/寇涛驱策者.htm#Kuo-toa_Whip">寇涛驱策者Kuo-toa Whip</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 亡灵 1" monster="食尸水鬼Lacedon Ghoul"><TD><a href="../怪物图鉴2025/亡灵/食尸水鬼.htm#Lacedon_Ghoul">食尸水鬼Lacedon Ghoul</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 邪魔 4" monster="拉迷亚Lamia"><TD><a href="../怪物图鉴2025/邪魔/拉迷亚.htm#Lamia">拉迷亚Lamia</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>4</TD></TR>
-<TR tags="中型 邪魔 0" monster="幼虫魔Larva"><TD><a href="../怪物图鉴2025/邪魔/幼虫魔/幼虫魔.htm#Larva">幼虫魔Larva</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="中型 邪魔 0" monster="劣魔Lemure"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/劣魔/劣魔.htm#Lemure">劣魔Lemure</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="中型 亡灵 21" monster="巫妖Lich"><TD><a href="../怪物图鉴2025/亡灵/巫妖.htm#Lich">巫妖Lich</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>21</TD></TR>
-<TR tags="大型 野兽 1" monster="狮子Lion"><TD><a href="../怪物图鉴2025/附录A/狮子.htm#Lion">狮子Lion</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="微型 野兽 0" monster="蜥蜴Lizard"><TD><a href="../怪物图鉴2025/附录A/蜥蜴.htm#Lizard">蜥蜴Lizard</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="中型 元素 2" monster="蜥蜴人地脉术师Lizardfolk Geomancer"><TD><a href="../怪物图鉴2025/元素/蜥蜴人/蜥蜴人地脉术师.htm#Lizardfolk_Geomancer">蜥蜴人地脉术师Lizardfolk Geomancer</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 元素 4" monster="蜥蜴人大王Lizardfolk Sovereign"><TD><a href="../怪物图鉴2025/元素/蜥蜴人/蜥蜴人大王.htm#Lizardfolk_Sovereign">蜥蜴人大王Lizardfolk Sovereign</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="小型 类人 6" monster="魔法师Mage"><TD><a href="../怪物图鉴2025/类人/魔法师/魔法师.htm#Mage">魔法师Mage</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>6</TD></TR>
-<TR tags="小型 类人 2" monster="魔法学徒Mage Apprentice"><TD><a href="../怪物图鉴2025/类人/魔法师/魔法学徒.htm#Mage_Apprentice">魔法学徒Mage Apprentice</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 元素 1/2" monster="熔岩魔蝠Magma Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/熔岩魔蝠.htm#Magma_Mephit">熔岩魔蝠Magma Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 元素 1/2" monster="火童Magmin"><TD><a href="../怪物图鉴2025/元素/火童.htm#Magmin">火童Magmin</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="巨型 野兽 6" monster="猛犸Mammoth"><TD><a href="../怪物图鉴2025/附录A/猛犸.htm#Mammoth">猛犸Mammoth</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>6</TD></TR>
-<TR tags="小型 邪魔 1/8" monster="原魔Manes"><TD><a href="../怪物图鉴2025/邪魔/恶魔/原魔/原魔.htm#Manes">原魔Manes</a></TD><TD>小型</TD><TD>邪魔</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="中型 邪魔 1" monster="原魔汽化体Manes Vaporspawn"><TD><a href="../怪物图鉴2025/邪魔/恶魔/原魔/原魔汽化体.htm#Manes_Vaporspawn">原魔汽化体Manes Vaporspawn</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 怪兽 3" monster="刺尾狮Manticore"><TD><a href="../怪物图鉴2025/怪兽/刺尾狮.htm#Manticore">刺尾狮Manticore</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="大型 元素 11" monster="水巨灵Marid"><TD><a href="../怪物图鉴2025/元素/巨灵/水巨灵.htm#Marid">水巨灵Marid</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="大型 邪魔 16" monster="六臂蛇魔Marilith"><TD><a href="../怪物图鉴2025/邪魔/恶魔/六臂蛇魔.htm#Marilith">六臂蛇魔Marilith</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>16</TD></TR>
-<TR tags="中型 野兽 1/8" monster="獒犬Mastiff"><TD><a href="../怪物图鉴2025/附录A/獒犬.htm#Mastiff">獒犬Mastiff</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="中型 怪兽 6" monster="美杜莎Medusa"><TD><a href="../怪物图鉴2025/怪兽/美杜莎.htm#Medusa">美杜莎Medusa</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 元素 1/8" monster="巡海人鱼Merfolk Skirmisher"><TD><a href="../怪物图鉴2025/元素/人鱼/巡海人鱼.htm#Merfolk_Skirmisher">巡海人鱼Merfolk Skirmisher</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="中型 元素 6" monster="御浪人鱼Merfolk Wavebender"><TD><a href="../怪物图鉴2025/元素/人鱼/御浪人鱼.htm#Merfolk_Wavebender">御浪人鱼Merfolk Wavebender</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="大型 怪兽 2" monster="梅洛人鱼Merrow"><TD><a href="../怪物图鉴2025/怪兽/梅洛人鱼.htm#Merrow">梅洛人鱼Merrow</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="中型 邪魔 5" monster="毒虫罗斯魔Mezzoloth"><TD><a href="../怪物图鉴2025/邪魔/尤格罗斯魔/毒虫罗斯魔.htm#Mezzoloth">毒虫罗斯魔Mezzoloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 2" monster="拟身怪Mimic"><TD><a href="../怪物图鉴2025/怪兽/拟身怪.htm#Mimic">拟身怪Mimic</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 异怪 7" monster="夺心魔Mind Flayer"><TD><a href="../怪物图鉴2025/异怪/夺心魔/夺心魔.htm#Mind_Flayer">夺心魔Mind Flayer</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>7</TD></TR>
-<TR tags="中型 异怪 11" monster="夺心魔奥术师Mind Flayer Arcanist"><TD><a href="../怪物图鉴2025/异怪/夺心魔/夺心魔奥术师.htm#Mind_Flayer_Arcanist">夺心魔奥术师Mind Flayer Arcanist</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>11</TD></TR>
-<TR tags="大型 亡灵 2" monster="骷髅牛头人Minotaur Skeleton"><TD><a href="../怪物图鉴2025/亡灵/骷髅/骷髅牛头人.htm#Minotaur_Skeleton">骷髅牛头人Minotaur Skeleton</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 怪兽 3" monster="巴弗灭的牛头人Minotaur of Baphomet"><TD><a href="../怪物图鉴2025/怪兽/巴弗灭的牛头人.htm#Minotaur_of_Baphomet">巴弗灭的牛头人Minotaur of Baphomet</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="中型 构装 1/4" monster="魔冢二元冢Modron Duodrone"><TD><a href="../怪物图鉴2025/构装/魔冢/魔冢·二元冢.htm#Modron_Duodrone">魔冢二元冢Modron Duodrone</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="中型 构装 1/8" monster="魔冢单元冢Modron Monodrone"><TD><a href="../怪物图鉴2025/构装/魔冢/魔冢·单元冢.htm#Modron_Monodrone">魔冢单元冢Modron Monodrone</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="中型 构装 1" monster="魔冢四元冢Modron Quadrone"><TD><a href="../怪物图鉴2025/构装/魔冢/魔冢·四元冢.htm#Modron_Quadrone">魔冢四元冢Modron Quadrone</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 构装 1/2" monster="魔冢三元冢Modron Tridrone"><TD><a href="../怪物图鉴2025/构装/魔冢/魔冢·三元冢.htm#Modron_Tridrone">魔冢三元冢Modron Tridrone</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="小型 元素 1/4" monster="泥魔蝠Mud Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/泥魔蝠.htm#Mud_Mephit">泥魔蝠Mud Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="中型 野兽 1/8" monster="骡Mule"><TD><a href="../怪物图鉴2025/附录A/骡.htm#Mule">骡Mule</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="小型 亡灵 3" monster="木乃伊Mummy"><TD><a href="../怪物图鉴2025/亡灵/木乃伊/木乃伊.htm#Mummy">木乃伊Mummy</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="小型 亡灵 15" monster="木乃伊领主Mummy Lord"><TD><a href="../怪物图鉴2025/亡灵/木乃伊/木乃伊领主.htm#Mummy_Lord">木乃伊领主Mummy Lord</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>15</TD></TR>
-<TR tags="中型 植物 1/2" monster="蕈人成体Myconid Adult"><TD><a href="../怪物图鉴2025/植物/蕈人/蕈人成体.htm#Myconid_Adult">蕈人成体Myconid Adult</a></TD><TD>中型</TD><TD>植物</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="大型 植物 2" monster="蕈人王Myconid Sovereign"><TD><a href="../怪物图鉴2025/植物/蕈人/蕈人王.htm#Myconid_Sovereign">蕈人王Myconid Sovereign</a></TD><TD>大型</TD><TD>植物</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="小型 植物 1" monster="蕈人孢子奴仆Myconid Spore Servant"><TD><a href="../怪物图鉴2025/植物/蕈人/蕈人孢子奴仆.htm#Myconid_Spore_Servant">蕈人孢子奴仆Myconid Spore Servant</a></TD><TD>小型</TD><TD>植物</TD><TD>小型</TD><TD>1</TD></TR>
-<TR tags="小型 植物 0" monster="蕈人幼体Myconid Sprout"><TD><a href="../怪物图鉴2025/植物/蕈人/蕈人幼体.htm#Myconid_Sprout">蕈人幼体Myconid Sprout</a></TD><TD>小型</TD><TD>植物</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="大型 邪魔 13" monster="判魂魔Nalfeshnee"><TD><a href="../怪物图鉴2025/邪魔/恶魔/判魂魔.htm#Nalfeshnee">判魂魔Nalfeshnee</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>13</TD></TR>
-<TR tags="中型 植物 1/4" monster="枯针怪Needle Blight"><TD><a href="../怪物图鉴2025/植物/枯萎怪/枯针怪.htm#Needle_Blight">枯针怪Needle Blight</a></TD><TD>中型</TD><TD>植物</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="中型 邪魔 5" monster="夜鬼婆Night Hag"><TD><a href="../怪物图鉴2025/多类型/鬼婆/夜鬼婆.htm#Night_Hag">夜鬼婆Night Hag</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="大型 邪魔 3" monster="梦魇Nightmare"><TD><a href="../怪物图鉴2025/邪魔/梦魇.htm#Nightmare">梦魇Nightmare</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="小型 类人 1/8" monster="贵族Noble"><TD><a href="../怪物图鉴2025/类人/贵族/贵族.htm#Noble">贵族Noble</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 10" monster="贵血天骄Noble Prodigy"><TD><a href="../怪物图鉴2025/类人/贵族/贵血天骄.htm#Noble_Prodigy">贵血天骄Noble Prodigy</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>10</TD></TR>
-<TR tags="中型 异怪 2" monster="诺斯怪Nothic"><TD><a href="../怪物图鉴2025/异怪/诺斯怪.htm#Nothic">诺斯怪Nothic</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 邪魔 9" monster="征伐罗斯魔Nycaloth"><TD><a href="../怪物图鉴2025/邪魔/尤格罗斯魔/征伐罗斯魔.htm#Nycaloth">征伐罗斯魔Nycaloth</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="大型 泥怪 2" monster="赭果冻Ochre Jelly"><TD><a href="../怪物图鉴2025/泥怪/赭果冻.htm#Ochre_Jelly">赭果冻Ochre Jelly</a></TD><TD>大型</TD><TD>泥怪</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="小型 野兽 0" monster="章鱼Octopus"><TD><a href="../怪物图鉴2025/附录A/章鱼.htm#Octopus">章鱼Octopus</a></TD><TD>小型</TD><TD>野兽</TD><TD>小型</TD><TD>0</TD></TR>
-<TR tags="大型 巨人 2" monster="食人魔Ogre"><TD><a href="../怪物图鉴2025/巨人/食人魔/食人魔.htm#Ogre">食人魔Ogre</a></TD><TD>大型</TD><TD>巨人</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 亡灵 2" monster="食人魔丧尸Ogre Zombie"><TD><a href="../怪物图鉴2025/亡灵/丧尸/食人魔丧尸.htm#Ogre_Zombie">食人魔丧尸Ogre Zombie</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 巨人 1" monster="半食人魔Ogrillon Ogre"><TD><a href="../怪物图鉴2025/巨人/食人魔/半食人魔.htm#Ogrillon_Ogre">半食人魔Ogrillon Ogre</a></TD><TD>大型</TD><TD>巨人</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="大型 邪魔 7" monster="恶鬼Oni"><TD><a href="../怪物图鉴2025/邪魔/恶鬼.htm#Oni">恶鬼Oni</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="大型 异怪 5" monster="食腐兽Otyugh"><TD><a href="../怪物图鉴2025/异怪/食腐兽.htm#Otyugh">食腐兽Otyugh</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="微型 野兽 0" monster="猫头鹰Owl"><TD><a href="../怪物图鉴2025/附录A/猫头鹰.htm#Owl">猫头鹰Owl</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="大型 怪兽 3" monster="枭熊Owlbear"><TD><a href="../怪物图鉴2025/怪兽/枭熊/枭熊.htm#Owlbear">枭熊Owlbear</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="中型 野兽 1/4" monster="豹Panther"><TD><a href="../怪物图鉴2025/附录A/豹.htm#Panther">豹Panther</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 天族 2" monster="天马Pegasus"><TD><a href="../怪物图鉴2025/天族/天马.htm#Pegasus">天马Pegasus</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="小型 类人 1/2" monster="演艺者Performer"><TD><a href="../怪物图鉴2025/类人/演艺者/演艺者.htm#Performer">演艺者Performer</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 10" monster="演艺传奇Performer Legend"><TD><a href="../怪物图鉴2025/类人/演艺者/演艺传奇.htm#Performer_Legend">演艺传奇Performer Legend</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>10</TD></TR>
-<TR tags="小型 类人 6" monster="演艺尊师Performer Maestro"><TD><a href="../怪物图鉴2025/类人/演艺者/演艺尊师.htm#Performer_Maestro">演艺尊师Performer Maestro</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>6</TD></TR>
-<TR tags="中型 怪兽 2" monster="鹿鹰Peryton"><TD><a href="../怪物图鉴2025/怪兽/鹿鹰.htm#Peryton">鹿鹰Peryton</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 怪兽 3" monster="相位蜘蛛Phase Spider"><TD><a href="../怪物图鉴2025/怪兽/相位蜘蛛.htm#Phase_Spider">相位蜘蛛Phase Spider</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="中型 异怪 1/2" monster="石锥怪Piercer"><TD><a href="../怪物图鉴2025/异怪/石锥怪.htm#Piercer">石锥怪Piercer</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="微型 野兽 0" monster="食人鱼Piranha"><TD><a href="../怪物图鉴2025/附录A/食人鱼.htm#Piranha">食人鱼Piranha</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="小型 类人 1" monster="海盗Pirate"><TD><a href="../怪物图鉴2025/类人/海盗/海盗.htm#Pirate">海盗Pirate</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1</TD></TR>
-<TR tags="小型 类人 12" monster="海盗将军Pirate Admiral"><TD><a href="../怪物图鉴2025/类人/海盗/海盗将军.htm#Pirate_Admiral">海盗将军Pirate Admiral</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>12</TD></TR>
-<TR tags="小型 类人 6" monster="海盗船长Pirate Captain"><TD><a href="../怪物图鉴2025/类人/海盗/海盗船长.htm#Pirate_Captain">海盗船长Pirate Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>6</TD></TR>
-<TR tags="大型 邪魔 20" monster="深狱炼魔Pit Fiend"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/深狱炼魔.htm#Pit_Fiend">深狱炼魔Pit Fiend</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>20</TD></TR>
-<TR tags="微型 妖精 1/4" monster="皮克精Pixie"><TD><a href="../怪物图鉴2025/妖精/皮克精/皮克精.htm#Pixie">皮克精Pixie</a></TD><TD>微型</TD><TD>妖精</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="微型 妖精 5" monster="皮克妙妙精Pixie Wonderbringer"><TD><a href="../怪物图鉴2025/妖精/皮克精/皮克妙妙精.htm#Pixie_Wonderbringer">皮克妙妙精Pixie Wonderbringer</a></TD><TD>微型</TD><TD>妖精</TD><TD>微型</TD><TD>5</TD></TR>
-<TR tags="大型 天族 16" monster="星天神使Planetar"><TD><a href="../怪物图鉴2025/天族/天使/星天神使.htm#Planetar">星天神使Planetar</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>16</TD></TR>
-<TR tags="大型 野兽 2" monster="蛇颈龙Plesiosaurus"><TD><a href="../怪物图鉴2025/附录A/恐龙/蛇颈龙.htm#Plesiosaurus">蛇颈龙Plesiosaurus</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 野兽 2" monster="白熊Polar Bear"><TD><a href="../怪物图鉴2025/附录A/白熊.htm#Polar_Bear">白熊Polar Bear</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="小型 亡灵 2" monster="骚灵Poltergeist"><TD><a href="../怪物图鉴2025/亡灵/骚灵.htm#Poltergeist">骚灵Poltergeist</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="中型 野兽 1/8" monster="矮种马Pony"><TD><a href="../怪物图鉴2025/附录A/矮种马.htm#Pony">矮种马Pony</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 2" monster="祭司Priest"><TD><a href="../怪物图鉴2025/类人/祭司/祭司.htm#Priest">祭司Priest</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 类人 1/4" monster="侍祭僧侣Priest Acolyte"><TD><a href="../怪物图鉴2025/类人/祭司/侍祭僧侣.htm#Priest_Acolyte">侍祭僧侣Priest Acolyte</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 怪兽 7" monster="原初枭熊Primeval Owlbear"><TD><a href="../怪物图鉴2025/怪兽/枭熊/原初枭熊.htm#Primeval_Owlbear">原初枭熊Primeval Owlbear</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>7</TD></TR>
-<TR tags="微型 龙类 1/4" monster="伪龙Pseudodragon"><TD><a href="../怪物图鉴2025/龙类/伪龙.htm#Pseudodragon">伪龙Pseudodragon</a></TD><TD>微型</TD><TD>龙类</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="中型 泥怪 1" monster="心能灰泥怪Psychic Gray Ooze"><TD><a href="../怪物图鉴2025/泥怪/灰泥怪/心能灰泥怪.htm#Psychic_Gray_Ooze">心能灰泥怪Psychic Gray Ooze</a></TD><TD>中型</TD><TD>泥怪</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 野兽 1/4" monster="无齿翼龙Pteranodon"><TD><a href="../怪物图鉴2025/附录A/恐龙/无齿翼龙.htm#Pteranodon">无齿翼龙Pteranodon</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 怪兽 15" monster="紫虫Purple Worm"><TD><a href="../怪物图鉴2025/怪兽/紫虫.htm#Purple_Worm">紫虫Purple Worm</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>15</TD></TR>
-<TR tags="中型 怪兽 2" monster="幽邃熊怪Quaggoth"><TD><a href="../怪物图鉴2025/怪兽/幽邃熊怪/幽邃熊怪.htm#Quaggoth">幽邃熊怪Quaggoth</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 怪兽 3" monster="幽邃熊怪脑头Quaggoth Thonot"><TD><a href="../怪物图鉴2025/怪兽/幽邃熊怪/幽邃熊怪脑头.htm#Quaggoth_Thonot">幽邃熊怪脑头Quaggoth Thonot</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="微型 邪魔 1" monster="小恶魔Quasit"><TD><a href="../怪物图鉴2025/邪魔/恶魔/小恶魔.htm#Quasit">小恶魔Quasit</a></TD><TD>微型</TD><TD>邪魔</TD><TD>微型</TD><TD>1</TD></TR>
-<TR tags="小型 类人 12" monster="天命骑士Questing Knight"><TD><a href="../怪物图鉴2025/类人/骑士/天命骑士.htm#Questing_Knight">天命骑士Questing Knight</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>12</TD></TR>
-<TR tags="中型 邪魔 13" monster="罗刹Rakshasa"><TD><a href="../怪物图鉴2025/邪魔/罗刹.htm#Rakshasa">罗刹Rakshasa</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>13</TD></TR>
-<TR tags="微型 野兽 0" monster="鼠Rat"><TD><a href="../怪物图鉴2025/附录A/鼠.htm#Rat">鼠Rat</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="微型 野兽 0" monster="渡鸦Raven"><TD><a href="../怪物图鉴2025/附录A/渡鸦.htm#Raven">渡鸦Raven</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="中型 龙类 4" monster="红龙雏龙Red Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/红龙/红龙雏龙.htm#Red_Dragon_Wyrmling">红龙雏龙Red Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="大型 异怪 5" monster="史拉红蟾Red Slaad"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉红蟾.htm#Red_Slaad">史拉红蟾Red Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 野兽 1/2" monster="礁鲨Reef Shark"><TD><a href="../怪物图鉴2025/附录A/礁鲨.htm#Reef_Shark">礁鲨Reef Shark</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="巨型 怪兽 11" monster="百足魔兽Remorhaz"><TD><a href="../怪物图鉴2025/怪兽/百足魔兽/百足魔兽.htm#Remorhaz">百足魔兽Remorhaz</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>11</TD></TR>
-<TR tags="中型 亡灵 5" monster="还魂鬼Revenant"><TD><a href="../怪物图鉴2025/亡灵/还魂鬼/还魂鬼.htm#Revenant">还魂鬼Revenant</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="大型 野兽 2" monster="犀牛Rhinoceros"><TD><a href="../怪物图鉴2025/附录A/犀牛.htm#Rhinoceros">犀牛Rhinoceros</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 野兽 1/4" monster="乘用马Riding Horse"><TD><a href="../怪物图鉴2025/附录A/乘用马.htm#Riding_Horse">乘用马Riding Horse</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/4</TD></TR>
-<TR tags="巨型 怪兽 11" monster="鹏鸟Roc"><TD><a href="../怪物图鉴2025/怪兽/鹏鸟.htm#Roc">鹏鸟Roc</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>11</TD></TR>
-<TR tags="大型 异怪 5" monster="石绳怪Roper"><TD><a href="../怪物图鉴2025/异怪/石绳怪.htm#Roper">石绳怪Roper</a></TD><TD>大型</TD><TD>异怪</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 1/2" monster="锈蚀怪Rust Monster"><TD><a href="../怪物图鉴2025/怪兽/锈蚀怪.htm#Rust_Monster">锈蚀怪Rust Monster</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="大型 野兽 2" monster="剑齿虎Saber-Toothed Tiger"><TD><a href="../怪物图鉴2025/附录A/剑齿虎.htm#Saber-Toothed_Tiger">剑齿虎Saber-Toothed Tiger</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>2</TD></TR>
-<TR tags="大型 邪魔 5" monster="鲨华男爵Sahuagin Baron"><TD><a href="../怪物图鉴2025/邪魔/鲨华鱼人/鲨华男爵.htm#Sahuagin_Baron">鲨华男爵Sahuagin Baron</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 邪魔 2" monster="鲨华祭司Sahuagin Priest"><TD><a href="../怪物图鉴2025/邪魔/鲨华鱼人/鲨华祭司.htm#Sahuagin_Priest">鲨华祭司Sahuagin Priest</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="大型 元素 5" monster="火蜥蜴Salamander"><TD><a href="../怪物图鉴2025/元素/火蜥蜴/火蜥蜴.htm#Salamander">火蜥蜴Salamander</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="中型 元素 1" monster="火蜥蜴火蛇Salamander Fire Snake"><TD><a href="../怪物图鉴2025/元素/火蜥蜴/火蜥蜴火蛇.htm#Salamander_Fire_Snake">火蜥蜴火蛇Salamander Fire Snake</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 元素 15" monster="火蜥蜴炎狱之主Salamander Inferno Master"><TD><a href="../怪物图鉴2025/元素/火蜥蜴/火蜥蜴炎狱之主.htm#Salamander_Inferno_Master">火蜥蜴炎狱之主Salamander Inferno Master</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>15</TD></TR>
-<TR tags="中型 妖精 1/2" monster="半羊人Satyr"><TD><a href="../怪物图鉴2025/妖精/半羊人/半羊人.htm#Satyr">半羊人Satyr</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 妖精 6" monster="半羊人欢庆之主Satyr Revelmaster"><TD><a href="../怪物图鉴2025/妖精/半羊人/半羊人欢庆之主.htm#Satyr_Revelmaster">半羊人欢庆之主Satyr Revelmaster</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>6</TD></TR>
-<TR tags="中型 构装 1" monster="稻草人Scarecrow"><TD><a href="../怪物图鉴2025/构装/稻草人.htm#Scarecrow">稻草人Scarecrow</a></TD><TD>中型</TD><TD>构装</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="微型 野兽 0" monster="蝎Scorpion"><TD><a href="../怪物图鉴2025/附录A/蝎.htm#Scorpion">蝎Scorpion</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="小型 类人 1/2" monster="斥候Scout"><TD><a href="../怪物图鉴2025/类人/斥候/斥候.htm#Scout">斥候Scout</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 3" monster="斥候队长Scout Captain"><TD><a href="../怪物图鉴2025/类人/斥候/斥候队长.htm#Scout_Captain">斥候队长Scout Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="中型 妖精 2" monster="海鬼婆Sea Hag"><TD><a href="../怪物图鉴2025/多类型/鬼婆/海鬼婆.htm#Sea_Hag">海鬼婆Sea Hag</a></TD><TD>中型</TD><TD>妖精</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="微型 野兽 0" monster="海马Seahorse"><TD><a href="../怪物图鉴2025/附录A/海马.htm#Seahorse">海马Seahorse</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="中型 亡灵 1/2" monster="幽影Shadow"><TD><a href="../怪物图鉴2025/亡灵/幽影.htm#Shadow">幽影Shadow</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 邪魔 4" monster="幽影恶魔Shadow Demon"><TD><a href="../怪物图鉴2025/邪魔/恶魔/幽影恶魔.htm#Shadow_Demon">幽影恶魔Shadow Demon</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="大型 龙类 13" monster="幽影龙Shadow Dragon"><TD><a href="../怪物图鉴2025/龙类/幽影龙/幽影龙.htm#Shadow_Dragon">幽影龙Shadow Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>13</TD></TR>
-<TR tags="大型 植物 5" monster="蔓生怪Shambling Mound"><TD><a href="../怪物图鉴2025/植物/蔓生怪.htm#Shambling_Mound">蔓生怪Shambling Mound</a></TD><TD>大型</TD><TD>植物</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 构装 7" monster="盾卫Shield Guardian"><TD><a href="../怪物图鉴2025/构装/盾卫.htm#Shield_Guardian">盾卫Shield Guardian</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="中型 植物 0" monster="尖叫菌Shrieker Fungus"><TD><a href="../怪物图鉴2025/植物/真菌/尖叫菌.htm#Shrieker_Fungus">尖叫菌Shrieker Fungus</a></TD><TD>中型</TD><TD>植物</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="中型 龙类 2" monster="银龙雏龙Silver Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/银龙/银龙雏龙.htm#Silver_Dragon_Wyrmling">银龙雏龙Silver Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 亡灵 1/4" monster="骷髅Skeleton"><TD><a href="../怪物图鉴2025/亡灵/骷髅/骷髅.htm#Skeleton">骷髅Skeleton</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="微型 异怪 1/8" monster="史拉蟾蝌蚪Slaad Tadpole"><TD><a href="../怪物图鉴2025/异怪/史拉蟾/史拉蟾蝌蚪.htm#Slaad_Tadpole">史拉蟾蝌蚪Slaad Tadpole</a></TD><TD>微型</TD><TD>异怪</TD><TD>微型</TD><TD>1/8</TD></TR>
-<TR tags="小型 元素 1/4" monster="烟魔蝠Smoke Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/烟魔蝠.htm#Smoke_Mephit">烟魔蝠Smoke Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="大型 天族 21" monster="炽天神使Solar"><TD><a href="../怪物图鉴2025/天族/天使/炽天神使.htm#Solar">炽天神使Solar</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>21</TD></TR>
-<TR tags="中型 异怪 3" monster="观察者眼魔Spectator"><TD><a href="../怪物图鉴2025/多类型/眼魔/观察者眼魔.htm#Spectator">观察者眼魔Spectator</a></TD><TD>中型</TD><TD>异怪</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 亡灵 1" monster="恶灵Specter"><TD><a href="../怪物图鉴2025/亡灵/恶灵.htm#Specter">恶灵Specter</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="大型 天族 11" monster="晓谕斯芬克斯Sphinx of Lore"><TD><a href="../怪物图鉴2025/天族/斯芬克斯/晓谕斯芬克斯.htm#Sphinx_of_Lore">晓谕斯芬克斯Sphinx of Lore</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>11</TD></TR>
-<TR tags="大型 天族 8" monster="隐秘斯芬克斯Sphinx of Secrets"><TD><a href="../怪物图鉴2025/天族/斯芬克斯/隐秘斯芬克斯.htm#Sphinx_of_Secrets">隐秘斯芬克斯Sphinx of Secrets</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="大型 天族 17" monster="勇气斯芬克斯Sphinx of Valor"><TD><a href="../怪物图鉴2025/天族/斯芬克斯/勇气斯芬克斯.htm#Sphinx_of_Valor">勇气斯芬克斯Sphinx of Valor</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>17</TD></TR>
-<TR tags="微型 天族 1" monster="求索斯芬克斯Sphinx of Wonder"><TD><a href="../怪物图鉴2025/天族/斯芬克斯/求索斯芬克斯.htm#Sphinx_of_Wonder">求索斯芬克斯Sphinx of Wonder</a></TD><TD>微型</TD><TD>天族</TD><TD>微型</TD><TD>1</TD></TR>
-<TR tags="微型 野兽 0" monster="蜘蛛Spider"><TD><a href="../怪物图鉴2025/附录A/蜘蛛.htm#Spider">蜘蛛Spider</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="小型 邪魔 2" monster="棘魔Spined Devil"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/棘魔.htm#Spined_Devil">棘魔Spined Devil</a></TD><TD>小型</TD><TD>邪魔</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="大型 邪魔 8" monster="阴魂纳迦Spirit Naga"><TD><a href="../怪物图鉴2025/多类型/纳迦/阴魂纳迦.htm#Spirit_Naga">阴魂纳迦Spirit Naga</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="微型 妖精 1/4" monster="小仙灵Sprite"><TD><a href="../怪物图鉴2025/妖精/小仙灵.htm#Sprite">小仙灵Sprite</a></TD><TD>微型</TD><TD>妖精</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="小型 类人 1" monster="间谍Spy"><TD><a href="../怪物图鉴2025/类人/间谍/间谍.htm#Spy">间谍Spy</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1</TD></TR>
-<TR tags="小型 类人 10" monster="间谍大师Spy Master"><TD><a href="../怪物图鉴2025/类人/间谍/间谍大师.htm#Spy_Master">间谍大师Spy Master</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>10</TD></TR>
-<TR tags="小型 元素 1/4" monster="蒸汽魔蝠Steam Mephit"><TD><a href="../怪物图鉴2025/元素/魔蝠/蒸汽魔蝠.htm#Steam_Mephit">蒸汽魔蝠Steam Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="微型 怪兽 1/8" monster="蚊蝠Stirge"><TD><a href="../怪物图鉴2025/怪兽/蚊蝠/蚊蝠.htm#Stirge">蚊蝠Stirge</a></TD><TD>微型</TD><TD>怪兽</TD><TD>微型</TD><TD>1/8</TD></TR>
-<TR tags="巨型 巨人 7" monster="石巨人Stone Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/石巨人.htm#Stone_Giant">石巨人Stone Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>7</TD></TR>
-<TR tags="大型 构装 10" monster="石魔像Stone Golem"><TD><a href="../怪物图鉴2025/构装/魔像/石魔像.htm#Stone_Golem">石魔像Stone Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>10</TD></TR>
-<TR tags="巨型 巨人 13" monster="风暴巨人Storm Giant"><TD><a href="../怪物图鉴2025/巨人/序位巨人/风暴巨人.htm#Storm_Giant">风暴巨人Storm Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>巨型</TD><TD>13</TD></TR>
-<TR tags="中型 邪魔 4" monster="魅魔Succubus"><TD><a href="../怪物图鉴2025/邪魔/魅魔.htm#Succubus">魅魔Succubus</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>4</TD></TR>
-<TR tags="微型 野兽 1/4" monster="蝙蝠集群Swarm of Bats"><TD><a href="../怪物图鉴2025/附录A/集群/蝙蝠集群.htm#Swarm_of_Bats">蝙蝠集群Swarm of Bats</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="微型 亡灵 3" monster="蠕行之爪集群Swarm of Crawling Claw"><TD><a href="../怪物图鉴2025/亡灵/蠕行之爪/蠕行之爪集群.htm#Swarm_of_Crawling_Claw">蠕行之爪集群Swarm of Crawling Claw</a></TD><TD>微型</TD><TD>亡灵</TD><TD>微型</TD><TD>3</TD></TR>
-<TR tags="小型 邪魔 4" monster="怯魔集群Swarm of Dretch"><TD><a href="../怪物图鉴2025/邪魔/恶魔/怯魔/怯魔集群.htm#Swarm_of_Dretch">怯魔集群Swarm of Dretch</a></TD><TD>小型</TD><TD>邪魔</TD><TD>小型</TD><TD>4</TD></TR>
-<TR tags="微型 野兽 1/2" monster="昆虫集群Swarm of Insects"><TD><a href="../怪物图鉴2025/附录A/集群/昆虫集群.htm#Swarm_of_Insects">昆虫集群Swarm of Insects</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1/2</TD></TR>
-<TR tags="中型 邪魔 1" monster="幼虫魔集群Swarm of Larvae"><TD><a href="../怪物图鉴2025/邪魔/幼虫魔/幼虫魔集群.htm#Swarm_of_Larvae">幼虫魔集群Swarm of Larvae</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 邪魔 3" monster="劣魔集群Swarm of Lemures"><TD><a href="../怪物图鉴2025/邪魔/魔鬼/劣魔/劣魔集群.htm#Swarm_of_Lemures">劣魔集群Swarm of Lemures</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="微型 野兽 1" monster="食人鱼集群Swarm of Piranhas"><TD><a href="../怪物图鉴2025/附录A/集群/食人鱼集群.htm#Swarm_of_Piranhas">食人鱼集群Swarm of Piranhas</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1</TD></TR>
-<TR tags="微型 野兽 1/4" monster="鼠集群Swarm of Rats"><TD><a href="../怪物图鉴2025/附录A/集群/鼠集群.htm#Swarm_of_Rats">鼠集群Swarm of Rats</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="微型 野兽 1/4" monster="渡鸦集群Swarm of Ravens"><TD><a href="../怪物图鉴2025/附录A/集群/渡鸦集群.htm#Swarm_of_Ravens">渡鸦集群Swarm of Ravens</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1/4</TD></TR>
-<TR tags="微型 怪兽 2" monster="蚊蝠集群Swarm of Stirges"><TD><a href="../怪物图鉴2025/怪兽/蚊蝠/蚊蝠集群.htm#Swarm_of_Stirges">蚊蝠集群Swarm of Stirges</a></TD><TD>微型</TD><TD>怪兽</TD><TD>微型</TD><TD>2</TD></TR>
-<TR tags="微型 野兽 2" monster="毒蛇集群Swarm of Venomous Snakes"><TD><a href="../怪物图鉴2025/附录A/集群/毒蛇集群.htm#Swarm_of_Venomous_Snakes">毒蛇集群Swarm of Venomous Snakes</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>2</TD></TR>
-<TR tags="巨型 怪兽 30" monster="泰拉斯奎Tarrasque"><TD><a href="../怪物图鉴2025/多类型/泰坦/泰拉斯奎.htm#Tarrasque">泰拉斯奎Tarrasque</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>巨型</TD><TD>30</TD></TR>
-<TR tags="中型 怪兽 1" monster="螳螂人劫掠者Thri-kreen Marauder"><TD><a href="../怪物图鉴2025/怪兽/螳螂人/螳螂人劫掠者.htm#Thri-kreen_Marauder">螳螂人劫掠者Thri-kreen Marauder</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 怪兽 8" monster="螳螂人灵能使Thri-kreen Psion"><TD><a href="../怪物图鉴2025/怪兽/螳螂人/螳螂人灵能使.htm#Thri-kreen_Psion">螳螂人灵能使Thri-kreen Psion</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>8</TD></TR>
-<TR tags="大型 野兽 1" monster="虎Tiger"><TD><a href="../怪物图鉴2025/附录A/虎.htm#Tiger">虎Tiger</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1</TD></TR>
-<TR tags="小型 类人 1/2" monster="打手Tough"><TD><a href="../怪物图鉴2025/类人/打手/打手.htm#Tough">打手Tough</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 4" monster="打手老大Tough Boss"><TD><a href="../怪物图鉴2025/类人/打手/打手老大.htm#Tough_Boss">打手老大Tough Boss</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>4</TD></TR>
-<TR tags="巨型 植物 9" monster="树人Treant"><TD><a href="../怪物图鉴2025/植物/树人.htm#Treant">树人Treant</a></TD><TD>巨型</TD><TD>植物</TD><TD>巨型</TD><TD>9</TD></TR>
-<TR tags="巨型 植物 7" monster="枯树怪Tree Blight"><TD><a href="../怪物图鉴2025/植物/枯萎怪/枯树怪.htm#Tree_Blight">枯树怪Tree Blight</a></TD><TD>巨型</TD><TD>植物</TD><TD>巨型</TD><TD>7</TD></TR>
-<TR tags="巨型 野兽 5" monster="三角龙Triceratops"><TD><a href="../怪物图鉴2025/附录A/恐龙/三角龙.htm#Triceratops">三角龙Triceratops</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>5</TD></TR>
-<TR tags="中型 怪兽 1/4" monster="穴蜥人Troglodyte"><TD><a href="../怪物图鉴2025/怪兽/穴蜥人.htm#Troglodyte">穴蜥人Troglodyte</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 巨人 5" monster="巨魔Troll"><TD><a href="../怪物图鉴2025/巨人/巨魔/巨魔.htm#Troll">巨魔Troll</a></TD><TD>大型</TD><TD>巨人</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="小型 巨人 1/2" monster="巨魔断肢Troll Limb"><TD><a href="../怪物图鉴2025/巨人/巨魔/巨魔断肢.htm#Troll_Limb">巨魔断肢Troll Limb</a></TD><TD>小型</TD><TD>巨人</TD><TD>小型</TD><TD>1/2</TD></TR>
-<TR tags="小型 植物 1/8" monster="枯枝怪Twig Blight"><TD><a href="../怪物图鉴2025/植物/枯萎怪/枯枝怪.htm#Twig_Blight">枯枝怪Twig Blight</a></TD><TD>小型</TD><TD>植物</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="巨型 野兽 8" monster="霸王龙Tyrannosaurus Rex"><TD><a href="../怪物图鉴2025/附录A/恐龙/霸王龙.htm#Tyrannosaurus_Rex">霸王龙Tyrannosaurus Rex</a></TD><TD>巨型</TD><TD>野兽</TD><TD>巨型</TD><TD>8</TD></TR>
-<TR tags="中型 邪魔 13" monster="超等罗斯魔Ultroloth"><TD><a href="../怪物图鉴2025/邪魔/尤格罗斯魔/超等罗斯魔.htm#Ultroloth">超等罗斯魔Ultroloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>13</TD></TR>
-<TR tags="大型 怪兽 5" monster="掘土巨怪Umber Hulk"><TD><a href="../怪物图鉴2025/怪兽/掘土巨怪.htm#Umber_Hulk">掘土巨怪Umber Hulk</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 天族 5" monster="独角兽Unicorn"><TD><a href="../怪物图鉴2025/天族/独角兽.htm#Unicorn">独角兽Unicorn</a></TD><TD>大型</TD><TD>天族</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="小型 亡灵 13" monster="吸血鬼Vampire"><TD><a href="../怪物图鉴2025/多类型/吸血鬼/吸血鬼.htm#Vampire">吸血鬼Vampire</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>13</TD></TR>
-<TR tags="小型 类人 3" monster="血仆Vampire Familiar"><TD><a href="../怪物图鉴2025/多类型/吸血鬼/血仆.htm#Vampire_Familiar">血仆Vampire Familiar</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="小型 亡灵 8" monster="吸血夜魇Vampire Nightbringer"><TD><a href="../怪物图鉴2025/多类型/吸血鬼/吸血夜魇.htm#Vampire_Nightbringer">吸血夜魇Vampire Nightbringer</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>8</TD></TR>
-<TR tags="小型 亡灵 5" monster="初生吸血鬼Vampire Spawn"><TD><a href="../怪物图鉴2025/多类型/吸血鬼/初生吸血鬼.htm#Vampire_Spawn">初生吸血鬼Vampire Spawn</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>5</TD></TR>
-<TR tags="小型 亡灵 15" monster="吸血鬼暗影尊主Vampire Umbral Lord"><TD><a href="../怪物图鉴2025/多类型/吸血鬼/吸血鬼暗影尊主.htm#Vampire_Umbral_Lord">吸血鬼暗影尊主Vampire Umbral Lord</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>15</TD></TR>
-<TR tags="微型 野兽 1/8" monster="毒蛇Venomous Snake"><TD><a href="../怪物图鉴2025/附录A/毒蛇.htm#Venomous_Snake">毒蛇Venomous Snake</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>1/8</TD></TR>
-<TR tags="中型 植物 1/2" monster="枯藤怪Vine Blight"><TD><a href="../怪物图鉴2025/植物/枯萎怪/枯藤怪.htm#Vine_Blight">枯藤怪Vine Blight</a></TD><TD>中型</TD><TD>植物</TD><TD>中型</TD><TD>1/2</TD></TR>
-<TR tags="中型 植物 1/4" monster="紫腐菌Violet Fungus"><TD><a href="../怪物图鉴2025/植物/真菌/紫腐菌.htm#Violet_Fungus">紫腐菌Violet Fungus</a></TD><TD>中型</TD><TD>植物</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 植物 7" monster="紫腐菌尸聚怪Violet Fungus Necrohulk"><TD><a href="../怪物图鉴2025/植物/真菌/紫腐菌尸聚怪.htm#Violet_Fungus_Necrohulk">紫腐菌尸聚怪Violet Fungus Necrohulk</a></TD><TD>大型</TD><TD>植物</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="大型 邪魔 6" monster="鹫魔Vrock"><TD><a href="../怪物图鉴2025/邪魔/恶魔/鹫魔.htm#Vrock">鹫魔Vrock</a></TD><TD>大型</TD><TD>邪魔</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="中型 野兽 0" monster="秃鹫Vulture"><TD><a href="../怪物图鉴2025/附录A/秃鹫.htm#Vulture">秃鹫Vulture</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>0</TD></TR>
-<TR tags="大型 野兽 1/2" monster="战马Warhorse"><TD><a href="../怪物图鉴2025/附录A/战马.htm#Warhorse">战马Warhorse</a></TD><TD>大型</TD><TD>野兽</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="大型 亡灵 1/2" monster="骷髅战马Warhorse Skeleton"><TD><a href="../怪物图鉴2025/亡灵/骷髅/骷髅战马.htm#Warhorse_Skeleton">骷髅战马Warhorse Skeleton</a></TD><TD>大型</TD><TD>亡灵</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="小型 类人 10" monster="武将Warrior Commander"><TD><a href="../怪物图鉴2025/类人/武者/武将.htm#Warrior_Commander">武将Warrior Commander</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>10</TD></TR>
-<TR tags="小型 类人 1/8" monster="新晋武者Warrior Infantry"><TD><a href="../怪物图鉴2025/类人/武者/新晋武者.htm#Warrior_Infantry">新晋武者Warrior Infantry</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>1/8</TD></TR>
-<TR tags="小型 类人 3" monster="历战武者Warrior Veteran"><TD><a href="../怪物图鉴2025/类人/武者/历战武者.htm#Warrior_Veteran">历战武者Warrior Veteran</a></TD><TD>小型</TD><TD>类人</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="大型 元素 5" monster="水元素Water Elemental"><TD><a href="../怪物图鉴2025/元素/四元素/水元素.htm#Water_Elemental">水元素Water Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 元素 3" monster="水诡Water Weird"><TD><a href="../怪物图鉴2025/元素/水诡.htm#Water_Weird">水诡Water Weird</a></TD><TD>大型</TD><TD>元素</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="微型 野兽 0" monster="鼬Weasel"><TD><a href="../怪物图鉴2025/附录A/鼬.htm#Weasel">鼬Weasel</a></TD><TD>微型</TD><TD>野兽</TD><TD>微型</TD><TD>0</TD></TR>
-<TR tags="小型 怪兽 5" monster="熊人Werebear"><TD><a href="../怪物图鉴2025/怪兽/兽化人/熊人.htm#Werebear">熊人Werebear</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>5</TD></TR>
-<TR tags="小型 怪兽 4" monster="野猪人Wereboar"><TD><a href="../怪物图鉴2025/怪兽/兽化人/野猪人.htm#Wereboar">野猪人Wereboar</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>4</TD></TR>
-<TR tags="小型 怪兽 2" monster="鼠人Wererat"><TD><a href="../怪物图鉴2025/怪兽/兽化人/鼠人.htm#Wererat">鼠人Wererat</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>2</TD></TR>
-<TR tags="小型 怪兽 4" monster="虎人Weretiger"><TD><a href="../怪物图鉴2025/怪兽/兽化人/虎人.htm#Weretiger">虎人Weretiger</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>4</TD></TR>
-<TR tags="小型 怪兽 3" monster="狼人Werewolf"><TD><a href="../怪物图鉴2025/怪兽/兽化人/狼人.htm#Werewolf">狼人Werewolf</a></TD><TD>小型</TD><TD>怪兽</TD><TD>小型</TD><TD>3</TD></TR>
-<TR tags="中型 龙类 2" monster="白龙雏龙White Dragon Wyrmling"><TD><a href="../怪物图鉴2025/龙类/白龙/白龙雏龙.htm#White_Dragon_Wyrmling">白龙雏龙White Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>中型</TD><TD>2</TD></TR>
-<TR tags="中型 亡灵 3" monster="尸妖Wight"><TD><a href="../怪物图鉴2025/亡灵/尸妖.htm#Wight">尸妖Wight</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="微型 亡灵 2" monster="鬼火Will-o’-Wisp"><TD><a href="../怪物图鉴2025/亡灵/鬼火.htm#Will-o’-Wisp">鬼火Will-o’-Wisp</a></TD><TD>微型</TD><TD>亡灵</TD><TD>微型</TD><TD>2</TD></TR>
-<TR tags="小型 龙类 1/4" monster="带翼狗头人Winged Kobold"><TD><a href="../怪物图鉴2025/龙类/狗头人/带翼狗头人.htm#Winged_Kobold">带翼狗头人Winged Kobold</a></TD><TD>小型</TD><TD>龙类</TD><TD>小型</TD><TD>1/4</TD></TR>
-<TR tags="大型 怪兽 3" monster="冬狼Winter Wolf"><TD><a href="../怪物图鉴2025/怪兽/冬狼.htm#Winter_Wolf">冬狼Winter Wolf</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="中型 野兽 1/4" monster="狼Wolf"><TD><a href="../怪物图鉴2025/附录A/狼.htm#Wolf">狼Wolf</a></TD><TD>中型</TD><TD>野兽</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 妖精 1/2" monster="座狼Worg"><TD><a href="../怪物图鉴2025/妖精/座狼/座狼.htm#Worg">座狼Worg</a></TD><TD>大型</TD><TD>妖精</TD><TD>大型</TD><TD>1/2</TD></TR>
-<TR tags="小型 亡灵 5" monster="邪灵Wraith"><TD><a href="../怪物图鉴2025/亡灵/邪灵.htm#Wraith">邪灵Wraith</a></TD><TD>小型</TD><TD>亡灵</TD><TD>小型</TD><TD>5</TD></TR>
-<TR tags="大型 龙类 6" monster="飞龙Wyvern"><TD><a href="../怪物图鉴2025/龙类/飞龙.htm#Wyvern">飞龙Wyvern</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="中型 元素 5" monster="石鼎兽Xorn"><TD><a href="../怪物图鉴2025/元素/石鼎兽.htm#Xorn">石鼎兽Xorn</a></TD><TD>中型</TD><TD>元素</TD><TD>中型</TD><TD>5</TD></TR>
-<TR tags="大型 怪兽 3" monster="雪怪Yeti"><TD><a href="../怪物图鉴2025/怪兽/雪怪/雪怪.htm#Yeti">雪怪Yeti</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>3</TD></TR>
-<TR tags="中型 邪魔 10" monster="蜡融妖Yochlol"><TD><a href="../怪物图鉴2025/邪魔/恶魔/蜡融妖.htm#Yochlol">蜡融妖Yochlol</a></TD><TD>中型</TD><TD>邪魔</TD><TD>中型</TD><TD>10</TD></TR>
-<TR tags="大型 龙类 7" monster="青年黑龙Young Black Dragon"><TD><a href="../怪物图鉴2025/龙类/黑龙/青年黑龙.htm#Young_Black_Dragon">青年黑龙Young Black Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="大型 龙类 9" monster="青年蓝龙Young Blue Dragon"><TD><a href="../怪物图鉴2025/龙类/蓝龙/青年蓝龙.htm#Young_Blue_Dragon">青年蓝龙Young Blue Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="大型 龙类 6" monster="青年黄铜龙Young Brass Dragon"><TD><a href="../怪物图鉴2025/龙类/黄铜龙/青年黄铜龙.htm#Young_Brass_Dragon">青年黄铜龙Young Brass Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="大型 龙类 8" monster="青年青铜龙Young Bronze Dragon"><TD><a href="../怪物图鉴2025/龙类/青铜龙/青年青铜龙.htm#Young_Bronze_Dragon">青年青铜龙Young Bronze Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="大型 龙类 7" monster="青年赤铜龙Young Copper Dragon"><TD><a href="../怪物图鉴2025/龙类/赤铜龙/青年赤铜龙.htm#Young_Copper_Dragon">青年赤铜龙Young Copper Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="大型 龙类 10" monster="青年金龙Young Gold Dragon"><TD><a href="../怪物图鉴2025/龙类/金龙/青年金龙.htm#Young_Gold_Dragon">青年金龙Young Gold Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>10</TD></TR>
-<TR tags="大型 龙类 8" monster="青年绿龙Young Green Dragon"><TD><a href="../怪物图鉴2025/龙类/绿龙/青年绿龙.htm#Young_Green_Dragon">青年绿龙Young Green Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>8</TD></TR>
-<TR tags="大型 龙类 10" monster="青年红龙Young Red Dragon"><TD><a href="../怪物图鉴2025/龙类/红龙/青年红龙.htm#Young_Red_Dragon">青年红龙Young Red Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>10</TD></TR>
-<TR tags="大型 怪兽 5" monster="青年百足魔兽Young Remorhaz"><TD><a href="../怪物图鉴2025/怪兽/百足魔兽/青年百足魔兽.htm#Young_Remorhaz">青年百足魔兽Young Remorhaz</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>5</TD></TR>
-<TR tags="大型 龙类 9" monster="青年银龙Young Silver Dragon"><TD><a href="../怪物图鉴2025/龙类/银龙/青年银龙.htm#Young_Silver_Dragon">青年银龙Young Silver Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>9</TD></TR>
-<TR tags="大型 龙类 6" monster="青年白龙Young White Dragon"><TD><a href="../怪物图鉴2025/龙类/白龙/青年白龙.htm#Young_White_Dragon">青年白龙Young White Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>大型</TD><TD>6</TD></TR>
-<TR tags="大型 怪兽 7" monster="憎恶蛇人Yuan-ti Abomination"><TD><a href="../怪物图鉴2025/怪兽/蛇人/憎恶蛇人.htm#Yuan-ti_Abomination">憎恶蛇人Yuan-ti Abomination</a></TD><TD>大型</TD><TD>怪兽</TD><TD>大型</TD><TD>7</TD></TR>
-<TR tags="中型 怪兽 1" monster="渗蚀蛇人Yuan-ti Infiltrator"><TD><a href="../怪物图鉴2025/怪兽/蛇人/渗蚀蛇人.htm#Yuan-ti_Infiltrator">渗蚀蛇人Yuan-ti Infiltrator</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>1</TD></TR>
-<TR tags="中型 怪兽 3" monster="恶咒蛇人（1型）Yuan-ti Malison (Type 1)"><TD><a href="../怪物图鉴2025/怪兽/蛇人/恶咒蛇人（1型）.htm#Yuan-ti_Malison_(Type_1)">恶咒蛇人（1型）Yuan-ti Malison (Type 1)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 怪兽 3" monster="恶咒蛇人（2型）Yuan-ti Malison (Type 2)"><TD><a href="../怪物图鉴2025/怪兽/蛇人/恶咒蛇人（2型）.htm#Yuan-ti_Malison_(Type_2)">恶咒蛇人（2型）Yuan-ti Malison (Type 2)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 怪兽 3" monster="恶咒蛇人（3型）Yuan-ti Malison (Type 3)"><TD><a href="../怪物图鉴2025/怪兽/蛇人/恶咒蛇人（3型）.htm#Yuan-ti_Malison_(Type_3)">恶咒蛇人（3型）Yuan-ti Malison (Type 3)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>中型</TD><TD>3</TD></TR>
-<TR tags="中型 亡灵 1/4" monster="丧尸Zombie"><TD><a href="../怪物图鉴2025/亡灵/丧尸/丧尸.htm#Zombie">丧尸Zombie</a></TD><TD>中型</TD><TD>亡灵</TD><TD>中型</TD><TD>1/4</TD></TR>
-<TR tags="大型 构装 2" monster="魔冢五元冢Modron Quadrone"><TD><a href="../怪物图鉴2025/构装/魔冢/魔冢·五元冢.htm#Modron_Quadrone">魔冢五元冢Modron Quadrone</a></TD><TD>大型</TD><TD>构装</TD><TD>大型</TD><TD>2</TD></TR>
-</table>
-</body>
-</html>
-{{    }}
+<tr><td><b>怪物名</b></td><td width=60><b>体型</b></td><td width=80><b>生物类型</b></td><td width=60><b>传奇动作</b></td><td width=50><b>CR</b></td></tr>
+<TR tags="中型 元素 无 4" monster="鸟羽人风舞术师Aarakocra Aeromancer"><TD><a href="怪物图鉴2025/元素/鸟羽人/鸟羽人风舞术士.htm#Aarakocra_Aeromancer">鸟羽人风舞术师Aarakocra Aeromancer</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 元素 无 1/4" monster="鸟羽人翔空士Aarakocra Skirmisher"><TD><a href="怪物图鉴2025/元素/鸟羽人/鸟羽人翔空士.htm#Aarakocra_Skirmisher">鸟羽人翔空士Aarakocra Skirmisher</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="小型 类人 无 8" monster="异怪邪教徒Aberrant Cultist"><TD><a href="怪物图鉴2025/类人/邪教徒/异怪邪教徒.htm#Aberrant_Cultist">异怪邪教徒Aberrant Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 异怪 有 10" monster="底栖魔鱼Aboleth"><TD><a href="怪物图鉴2025/异怪/底栖魔鱼.htm#Aboleth">底栖魔鱼Aboleth</a></TD><TD>大型</TD><TD>异怪</TD><TD>有</TD><TD>10</TD></TR>
+<TR tags="巨型 怪兽 无 9" monster="巨恶雪怪Abominable Yeti"><TD><a href="怪物图鉴2025/怪兽/雪怪/巨恶雪怪.htm#Abominable_Yeti">巨恶雪怪Abominable Yeti</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="巨型 龙类 有 14" monster="成年黑龙Adult Black Dragon"><TD><a href="怪物图鉴2025/龙类/黑龙/成年黑龙.htm#Adult_Black_Dragon">成年黑龙Adult Black Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>14</TD></TR>
+<TR tags="巨型 龙类 有 16" monster="成年蓝龙Adult Blue Dragon"><TD><a href="怪物图鉴2025/龙类/蓝龙/成年蓝龙.htm#Adult_Blue_Dragon">成年蓝龙Adult Blue Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>16</TD></TR>
+<TR tags="巨型 龙类 有 13" monster="成年黄铜龙Adult Brass Dragon"><TD><a href="怪物图鉴2025/龙类/黄铜龙/成年黄铜龙.htm#Adult_Brass_Dragon">成年黄铜龙Adult Brass Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>13</TD></TR>
+<TR tags="巨型 龙类 有 15" monster="成年青铜龙Adult Bronze Dragon"><TD><a href="怪物图鉴2025/龙类/青铜龙/成年青铜龙.htm#Adult_Bronze_Dragon">成年青铜龙Adult Bronze Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>15</TD></TR>
+<TR tags="巨型 龙类 有 14" monster="成年赤铜龙Adult Copper Dragon"><TD><a href="怪物图鉴2025/龙类/赤铜龙/成年赤铜龙.htm#Adult_Copper_Dragon">成年赤铜龙Adult Copper Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>14</TD></TR>
+<TR tags="巨型 龙类 有 17" monster="成年金龙Adult Gold Dragon"><TD><a href="怪物图鉴2025/龙类/金龙/成年金龙.htm#Adult_Gold_Dragon">成年金龙Adult Gold Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>17</TD></TR>
+<TR tags="巨型 龙类 有 15" monster="成年绿龙Adult Green Dragon"><TD><a href="怪物图鉴2025/龙类/绿龙/成年绿龙.htm#Adult_Green_Dragon">成年绿龙Adult Green Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>15</TD></TR>
+<TR tags="巨型 龙类 有 17" monster="成年红龙Adult Red Dragon"><TD><a href="怪物图鉴2025/龙类/红龙/成年红龙.htm#Adult_Red_Dragon">成年红龙Adult Red Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>17</TD></TR>
+<TR tags="巨型 龙类 有 16" monster="成年银龙Adult Silver Dragon"><TD><a href="怪物图鉴2025/龙类/银龙/成年银龙.htm#Adult_Silver_Dragon">成年银龙Adult Silver Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>16</TD></TR>
+<TR tags="巨型 龙类 有 13" monster="成年白龙Adult White Dragon"><TD><a href="怪物图鉴2025/龙类/白龙/成年白龙.htm#Adult_White_Dragon">成年白龙Adult White Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>13</TD></TR>
+<TR tags="大型 元素 无 5" monster="气元素Air Elemental"><TD><a href="怪物图鉴2025/元素/四元素/气元素.htm#Air_Elemental">气元素Air Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 野兽 无 2" monster="异特龙Allosaurus"><TD><a href="怪物图鉴2025/附录A/恐龙/异特龙.htm#Allosaurus">异特龙Allosaurus</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="巨型 龙类 有 21" monster="远古黑龙Ancient Black Dragon"><TD><a href="怪物图鉴2025/龙类/黑龙/远古黑龙.htm#Ancient_Black_Dragon">远古黑龙Ancient Black Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>21</TD></TR>
+<TR tags="巨型 龙类 有 23" monster="远古蓝龙Ancient Blue Dragon"><TD><a href="怪物图鉴2025/龙类/蓝龙/远古蓝龙.htm#Ancient_Blue_Dragon">远古蓝龙Ancient Blue Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>23</TD></TR>
+<TR tags="巨型 龙类 有 20" monster="远古黄铜龙Ancient Brass Dragon"><TD><a href="怪物图鉴2025/龙类/黄铜龙/远古黄铜龙.htm#Ancient_Brass_Dragon">远古黄铜龙Ancient Brass Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>20</TD></TR>
+<TR tags="巨型 龙类 有 22" monster="远古青铜龙Ancient Bronze Dragon"><TD><a href="怪物图鉴2025/龙类/青铜龙/远古青铜龙.htm#Ancient_Bronze_Dragon">远古青铜龙Ancient Bronze Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>22</TD></TR>
+<TR tags="巨型 龙类 有 21" monster="远古赤铜龙Ancient Copper Dragon"><TD><a href="怪物图鉴2025/龙类/赤铜龙/远古赤铜龙.htm#Ancient_Copper_Dragon">远古赤铜龙Ancient Copper Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>21</TD></TR>
+<TR tags="巨型 龙类 有 24" monster="远古金龙Ancient Gold Dragon"><TD><a href="怪物图鉴2025/龙类/金龙/远古金龙.htm#Ancient_Gold_Dragon">远古金龙Ancient Gold Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>24</TD></TR>
+<TR tags="巨型 龙类 有 22" monster="远古绿龙Ancient Green Dragon"><TD><a href="怪物图鉴2025/龙类/绿龙/远古绿龙.htm#Ancient_Green_Dragon">远古绿龙Ancient Green Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>22</TD></TR>
+<TR tags="巨型 龙类 有 24" monster="远古红龙Ancient Red Dragon"><TD><a href="怪物图鉴2025/龙类/红龙/远古红龙.htm#Ancient_Red_Dragon">远古红龙Ancient Red Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>24</TD></TR>
+<TR tags="巨型 龙类 有 23" monster="远古银龙Ancient Silver Dragon"><TD><a href="怪物图鉴2025/龙类/银龙/远古银龙.htm#Ancient_Silver_Dragon">远古银龙Ancient Silver Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>23</TD></TR>
+<TR tags="巨型 龙类 有 20" monster="远古白龙Ancient White Dragon"><TD><a href="怪物图鉴2025/龙类/白龙/远古白龙.htm#Ancient_White_Dragon">远古白龙Ancient White Dragon</a></TD><TD>巨型</TD><TD>龙类</TD><TD>有</TD><TD>20</TD></TR>
+<TR tags="中型 天族 有 20" monster="兽主Animal Lord"><TD><a href="怪物图鉴2025/天族/兽主.htm#Animal_Lord">兽主Animal Lord</a></TD><TD>中型</TD><TD>天族</TD><TD>有</TD><TD>20</TD></TR>
+<TR tags="中型 构装 无 1" monster="活化盔甲Animated Armor"><TD><a href="怪物图鉴2025/构装/活化物件/活化盔甲.htm#Animated_Armor">活化盔甲Animated Armor</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 构装 无 1/4" monster="活化扫帚Animated Broom"><TD><a href="怪物图鉴2025/构装/活化物件/活化扫帚.htm#Animated_Broom">活化扫帚Animated Broom</a></TD><TD>小型</TD><TD>构装</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="小型 构装 无 1/4" monster="活化凌空剑Animated Flying Sword"><TD><a href="怪物图鉴2025/构装/活化物件/活化凌空剑.htm#Animated_Flying_Sword">活化凌空剑Animated Flying Sword</a></TD><TD>小型</TD><TD>构装</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 构装 无 2" monster="活化闷人毯Animated Rug of Smothering"><TD><a href="怪物图鉴2025/构装/活化物件/活化闷人毯.htm#Animated_Rug_of_Smothering">活化闷人毯Animated Rug of Smothering</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 怪兽 无 2" monster="掘地虫Ankheg"><TD><a href="怪物图鉴2025/怪兽/掘地虫.htm#Ankheg">掘地虫Ankheg</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="巨型 野兽 无 3" monster="甲龙Ankylosaurus"><TD><a href="怪物图鉴2025/附录A/恐龙/甲龙.htm#Ankylosaurus">甲龙Ankylosaurus</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 野兽 无 1/2" monster="猿Ape"><TD><a href="怪物图鉴2025/附录A/猿.htm#Ape">猿Ape</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 邪魔 无 12" monster="奥法罗斯魔Arcanaloth"><TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/奥法罗斯魔.htm#Arcanaloth">奥法罗斯魔Arcanaloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="大型 妖精 有 21" monster="大鬼婆Arch-hag"><TD><a href="怪物图鉴2025/多类型/鬼婆/大鬼婆.htm#Arch-hag">大鬼婆Arch-hag</a></TD><TD>大型</TD><TD>妖精</TD><TD>有</TD><TD>21</TD></TR>
+<TR tags="巨型 野兽 无 4" monster="帝龟Archelon"><TD><a href="怪物图鉴2025/附录A/恐龙/帝龟.htm#Archelon">帝龟Archelon</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="小型 类人 无 12" monster="大法师Archmage"><TD><a href="怪物图鉴2025/类人/魔法师/大法师.htm#Archmage">大法师Archmage</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="小型 类人 无 12" monster="大祭司Archpriest"><TD><a href="怪物图鉴2025/类人/祭司/大祭司.htm#Archpriest">大祭司Archpriest</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="小型 类人 无 8" monster="刺客Assassin"><TD><a href="怪物图鉴2025/类人/刺客.htm#Assassin">刺客Assassin</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="小型 植物 无 0" monster="启蒙灌木Awakened Shrub"><TD><a href="怪物图鉴2025/植物/启蒙植物/启蒙灌木.htm#Awakened_Shrub">启蒙灌木Awakened Shrub</a></TD><TD>小型</TD><TD>植物</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="巨型 植物 无 2" monster="启蒙大树Awakened Tree"><TD><a href="怪物图鉴2025/植物/启蒙植物/启蒙大树.htm#Awakened_Tree">启蒙大树Awakened Tree</a></TD><TD>巨型</TD><TD>植物</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 怪兽 无 1/4" monster="斧嘴鸟Axe Beak"><TD><a href="怪物图鉴2025/怪兽/斧嘴鸟/斧嘴鸟.htm#Axe_Beak">斧嘴鸟Axe Beak</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 元素 无 6" monster="火矮人烈炎术师Azer Pyromancer"><TD><a href="怪物图鉴2025/元素/火矮人/火矮人烈炎术士.htm#Azer_Pyromancer">火矮人烈炎术师Azer Pyromancer</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 元素 无 2" monster="火矮人哨兵Azer Sentinel"><TD><a href="怪物图鉴2025/元素/火矮人/火矮人哨兵.htm#Azer_Sentinel">火矮人哨兵Azer Sentinel</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 野兽 无 0" monster="狒狒Baboon"><TD><a href="怪物图鉴2025/附录A/狒狒.htm#Baboon">狒狒Baboon</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="微型 野兽 无 0" monster="獾Badger"><TD><a href="怪物图鉴2025/附录A/獾.htm#Badger">獾Badger</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="巨型 邪魔 无 19" monster="炎魔Balor"><TD><a href="怪物图鉴2025/邪魔/恶魔/炎魔.htm#Balor">炎魔Balor</a></TD><TD>巨型</TD><TD>邪魔</TD><TD>无</TD><TD>19</TD></TR>
+<TR tags="小型 类人 无 1/8" monster="匪徒Bandit"><TD><a href="怪物图鉴2025/类人/匪徒/匪徒.htm#Bandit">匪徒Bandit</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 2" monster="匪帮队长Bandit Captain"><TD><a href="怪物图鉴2025/类人/匪徒/匪帮队长.htm#Bandit_Captain">匪帮队长Bandit Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 类人 无 11" monster="匪帮祸首Bandit Crime Lord"><TD><a href="怪物图鉴2025/类人/匪徒/匪帮祸首.htm#Bandit_Crime_Lord">匪帮祸首Bandit Crime Lord</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="小型 类人 无 7" monster="匪帮欺诈师Bandit Deceiver"><TD><a href="怪物图鉴2025/类人/匪徒/匪帮欺诈师.htm#Bandit_Deceiver">匪帮欺诈师Bandit Deceiver</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 亡灵 无 4" monster="报丧妖Banshee"><TD><a href="怪物图鉴2025/亡灵/报丧妖.htm#Banshee">报丧妖Banshee</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 邪魔 无 5" monster="猬魔Barbed Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/猬魔.htm#Barbed_Devil">猬魔Barbed Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 邪魔 无 5" monster="恶猿魔Barlgura"><TD><a href="怪物图鉴2025/邪魔/恶魔/恶猿魔.htm#Barlgura">恶猿魔Barlgura</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="石化蜥蜴Basilisk"><TD><a href="怪物图鉴2025/怪兽/石化蜥蜴.htm#Basilisk">石化蜥蜴Basilisk</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蝙蝠Bat"><TD><a href="怪物图鉴2025/附录A/蝙蝠.htm#Bat">蝙蝠Bat</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 邪魔 无 3" monster="须魔Bearded Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/须魔.htm#Bearded_Devil">须魔Bearded Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="巨型 怪兽 无 11" monster="青足龙蛇Behir"><TD><a href="怪物图鉴2025/怪兽/青足龙蛇.htm#Behir">青足龙蛇Behir</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="大型 异怪 有 13" monster="眼魔Beholder"><TD><a href="怪物图鉴2025/多类型/眼魔/眼魔.htm#Beholder">眼魔Beholder</a></TD><TD>大型</TD><TD>异怪</TD><TD>有</TD><TD>13</TD></TR>
+<TR tags="大型 亡灵 无 5" monster="眼魔丧尸Beholder Zombie"><TD><a href="怪物图鉴2025/亡灵/丧尸/眼魔丧尸.htm#Beholder_Zombie">眼魔丧尸Beholder Zombie</a></TD><TD>大型</TD><TD>亡灵</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="小型 类人 无 2" monster="狂战士Berserker"><TD><a href="怪物图鉴2025/类人/狂战士/狂战士.htm#Berserker">狂战士Berserker</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 类人 无 8" monster="狂战将Berserker Commander"><TD><a href="怪物图鉴2025/类人/狂战士/狂战将.htm#Berserker_Commander">狂战将Berserker Commander</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 野兽 无 1/2" monster="黑熊Black Bear"><TD><a href="怪物图鉴2025/附录A/黑熊.htm#Black_Bear">黑熊Black Bear</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 龙类 无 2" monster="黑龙雏龙Black Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/黑龙/黑龙雏龙.htm#Black_Dragon_Wyrmling">黑龙雏龙Black Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 泥怪 无 4" monster="黑布丁Black Pudding"><TD><a href="怪物图鉴2025/泥怪/黑布丁.htm#Black_Pudding">黑布丁Black Pudding</a></TD><TD>大型</TD><TD>泥怪</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 妖精 无 1/4" monster="闪现犬Blink Dog"><TD><a href="怪物图鉴2025/妖精/闪现犬.htm#Blink_Dog">闪现犬Blink Dog</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 泥怪 无 23" monster="吞世黏浆Blob of Annihilation"><TD><a href="怪物图鉴2025/多类型/泰坦/吞世黏浆.htm#Blob_of_Annihilation">吞世黏浆Blob of Annihilation</a></TD><TD>巨型</TD><TD>泥怪</TD><TD>无</TD><TD>23</TD></TR>
+<TR tags="小型 野兽 无 1/8" monster="血鹰Blood Hawk"><TD><a href="怪物图鉴2025/附录A/血鹰.htm#Blood_Hawk">血鹰Blood Hawk</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 龙类 无 3" monster="蓝龙雏龙Blue Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/蓝龙/蓝龙雏龙.htm#Blue_Dragon_Wyrmling">蓝龙雏龙Blue Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 异怪 无 7" monster="史拉蓝蟾Blue Slaad"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉蓝蟾.htm#Blue_Slaad">史拉蓝蟾Blue Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="野猪Boar"><TD><a href="怪物图鉴2025/附录A/野猪.htm#Boar">野猪Boar</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 邪魔 无 9" monster="骨魔Bone Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/骨魔.htm#Bone_Devil">骨魔Bone Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="大型 亡灵 无 4" monster="骸骨纳迦Bone Naga"><TD><a href="怪物图鉴2025/多类型/纳迦/骸骨纳迦.htm#Bone_Naga">骸骨纳迦Bone Naga</a></TD><TD>大型</TD><TD>亡灵</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 龙类 无 1" monster="黄铜龙雏龙Brass Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/黄铜龙/黄铜龙雏龙.htm#Brass_Dragon_Wyrmling">黄铜龙雏龙Brass Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 构装 无 9" monster="焚化铜牛Brazen Gorgon"><TD><a href="怪物图鉴2025/构装/石化铁牛/焚化铜牛.htm#Brazen_Gorgon">焚化铜牛Brazen Gorgon</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="中型 龙类 无 2" monster="青铜龙雏龙Bronze Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/青铜龙/青铜龙雏龙.htm#Bronze_Dragon_Wyrmling">青铜龙雏龙Bronze Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 野兽 无 1" monster="棕熊Brown Bear"><TD><a href="怪物图鉴2025/附录A/棕熊.htm#Brown_Bear">棕熊Brown Bear</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 妖精 无 3" monster="熊地精追猎者Bugbear Stalker"><TD><a href="怪物图鉴2025/妖精/熊地精/熊地精追猎者.htm#Bugbear_Stalker">熊地精追猎者Bugbear Stalker</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 妖精 无 1" monster="熊地精武者Bugbear Warrior"><TD><a href="怪物图鉴2025/妖精/熊地精/熊地精武者.htm#Bugbear_Warrior">熊地精武者Bugbear Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 怪兽 无 5" monster="鲨蜥Bulette"><TD><a href="怪物图鉴2025/怪兽/鲨蜥/鲨蜥.htm#Bulette">鲨蜥Bulette</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 2" monster="鲨蜥仔Bulette Pup"><TD><a href="怪物图鉴2025/怪兽/鲨蜥/鲨蜥仔.htm#Bulette_Pup">鲨蜥仔Bulette Pup</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 妖精 无 4" monster="啵灵蛙沼地大贤Bullywug Bog Sage"><TD><a href="怪物图鉴2025/妖精/啵灵蛙/啵灵蛙沼地大贤.htm#Bullywug_Bog_Sage">啵灵蛙沼地大贤Bullywug Bog Sage</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 妖精 无 1/4" monster="啵灵蛙武者Bullywug Warrior"><TD><a href="怪物图鉴2025/妖精/啵灵蛙/啵灵蛙武者.htm#Bullywug_Warrior">啵灵蛙武者Bullywug Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 邪魔 无 5" monster="坎比翁Cambion"><TD><a href="怪物图鉴2025/邪魔/坎比翁.htm#Cambion">坎比翁Cambion</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 野兽 无 1/8" monster="骆驼Camel"><TD><a href="怪物图鉴2025/附录A/骆驼.htm#Camel">骆驼Camel</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="大型 怪兽 无 2" monster="食腐虫Carrion Crawler"><TD><a href="怪物图鉴2025/怪兽/食腐虫.htm#Carrion_Crawler">食腐虫Carrion Crawler</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="微型 野兽 无 0" monster="猫Cat"><TD><a href="怪物图鉴2025/附录A/猫.htm#Cat">猫Cat</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 妖精 无 2" monster="人马骠骑Centaur Trooper"><TD><a href="怪物图鉴2025/妖精/人马/人马骠骑.htm#Centaur_Trooper">人马骠骑Centaur Trooper</a></TD><TD>大型</TD><TD>妖精</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 妖精 无 7" monster="人马守望者Centaur Warden"><TD><a href="怪物图鉴2025/妖精/人马/人马守望者.htm#Centaur_Warden">人马守望者Centaur Warden</a></TD><TD>大型</TD><TD>妖精</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 邪魔 无 8" monster="链魔Chain Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/链魔.htm#Chain_Devil">链魔Chain Devil</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 邪魔 无 6" monster="喀嘶魔Chasme"><TD><a href="怪物图鉴2025/邪魔/恶魔/喀嘶魔.htm#Chasme">喀嘶魔Chasme</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 怪兽 无 6" monster="奇美拉Chimera"><TD><a href="怪物图鉴2025/怪兽/奇美拉.htm#Chimera">奇美拉Chimera</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 异怪 无 4" monster="甲伏怪Chuul"><TD><a href="怪物图鉴2025/异怪/甲伏怪.htm#Chuul">甲伏怪Chuul</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="大型 构装 无 9" monster="黏土魔像Clay Golem"><TD><a href="怪物图鉴2025/构装/魔像/黏土魔像.htm#Clay_Golem">黏土魔像Clay Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="大型 异怪 无 8" monster="斗篷怪Cloaker"><TD><a href="怪物图鉴2025/异怪/斗篷怪.htm#Cloaker">斗篷怪Cloaker</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="巨型 巨人 无 9" monster="云巨人Cloud Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/云巨人.htm#Cloud_Giant">云巨人Cloud Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="小型 怪兽 无 1/2" monster="蛇鸡Cockatrice"><TD><a href="怪物图鉴2025/怪兽/蛇鸡/蛇鸡.htm#Cockatrice">蛇鸡Cockatrice</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 怪兽 无 8" monster="蛇鸡王Cockatrice Regent"><TD><a href="怪物图鉴2025/怪兽/蛇鸡/蛇鸡王.htm#Cockatrice_Regent">蛇鸡王Cockatrice Regent</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="巨型 构装 有 25" monster="巨神兵Colossus"><TD><a href="怪物图鉴2025/多类型/泰坦/巨神兵.htm#Colossus">巨神兵Colossus</a></TD><TD>巨型</TD><TD>构装</TD><TD>有</TD><TD>25</TD></TR>
+<TR tags="小型 类人 无 0" monster="平民Commoner"><TD><a href="怪物图鉴2025/类人/平民.htm#Commoner">平民Commoner</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="蟒蛇Constrictor Snake"><TD><a href="怪物图鉴2025/附录A/蟒蛇.htm#Constrictor_Snake">蟒蛇Constrictor Snake</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 龙类 无 1" monster="赤铜龙雏龙Copper Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/赤铜龙/赤铜龙雏龙.htm#Copper_Dragon_Wyrmling">赤铜龙雏龙Copper Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 天族 无 4" monster="羽蛇Couatl"><TD><a href="怪物图鉴2025/天族/羽蛇.htm#Couatl">羽蛇Couatl</a></TD><TD>中型</TD><TD>天族</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蟹Crab"><TD><a href="怪物图鉴2025/附录A/蟹.htm#Crab">蟹Crab</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="微型 亡灵 无 0" monster="蠕行之爪Crawling Claw"><TD><a href="怪物图鉴2025/亡灵/蠕行之爪/蠕行之爪.htm#Crawling_Claw">蠕行之爪Crawling Claw</a></TD><TD>微型</TD><TD>亡灵</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 野兽 无 1/2" monster="鳄鱼Crocodile"><TD><a href="怪物图鉴2025/附录A/鳄鱼.htm#Crocodile">鳄鱼Crocodile</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 1/8" monster="邪教徒Cultist"><TD><a href="怪物图鉴2025/类人/邪教徒/邪教徒.htm#Cultist">邪教徒Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 2" monster="邪教狂信者Cultist Fanatic"><TD><a href="怪物图鉴2025/类人/邪教徒/邪教狂信者.htm#Cultist_Fanatic">邪教狂信者Cultist Fanatic</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 类人 无 10" monster="邪教教宗Cultist Hierophant"><TD><a href="怪物图鉴2025/类人/邪教徒/邪教教宗.htm#Cultist_Hierophant">邪教教宗Cultist Hierophant</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="巨型 巨人 无 10" monster="独眼巨人先知Cyclops Oracle"><TD><a href="怪物图鉴2025/巨人/独眼巨人/独眼巨人先知.htm#Cyclops_Oracle">独眼巨人先知Cyclops Oracle</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="巨型 巨人 无 6" monster="独眼巨人哨卫Cyclops Sentry"><TD><a href="怪物图鉴2025/巨人/独眼巨人/独眼巨人哨卫.htm#Cyclops_Sentry">独眼巨人哨卫Cyclops Sentry</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 元素 无 11" monster="土巨灵Dao"><TD><a href="怪物图鉴2025/元素/巨灵/土巨灵.htm#Dao">土巨灵Dao</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="小型 异怪 无 1/2" monster="暗幕魔兽Darkmantle"><TD><a href="怪物图鉴2025/异怪/暗幕魔兽.htm#Darkmantle">暗幕魔兽Darkmantle</a></TD><TD>小型</TD><TD>异怪</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 8" monster="死亡邪教徒Death Cultist"><TD><a href="怪物图鉴2025/类人/邪教徒/死亡邪教徒.htm#Death_Cultist">死亡邪教徒Death Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 怪兽 无 1" monster="亡命恶犬Death Dog"><TD><a href="怪物图鉴2025/怪兽/亡命恶犬.htm#Death_Dog">亡命恶犬Death Dog</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 亡灵 有 17" monster="死亡骑士Death Knight"><TD><a href="怪物图鉴2025/亡灵/死亡骑士/死亡骑士.htm#Death_Knight">死亡骑士Death Knight</a></TD><TD>小型</TD><TD>亡灵</TD><TD>有</TD><TD>17</TD></TR>
+<TR tags="小型 亡灵 无 11" monster="死亡骑士志从Death Knight Aspirant"><TD><a href="怪物图鉴2025/亡灵/死亡骑士/死亡骑士志从.htm#Death_Knight_Aspirant">死亡骑士志从Death Knight Aspirant</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="中型 异怪 无 10" monster="史拉亡蟾Death Slaad"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉亡蟾.htm#Death_Slaad">史拉亡蟾Death Slaad</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 亡灵 有 14" monster="亡眼暴君Death Tyrant"><TD><a href="怪物图鉴2025/多类型/眼魔/亡眼暴君.htm#Death_Tyrant">亡眼暴君Death Tyrant</a></TD><TD>大型</TD><TD>亡灵</TD><TD>有</TD><TD>14</TD></TR>
+<TR tags="中型 野兽 无 0" monster="鹿Deer"><TD><a href="怪物图鉴2025/附录A/鹿.htm#Deer">鹿Deer</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="微型 亡灵 有 18" monster="半巫妖Demilich"><TD><a href="怪物图鉴2025/亡灵/半巫妖.htm#Demilich">半巫妖Demilich</a></TD><TD>微型</TD><TD>亡灵</TD><TD>有</TD><TD>18</TD></TR>
+<TR tags="中型 天族 无 10" monster="天神使徒Deva"><TD><a href="怪物图鉴2025/天族/天使/天神使徒.htm#Deva">天神使徒Deva</a></TD><TD>中型</TD><TD>天族</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 野兽 无 1" monster="恐狼Dire Wolf"><TD><a href="怪物图鉴2025/附录A/恐狼.htm#Dire_Wolf">恐狼Dire Wolf</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="巨型 妖精 无 10" monster="恐座狼Dire Worg"><TD><a href="怪物图鉴2025/妖精/座狼/恐座狼.htm#Dire_Worg">恐座狼Dire Worg</a></TD><TD>巨型</TD><TD>妖精</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="移位兽Displacer Beast"><TD><a href="怪物图鉴2025/怪兽/移位兽.htm#Displacer_Beast">移位兽Displacer Beast</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 元素 无 11" monster="气巨灵Djinni"><TD><a href="怪物图鉴2025/元素/巨灵/气巨灵.htm#Djinni">气巨灵Djinni</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="变形怪Doppelganger"><TD><a href="怪物图鉴2025/怪兽/变形怪.htm#Doppelganger">变形怪Doppelganger</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="巨型 亡灵 有 17" monster="龙巫妖Dracolich"><TD><a href="怪物图鉴2025/亡灵/龙巫妖.htm#Dracolich">龙巫妖Dracolich</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>有</TD><TD>17</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="驮用马Draft Horse"><TD><a href="怪物图鉴2025/附录A/驮用马.htm#Draft_Horse">驮用马Draft Horse</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 龙类 无 17" monster="龙龟Dragon Turtle"><TD><a href="怪物图鉴2025/龙类/龙龟.htm#Dragon_Turtle">龙龟Dragon Turtle</a></TD><TD>巨型</TD><TD>龙类</TD><TD>无</TD><TD>17</TD></TR>
+<TR tags="小型 邪魔 无 1/4" monster="怯魔Dretch"><TD><a href="怪物图鉴2025/邪魔/恶魔/怯魔/怯魔.htm#Dretch">怯魔Dretch</a></TD><TD>小型</TD><TD>邪魔</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 怪兽 无 6" monster="蛛化卓尔Drider"><TD><a href="怪物图鉴2025/怪兽/蛛化卓尔.htm#Drider">蛛化卓尔Drider</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="小型 类人 无 2" monster="德鲁伊Druid"><TD><a href="怪物图鉴2025/类人/德鲁伊.htm#Druid">德鲁伊Druid</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 妖精 无 1" monster="树精Dryad"><TD><a href="怪物图鉴2025/妖精/树精.htm#Dryad">树精Dryad</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 元素 无 1/2" monster="尘魔蝠Dust Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/尘魔蝠.htm#Dust_Mephit">尘魔蝠Dust Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 野兽 无 0" monster="鹰Eagle"><TD><a href="怪物图鉴2025/附录A/鹰.htm#Eagle">鹰Eagle</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 元素 无 5" monster="土元素Earth Elemental"><TD><a href="怪物图鉴2025/元素/四元素/土元素.htm#Earth_Elemental">土元素Earth Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 元素 无 11" monster="火巨灵Efreeti"><TD><a href="怪物图鉴2025/元素/巨灵/火巨灵.htm#Efreeti">火巨灵Efreeti</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="巨型 元素 无 22" monster="元初天劫Elemental Cataclysm"><TD><a href="怪物图鉴2025/多类型/泰坦/元初天劫.htm#Elemental_Cataclysm">元初天劫Elemental Cataclysm</a></TD><TD>巨型</TD><TD>元素</TD><TD>无</TD><TD>22</TD></TR>
+<TR tags="小型 类人 无 8" monster="元素邪教徒Elemental Cultist"><TD><a href="怪物图鉴2025/类人/邪教徒/元素邪教徒.htm#Elemental_Cultist">元素邪教徒Elemental Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="巨型 野兽 无 4" monster="象Elephant"><TD><a href="怪物图鉴2025/附录A/象.htm#Elephant">象Elephant</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="赤鹿Elk"><TD><a href="怪物图鉴2025/附录A/赤鹿.htm#Elk">赤鹿Elk</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 天族 有 23" monster="至高天Empyrean"><TD><a href="怪物图鉴2025/多类型/泰坦/至高天.htm#Empyrean">至高天Empyrean</a></TD><TD>巨型</TD><TD>天族</TD><TD>有</TD><TD>23</TD></TR>
+<TR tags="中型 天族 无 1" monster="至高天微尘Empyrean Iota"><TD><a href="怪物图鉴2025/多类型/泰坦/至高天微尘.htm#Empyrean_Iota">至高天微尘Empyrean Iota</a></TD><TD>中型</TD><TD>天族</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 邪魔 无 12" monster="罪魔Erinyes"><TD><a href="怪物图鉴2025/邪魔/魔鬼/罪魔.htm#Erinyes">罪魔Erinyes</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="中型 怪兽 无 2" monster="伊特怪Ettercap"><TD><a href="怪物图鉴2025/怪兽/伊特怪.htm#Ettercap">伊特怪Ettercap</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 巨人 无 4" monster="双头巨人Ettin"><TD><a href="怪物图鉴2025/巨人/双头巨人.htm#Ettin">双头巨人Ettin</a></TD><TD>大型</TD><TD>巨人</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="微型 龙类 无 2" monster="妖精龙成体Faerie Dragon Adult"><TD><a href="怪物图鉴2025/龙类/妖精龙/妖精龙成体.htm#Faerie_Dragon_Adult">妖精龙成体Faerie Dragon Adult</a></TD><TD>微型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="微型 龙类 无 1" monster="妖精龙青年体Faerie Dragon Youth"><TD><a href="怪物图鉴2025/龙类/妖精龙/妖精龙青年体.htm#Faerie_Dragon_Youth">妖精龙青年体Faerie Dragon Youth</a></TD><TD>微型</TD><TD>龙类</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 类人 无 8" monster="邪魔邪教徒Fiend Cultist"><TD><a href="怪物图鉴2025/类人/邪教徒/邪魔邪教徒.htm#Fiend_Cultist">邪魔邪教徒Fiend Cultist</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 元素 无 5" monster="火元素Fire Elemental"><TD><a href="怪物图鉴2025/元素/四元素/火元素.htm#Fire_Elemental">火元素Fire Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="巨型 巨人 无 9" monster="火巨人Fire Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/火巨人.htm#Fire_Giant">火巨人Fire Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="微型 亡灵 无 4" monster="燃焰之颅Flameskull"><TD><a href="怪物图鉴2025/亡灵/燃焰之颅.htm#Flameskull">燃焰之颅Flameskull</a></TD><TD>微型</TD><TD>亡灵</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 亡灵 无 3" monster="燃火骷髅Flaming Skeleton"><TD><a href="怪物图鉴2025/亡灵/骷髅/燃火骷髅.htm#Flaming_Skeleton">燃火骷髅Flaming Skeleton</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 构装 无 5" monster="血肉魔像Flesh Golem"><TD><a href="怪物图鉴2025/构装/魔像/血肉魔像.htm#Flesh_Golem">血肉魔像Flesh Golem</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="小型 异怪 无 1/8" monster="呋噜Flumph"><TD><a href="怪物图鉴2025/异怪/呋噜.htm#Flumph">呋噜Flumph</a></TD><TD>小型</TD><TD>异怪</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="微型 怪兽 无 1/8" monster="飞蛇Flying Snake"><TD><a href="怪物图鉴2025/附录A/怪兽/飞蛇.htm#Flying_Snake">飞蛇Flying Snake</a></TD><TD>微型</TD><TD>怪兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="巨型 巨人 无 8" monster="废陋巨人Fomorian"><TD><a href="怪物图鉴2025/巨人/废陋巨人.htm#Fomorian">废陋巨人Fomorian</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蛙Frog"><TD><a href="怪物图鉴2025/附录A/蛙.htm#Frog">蛙Frog</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="巨型 巨人 无 8" monster="霜巨人Frost Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/霜巨人.htm#Frost_Giant">霜巨人Frost Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 元素 无 6" monster="石人Galeb Duhr"><TD><a href="怪物图鉴2025/元素/石人.htm#Galeb_Duhr">石人Galeb Duhr</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 元素 无 2" monster="石像鬼Gargoyle"><TD><a href="怪物图鉴2025/元素/石像鬼.htm#Gargoyle">石像鬼Gargoyle</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 植物 无 1/2" monster="气孢菌Gas Spore Fungus"><TD><a href="怪物图鉴2025/植物/真菌/气孢菌.htm#Gas_Spore_Fungus">气孢菌Gas Spore Fungus</a></TD><TD>大型</TD><TD>植物</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 泥怪 无 2" monster="凝胶方块 Gelatinous Cube"><TD><a href="怪物图鉴2025/泥怪/凝胶方块.htm#Gelatinous_Cube">凝胶方块 Gelatinous Cube</a></TD><TD>大型</TD><TD>泥怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 亡灵 无 2" monster="妖鬼Ghast"><TD><a href="怪物图鉴2025/亡灵/妖鬼/妖鬼.htm#Ghast">妖鬼Ghast</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 亡灵 无 6" monster="妖鬼坟语者Ghast Gravecaller"><TD><a href="怪物图鉴2025/亡灵/妖鬼/妖鬼坟语者.htm#Ghast_Gravecaller">妖鬼坟语者Ghast Gravecaller</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 亡灵 无 4" monster="幽魂Ghost"><TD><a href="怪物图鉴2025/亡灵/幽魂.htm#Ghost">幽魂Ghost</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 亡灵 无 1" monster="食尸鬼Ghoul"><TD><a href="怪物图鉴2025/亡灵/食尸鬼/食尸鬼.htm#Ghoul">食尸鬼Ghoul</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="巨型 野兽 无 7" monster="巨猿Giant Ape"><TD><a href="怪物图鉴2025/附录A/巨猿.htm#Giant_Ape">巨猿Giant Ape</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="巨型 怪兽 无 5" monster="巨斧嘴鸟Giant Axe Beak"><TD><a href="怪物图鉴2025/怪兽/斧嘴鸟/巨斧嘴鸟.htm#Giant_Axe_Beak">巨斧嘴鸟Giant Axe Beak</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="巨獾Giant Badger"><TD><a href="怪物图鉴2025/附录A/巨獾.htm#Giant_Badger">巨獾Giant Badger</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="巨蝙蝠Giant Bat"><TD><a href="怪物图鉴2025/附录A/巨蝙蝠.htm#Giant_Bat">巨蝙蝠Giant Bat</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 野兽 无 2" monster="巨野猪Giant Boar"><TD><a href="怪物图鉴2025/附录A/巨野猪.htm#Giant_Boar">巨野猪Giant Boar</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 野兽 无 1/4" monster="巨蜈蚣Giant Centipede"><TD><a href="怪物图鉴2025/附录A/巨蜈蚣.htm#Giant_Centipede">巨蜈蚣Giant Centipede</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 野兽 无 2" monster="巨蟒蛇Giant Constrictor Snake"><TD><a href="怪物图鉴2025/附录A/巨蟒蛇.htm#Giant_Constrictor_Snake">巨蟒蛇Giant Constrictor Snake</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 野兽 无 1/8" monster="巨蟹Giant Crab"><TD><a href="怪物图鉴2025/附录A/巨蟹.htm#Giant_Crab">巨蟹Giant Crab</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="巨型 野兽 无 5" monster="巨鳄鱼Giant Crocodile"><TD><a href="怪物图鉴2025/附录A/巨鳄鱼.htm#Giant_Crocodile">巨鳄鱼Giant Crocodile</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 天族 无 1" monster="巨鹰Giant Eagle"><TD><a href="怪物图鉴2025/附录A/天族/巨鹰.htm#Giant_Eagle">巨鹰Giant Eagle</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="巨型 天族 无 2" monster="巨赤鹿Giant Elk"><TD><a href="怪物图鉴2025/附录A/天族/巨赤鹿.htm#Giant_Elk">巨赤鹿Giant Elk</a></TD><TD>巨型</TD><TD>天族</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 野兽 无 0" monster="巨火甲虫Giant Fire Beetle"><TD><a href="怪物图鉴2025/附录A/巨火甲虫.htm#Giant_Fire_Beetle">巨火甲虫Giant Fire Beetle</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="巨蛙Giant Frog"><TD><a href="怪物图鉴2025/附录A/巨蛙.htm#Giant_Frog">巨蛙Giant Frog</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 野兽 无 1/2" monster="巨山羊Giant Goat"><TD><a href="怪物图鉴2025/附录A/巨山羊.htm#Giant_Goat">巨山羊Giant Goat</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 野兽 无 1" monster="巨鬣狗Giant Hyena"><TD><a href="怪物图鉴2025/附录A/巨鬣狗.htm#Giant_Hyena">巨鬣狗Giant Hyena</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="巨蜥蜴Giant Lizard"><TD><a href="怪物图鉴2025/附录A/巨蜥蜴.htm#Giant_Lizard">巨蜥蜴Giant Lizard</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 野兽 无 1" monster="巨章鱼Giant Octopus"><TD><a href="怪物图鉴2025/附录A/巨章鱼.htm#Giant_Octopus">巨章鱼Giant Octopus</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 天族 无 1/4" monster="巨猫头鹰Giant Owl"><TD><a href="怪物图鉴2025/附录A/天族/巨猫头鹰.htm#Giant_Owl">巨猫头鹰Giant Owl</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="小型 野兽 无 1/8" monster="巨鼠Giant Rat"><TD><a href="怪物图鉴2025/附录A/巨鼠.htm#Giant_Rat">巨鼠Giant Rat</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="大型 野兽 无 3" monster="巨蝎Giant Scorpion"><TD><a href="怪物图鉴2025/附录A/巨蝎.htm#Giant_Scorpion">巨蝎Giant Scorpion</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 野兽 无 1/2" monster="巨海马Giant Seahorse"><TD><a href="怪物图鉴2025/附录A/巨海马.htm#Giant_Seahorse">巨海马Giant Seahorse</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="巨型 野兽 无 5" monster="巨鲨Giant Shark"><TD><a href="怪物图鉴2025/附录A/巨鲨.htm#Giant_Shark">巨鲨Giant Shark</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 野兽 无 1" monster="巨蜘蛛Giant Spider"><TD><a href="怪物图鉴2025/附录A/巨蜘蛛.htm#Giant_Spider">巨蜘蛛Giant Spider</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="巨型 野兽 无 6" monster="巨乌贼Giant Squid"><TD><a href="怪物图鉴2025/附录A/巨乌贼.htm#Giant_Squid">巨乌贼Giant Squid</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 野兽 无 1" monster="巨蟾蜍Giant Toad"><TD><a href="怪物图鉴2025/附录A/巨蟾蜍.htm#Giant_Toad">巨蟾蜍Giant Toad</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="巨毒蛇Giant Venomous Snake"><TD><a href="怪物图鉴2025/附录A/巨毒蛇.htm#Giant_Venomous_Snake">巨毒蛇Giant Venomous Snake</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 怪兽 无 1" monster="巨秃鹫Giant Vulture"><TD><a href="怪物图鉴2025/附录A/怪兽/巨秃鹫.htm#Giant_Vulture">巨秃鹫Giant Vulture</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 野兽 无 1/2" monster="巨黄蜂Giant Wasp"><TD><a href="怪物图鉴2025/附录A/巨黄蜂.htm#Giant_Wasp">巨黄蜂Giant Wasp</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 野兽 无 1/8" monster="巨鼬Giant Weasel"><TD><a href="怪物图鉴2025/附录A/巨鼬.htm#Giant_Weasel">巨鼬Giant Weasel</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="巨狼蛛Giant Wolf Spider"><TD><a href="怪物图鉴2025/附录A/巨狼蛛.htm#Giant_Wolf_Spider">巨狼蛛Giant Wolf Spider</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 异怪 无 2" monster="呓语之口Gibbering Mouther"><TD><a href="怪物图鉴2025/异怪/呓语之口.htm#Gibbering_Mouther">呓语之口Gibbering Mouther</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 异怪 无 16" monster="吉斯洋基龙巫Githyanki Dracomancer"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯洋基龙巫.htm#Githyanki_Dracomancer">吉斯洋基龙巫Githyanki Dracomancer</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>16</TD></TR>
+<TR tags="中型 异怪 无 8" monster="吉斯洋基骑士Githyanki Knight"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯洋基骑士.htm#Githyanki_Knight">吉斯洋基骑士Githyanki Knight</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 异怪 无 3" monster="吉斯洋基武者Githyanki Warrior"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯洋基武者.htm#Githyanki_Warrior">吉斯洋基武者Githyanki Warrior</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 异怪 无 2" monster="吉斯泽莱武僧Githzerai Monk"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯泽莱武僧.htm#Githzerai_Monk">吉斯泽莱武僧Githzerai Monk</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 异怪 无 12" monster="吉斯泽莱灵能使Githzerai Psion"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯泽莱灵能使.htm#Githzerai_Psion">吉斯泽莱灵能使Githzerai Psion</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="中型 异怪 无 6" monster="吉斯泽莱泽锡修士Githzerai Zerth"><TD><a href="怪物图鉴2025/异怪/吉斯人/吉斯泽莱泽锡修士.htm#Githzerai_Zerth">吉斯泽莱泽锡修士Githzerai Zerth</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 邪魔 无 9" monster="迷诱魔Glabrezu"><TD><a href="怪物图鉴2025/邪魔/恶魔/迷诱魔.htm#Glabrezu">迷诱魔Glabrezu</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="小型 类人 无 5" monster="角斗士Gladiator"><TD><a href="怪物图鉴2025/类人/角斗士.htm#Gladiator">角斗士Gladiator</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 邪魔 无 8" monster="鬣狗人魔头Gnoll Demoniac"><TD><a href="怪物图鉴2025/邪魔/鬣狗人/鬣狗人魔头.htm#Gnoll_Demoniac">鬣狗人魔头Gnoll Demoniac</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 邪魔 无 4" monster="鬣狗人耶诺古之牙Gnoll Fang of Yeenoghu"><TD><a href="怪物图鉴2025/邪魔/鬣狗人/鬣狗人耶诺古之牙.htm#Gnoll_Fang_of_Yeenoghu">鬣狗人耶诺古之牙Gnoll Fang of Yeenoghu</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 邪魔 无 2" monster="鬣狗人头目Gnoll Pack Lord"><TD><a href="怪物图鉴2025/邪魔/鬣狗人/鬣狗人头目.htm#Gnoll_Pack_Lord">鬣狗人头目Gnoll Pack Lord</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 邪魔 无 1/2" monster="鬣狗人武者Gnoll Warrior"><TD><a href="怪物图鉴2025/邪魔/鬣狗人/鬣狗人武者.htm#Gnoll_Warrior">鬣狗人武者Gnoll Warrior</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 野兽 无 0" monster="山羊Goat"><TD><a href="怪物图鉴2025/附录A/山羊.htm#Goat">山羊Goat</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 妖精 无 1" monster="地精老大Goblin Boss"><TD><a href="怪物图鉴2025/妖精/地精/地精老大.htm#Goblin_Boss">地精老大Goblin Boss</a></TD><TD>小型</TD><TD>妖精</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 妖精 无 3" monster="地精咒术师Goblin Hexer"><TD><a href="怪物图鉴2025/妖精/地精/地精咒术师.htm#Goblin_Hexer">地精咒术师Goblin Hexer</a></TD><TD>小型</TD><TD>妖精</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 妖精 无 1/8" monster="地精喽Goblin Minion"><TD><a href="怪物图鉴2025/妖精/地精/地精喽啰.htm#Goblin_Minion">地精喽Goblin Minion</a></TD><TD>小型</TD><TD>妖精</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 妖精 无 1/4" monster="地精武者Goblin Warrior"><TD><a href="怪物图鉴2025/妖精/地精/地精武者.htm#Goblin_Warrior">地精武者Goblin Warrior</a></TD><TD>小型</TD><TD>妖精</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 龙类 无 3" monster="金龙雏龙Gold Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/金龙/New_Item.htm#Gold_Dragon_Wyrmling">金龙雏龙Gold Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 构装 无 5" monster="石化铁牛Gorgon"><TD><a href="怪物图鉴2025/构装/石化铁牛/石化铁牛.htm#Gorgon">石化铁牛Gorgon</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="巨型 邪魔 无 17" monster="巨牛魔Goristro"><TD><a href="怪物图鉴2025/邪魔/恶魔/巨牛魔.htm#Goristro">巨牛魔Goristro</a></TD><TD>巨型</TD><TD>邪魔</TD><TD>无</TD><TD>17</TD></TR>
+<TR tags="巨型 亡灵 无 7" monster="还魂尸山Graveyard Revenant"><TD><a href="怪物图鉴2025/亡灵/还魂鬼/还魂尸山.htm#Graveyard_Revenant">还魂尸山Graveyard Revenant</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 泥怪 无 1/2" monster="灰泥怪Gray Ooze"><TD><a href="怪物图鉴2025/泥怪/灰泥怪/灰泥怪.htm#Gray_Ooze">灰泥怪Gray Ooze</a></TD><TD>中型</TD><TD>泥怪</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 异怪 无 9" monster="史拉灰蟾Gray Slaad"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉灰蟾.htm#Gray_Slaad">史拉灰蟾Gray Slaad</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="中型 龙类 无 2" monster="绿龙雏龙Green Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/绿龙/绿龙雏龙.htm#Green_Dragon_Wyrmling">绿龙雏龙Green Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 妖精 无 3" monster="绿鬼婆Green Hag"><TD><a href="怪物图鉴2025/多类型/鬼婆/绿鬼婆.htm#Green_Hag">绿鬼婆Green Hag</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 异怪 无 8" monster="史拉绿蟾Green Slaad"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉绿蟾.htm#Green_Slaad">史拉绿蟾Green Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 异怪 无 3" monster="触须怪Grell"><TD><a href="怪物图鉴2025/异怪/触须怪.htm#Grell">触须怪Grell</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 异怪 无 2" monster="穴居攫怪Grick"><TD><a href="怪物图鉴2025/异怪/穴居攫怪/穴居攫怪.htm#Grick">穴居攫怪Grick</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 异怪 无 7" monster="远古穴居攫怪Grick Ancient"><TD><a href="怪物图鉴2025/异怪/穴居攫怪/远古穴居攫怪.htm#Grick_Ancient">远古穴居攫怪Grick Ancient</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 怪兽 无 2" monster="狮鹫Griffon"><TD><a href="怪物图鉴2025/怪兽/狮鹫.htm#Griffon">狮鹫Griffon</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 异怪 无 1/4" monster="幽邃盲族Grimlock"><TD><a href="怪物图鉴2025/异怪/幽邃盲族.htm#Grimlock">幽邃盲族Grimlock</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="小型 类人 无 1/8" monster="警卫Guard"><TD><a href="怪物图鉴2025/类人/警卫/警卫.htm#Guard">警卫Guard</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 4" monster="警卫队长Guard Captain"><TD><a href="怪物图鉴2025/类人/警卫/警卫队长.htm#Guard_Captain">警卫队长Guard Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="大型 天族 无 10" monster="守秘纳迦Guardian Naga"><TD><a href="怪物图鉴2025/多类型/纳迦/守秘纳迦.htm#Guardian_Naga">守秘纳迦Guardian Naga</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="巨型 植物 无 16" monster="甘提亚斯枯殖巨树Gulthias Blight"><TD><a href="怪物图鉴2025/植物/枯萎怪/甘提亚斯枯殖巨树.htm#Gulthias_Blight">甘提亚斯枯殖巨树Gulthias Blight</a></TD><TD>巨型</TD><TD>植物</TD><TD>无</TD><TD>16</TD></TR>
+<TR tags="中型 龙类 无 5" monster="半龙Half-Dragon"><TD><a href="怪物图鉴2025/龙类/半龙.htm#Half-Dragon">半龙Half-Dragon</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 1" monster="鸟妖Harpy"><TD><a href="怪物图鉴2025/怪兽/鸟妖.htm#Harpy">鸟妖Harpy</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="巨型 亡灵 无 10" monster="还魂巨构Haunting Revenant"><TD><a href="怪物图鉴2025/亡灵/还魂鬼/还魂巨构.htm#Haunting_Revenant">还魂巨构Haunting Revenant</a></TD><TD>巨型</TD><TD>亡灵</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="微型 野兽 无 0" monster="隼Hawk"><TD><a href="怪物图鉴2025/附录A/隼.htm#Hawk">隼Hawk</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 邪魔 无 3" monster="地狱犬Hell Hound"><TD><a href="怪物图鉴2025/邪魔/地狱犬.htm#Hell_Hound">地狱犬Hell Hound</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 构装 无 0" monster="恐怖铠甲Helmed Horror"><TD><a href="怪物图鉴2025/构装/恐怖铠甲.htm#Helmed_Horror">恐怖铠甲Helmed Horror</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 邪魔 无 8" monster="狂蟾魔Hezrou"><TD><a href="怪物图鉴2025/邪魔/恶魔/狂蟾魔.htm#Hezrou">狂蟾魔Hezrou</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="巨型 巨人 无 5" monster="山丘巨人Hill Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/山丘巨人.htm#Hill_Giant">山丘巨人Hill Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 怪兽 无 1" monster="骏鹰Hippogriff"><TD><a href="怪物图鉴2025/怪兽/骏鹰.htm#Hippogriff">骏鹰Hippogriff</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 野兽 无 4" monster="河马Hippopotamus"><TD><a href="怪物图鉴2025/附录A/河马.htm#Hippopotamus">河马Hippopotamus</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 妖精 无 3" monster="大地精长官Hobgoblin Captain"><TD><a href="怪物图鉴2025/妖精/大地精/大地精长官.htm#Hobgoblin_Captain">大地精长官Hobgoblin Captain</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 妖精 无 6" monster="大地精军阀Hobgoblin Warlord"><TD><a href="怪物图鉴2025/妖精/大地精/大地精军阀.htm#Hobgoblin_Warlord">大地精军阀Hobgoblin Warlord</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 妖精 无 1/2" monster="大地精武者Hobgoblin Warrior"><TD><a href="怪物图鉴2025/妖精/大地精/大地精武者.htm#Hobgoblin_Warrior">大地精武者Hobgoblin Warrior</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="微型 构装 无 0" monster="人工生命体Homunculus"><TD><a href="怪物图鉴2025/构装/人工生命体.htm#Homunculus">人工生命体Homunculus</a></TD><TD>微型</TD><TD>构装</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="恐爪怪Hook Horror"><TD><a href="怪物图鉴2025/怪兽/恐爪怪.htm#Hook_Horror">恐爪怪Hook Horror</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 邪魔 无 11" monster="角魔Horned Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/角魔.htm#Horned_Devil">角魔Horned Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="大型 野兽 无 2" monster="寻猎鲨Hunter Shark"><TD><a href="怪物图鉴2025/附录A/寻猎鲨.htm#Hunter_Shark">寻猎鲨Hunter Shark</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="巨型 怪兽 无 8" monster="多头蛇Hydra"><TD><a href="怪物图鉴2025/怪兽/多头蛇.htm#Hydra">多头蛇Hydra</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 野兽 无 0" monster="鬣狗Hyena"><TD><a href="怪物图鉴2025/附录A/鬣狗.htm#Hyena">鬣狗Hyena</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 邪魔 无 14" monster="冰魔Ice Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/冰魔.htm#Ice_Devil">冰魔Ice Devil</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>14</TD></TR>
+<TR tags="小型 元素 无 1/2" monster="冰魔蝠Ice Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/冰魔蝠.htm#Ice_Mephit">冰魔蝠Ice Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="微型 邪魔 无 1" monster="小魔鬼Imp"><TD><a href="怪物图鉴2025/邪魔/魔鬼/小魔鬼.htm#Imp">小魔鬼Imp</a></TD><TD>微型</TD><TD>邪魔</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 邪魔 无 4" monster="梦魔Incubus"><TD><a href="怪物图鉴2025/邪魔/梦魔.htm#Incubus">梦魔Incubus</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="微型 异怪 无 2" monster="噬脑怪Intellect Devourer"><TD><a href="怪物图鉴2025/异怪/噬脑怪.htm#Intellect_Devourer">噬脑怪Intellect Devourer</a></TD><TD>微型</TD><TD>异怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 元素 无 6" monster="隐形追猎者Invisible Stalker"><TD><a href="怪物图鉴2025/元素/隐形追猎者.htm#Invisible_Stalker">隐形追猎者Invisible Stalker</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 构装 无 16" monster="铁魔像Iron Golem"><TD><a href="怪物图鉴2025/构装/魔像/铁魔像.htm#Iron_Golem">铁魔像Iron Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>16</TD></TR>
+<TR tags="小型 野兽 无 0" monster="胡狼Jackal"><TD><a href="怪物图鉴2025/附录A/胡狼.htm#Jackal">胡狼Jackal</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 邪魔 无 1/2" monster="化形胡狼Jackalwere"><TD><a href="怪物图鉴2025/邪魔/化形胡狼.htm#Jackalwere">化形胡狼Jackalwere</a></TD><TD>小型</TD><TD>邪魔</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 龙类 无 4" monster="少年幽影龙Juvenile Shadow Dragon"><TD><a href="怪物图鉴2025/龙类/幽影龙/少年幽影龙.htm#Juvenile_Shadow_Dragon">少年幽影龙Juvenile Shadow Dragon</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 怪兽 无 1/4" monster="天狗Kenku"><TD><a href="怪物图鉴2025/怪兽/天狗.htm#Kenku">天狗Kenku</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 野兽 无 3" monster="虎鲸Killer Whale"><TD><a href="怪物图鉴2025/附录A/虎鲸.htm#Killer_Whale">虎鲸Killer Whale</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 类人 无 3" monster="骑士Knight"><TD><a href="怪物图鉴2025/类人/骑士/骑士.htm#Knight">骑士Knight</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 龙类 无 1/8" monster="狗头人武者Kobold Warrior"><TD><a href="怪物图鉴2025/龙类/狗头人/狗头人武者.htm#Kobold_Warrior">狗头人武者Kobold Warrior</a></TD><TD>小型</TD><TD>龙类</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="巨型 怪兽 有 23" monster="克拉肯Kraken"><TD><a href="怪物图鉴2025/多类型/泰坦/克拉肯.htm#Kraken">克拉肯Kraken</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>有</TD><TD>23</TD></TR>
+<TR tags="中型 异怪 无 1/4" monster="寇涛Kuo-toa"><TD><a href="怪物图鉴2025/异怪/寇涛/寇涛.htm#Kuo-toa">寇涛Kuo-toa</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 异怪 无 6" monster="寇涛大祭司Kuo-toa Archpriest"><TD><a href="怪物图鉴2025/异怪/寇涛/寇涛大祭司.htm#Kuo-toa_Archpriest">寇涛大祭司Kuo-toa Archpriest</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 异怪 无 3" monster="寇涛监察者Kuo-toa Monitor"><TD><a href="怪物图鉴2025/异怪/寇涛/寇涛监察者.htm#Kuo-toa_Monitor">寇涛监察者Kuo-toa Monitor</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 异怪 无 1" monster="寇涛驱策者Kuo-toa Whip"><TD><a href="怪物图鉴2025/异怪/寇涛/寇涛驱策者.htm#Kuo-toa_Whip">寇涛驱策者Kuo-toa Whip</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 亡灵 无 1" monster="食尸水鬼Lacedon Ghoul"><TD><a href="怪物图鉴2025/亡灵/食尸水鬼.htm#Lacedon_Ghoul">食尸水鬼Lacedon Ghoul</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 邪魔 无 4" monster="拉迷亚Lamia"><TD><a href="怪物图鉴2025/邪魔/拉迷亚.htm#Lamia">拉迷亚Lamia</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="中型 邪魔 无 0" monster="幼虫魔Larva"><TD><a href="怪物图鉴2025/邪魔/幼虫魔/幼虫魔.htm#Larva">幼虫魔Larva</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 邪魔 无 0" monster="劣魔Lemure"><TD><a href="怪物图鉴2025/邪魔/魔鬼/劣魔/劣魔.htm#Lemure">劣魔Lemure</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 亡灵 有 21" monster="巫妖Lich"><TD><a href="怪物图鉴2025/亡灵/巫妖.htm#Lich">巫妖Lich</a></TD><TD>中型</TD><TD>亡灵</TD><TD>有</TD><TD>21</TD></TR>
+<TR tags="大型 野兽 无 1" monster="狮子Lion"><TD><a href="怪物图鉴2025/附录A/狮子.htm#Lion">狮子Lion</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蜥蜴Lizard"><TD><a href="怪物图鉴2025/附录A/蜥蜴.htm#Lizard">蜥蜴Lizard</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 元素 无 2" monster="蜥蜴人地脉术师Lizardfolk Geomancer"><TD><a href="怪物图鉴2025/元素/蜥蜴人/蜥蜴人地脉术师.htm#Lizardfolk_Geomancer">蜥蜴人地脉术师Lizardfolk Geomancer</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 元素 无 4" monster="蜥蜴人大王Lizardfolk Sovereign"><TD><a href="怪物图鉴2025/元素/蜥蜴人/蜥蜴人大王.htm#Lizardfolk_Sovereign">蜥蜴人大王Lizardfolk Sovereign</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="小型 类人 无 6" monster="魔法师Mage"><TD><a href="怪物图鉴2025/类人/魔法师/魔法师.htm#Mage">魔法师Mage</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="小型 类人 无 2" monster="魔法学徒Mage Apprentice"><TD><a href="怪物图鉴2025/类人/魔法师/魔法学徒.htm#Mage_Apprentice">魔法学徒Mage Apprentice</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 元素 无 1/2" monster="熔岩魔蝠Magma Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/熔岩魔蝠.htm#Magma_Mephit">熔岩魔蝠Magma Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 元素 无 1/2" monster="火童Magmin"><TD><a href="怪物图鉴2025/元素/火童.htm#Magmin">火童Magmin</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="巨型 野兽 无 6" monster="猛犸Mammoth"><TD><a href="怪物图鉴2025/附录A/猛犸.htm#Mammoth">猛犸Mammoth</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="小型 邪魔 无 1/8" monster="原魔Manes"><TD><a href="怪物图鉴2025/邪魔/恶魔/原魔/原魔.htm#Manes">原魔Manes</a></TD><TD>小型</TD><TD>邪魔</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 邪魔 无 1" monster="原魔汽化体Manes Vaporspawn"><TD><a href="怪物图鉴2025/邪魔/恶魔/原魔/原魔汽化体.htm#Manes_Vaporspawn">原魔汽化体Manes Vaporspawn</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="刺尾狮Manticore"><TD><a href="怪物图鉴2025/怪兽/刺尾狮.htm#Manticore">刺尾狮Manticore</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 元素 无 11" monster="水巨灵Marid"><TD><a href="怪物图鉴2025/元素/巨灵/水巨灵.htm#Marid">水巨灵Marid</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="大型 邪魔 无 16" monster="六臂蛇魔Marilith"><TD><a href="怪物图鉴2025/邪魔/恶魔/六臂蛇魔.htm#Marilith">六臂蛇魔Marilith</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>16</TD></TR>
+<TR tags="中型 野兽 无 1/8" monster="獒犬Mastiff"><TD><a href="怪物图鉴2025/附录A/獒犬.htm#Mastiff">獒犬Mastiff</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 怪兽 无 6" monster="美杜莎Medusa"><TD><a href="怪物图鉴2025/怪兽/美杜莎.htm#Medusa">美杜莎Medusa</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 元素 无 1/8" monster="巡海人鱼Merfolk Skirmisher"><TD><a href="怪物图鉴2025/元素/人鱼/巡海人鱼.htm#Merfolk_Skirmisher">巡海人鱼Merfolk Skirmisher</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 元素 无 6" monster="御浪人鱼Merfolk Wavebender"><TD><a href="怪物图鉴2025/元素/人鱼/御浪人鱼.htm#Merfolk_Wavebender">御浪人鱼Merfolk Wavebender</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 怪兽 无 2" monster="梅洛人鱼Merrow"><TD><a href="怪物图鉴2025/怪兽/梅洛人鱼.htm#Merrow">梅洛人鱼Merrow</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 邪魔 无 5" monster="毒虫罗斯魔Mezzoloth"><TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/毒虫罗斯魔.htm#Mezzoloth">毒虫罗斯魔Mezzoloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 2" monster="拟身怪Mimic"><TD><a href="怪物图鉴2025/怪兽/拟身怪.htm#Mimic">拟身怪Mimic</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 异怪 无 7" monster="夺心魔Mind Flayer"><TD><a href="怪物图鉴2025/异怪/夺心魔/夺心魔.htm#Mind_Flayer">夺心魔Mind Flayer</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 异怪 无 11" monster="夺心魔奥术师Mind Flayer Arcanist"><TD><a href="怪物图鉴2025/异怪/夺心魔/夺心魔奥术师.htm#Mind_Flayer_Arcanist">夺心魔奥术师Mind Flayer Arcanist</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="大型 亡灵 无 2" monster="骷髅牛头人Minotaur Skeleton"><TD><a href="怪物图鉴2025/亡灵/骷髅/骷髅牛头人.htm#Minotaur_Skeleton">骷髅牛头人Minotaur Skeleton</a></TD><TD>大型</TD><TD>亡灵</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="巴弗灭的牛头人Minotaur of Baphomet"><TD><a href="怪物图鉴2025/怪兽/巴弗灭的牛头人.htm#Minotaur_of_Baphomet">巴弗灭的牛头人Minotaur of Baphomet</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 构装 无 1/4" monster="魔冢二元冢Modron Duodrone"><TD><a href="怪物图鉴2025/构装/魔冢/魔冢·二元冢.htm#Modron_Duodrone">魔冢二元冢Modron Duodrone</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 构装 无 1/8" monster="魔冢单元冢Modron Monodrone"><TD><a href="怪物图鉴2025/构装/魔冢/魔冢·单元冢.htm#Modron_Monodrone">魔冢单元冢Modron Monodrone</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 构装 无 1" monster="魔冢四元冢Modron Quadrone"><TD><a href="怪物图鉴2025/构装/魔冢/魔冢·四元冢.htm#Modron_Quadrone">魔冢四元冢Modron Quadrone</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 构装 无 1/2" monster="魔冢三元冢Modron Tridrone"><TD><a href="怪物图鉴2025/构装/魔冢/魔冢·三元冢.htm#Modron_Tridrone">魔冢三元冢Modron Tridrone</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 元素 无 1/4" monster="泥魔蝠Mud Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/泥魔蝠.htm#Mud_Mephit">泥魔蝠Mud Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 野兽 无 1/8" monster="骡Mule"><TD><a href="怪物图鉴2025/附录A/骡.htm#Mule">骡Mule</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 亡灵 无 3" monster="木乃伊Mummy"><TD><a href="怪物图鉴2025/亡灵/木乃伊/木乃伊.htm#Mummy">木乃伊Mummy</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 亡灵 无 15" monster="木乃伊领主Mummy Lord"><TD><a href="怪物图鉴2025/亡灵/木乃伊/木乃伊领主.htm#Mummy_Lord">木乃伊领主Mummy Lord</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>15</TD></TR>
+<TR tags="中型 植物 无 1/2" monster="蕈人成体Myconid Adult"><TD><a href="怪物图鉴2025/植物/蕈人/蕈人成体.htm#Myconid_Adult">蕈人成体Myconid Adult</a></TD><TD>中型</TD><TD>植物</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 植物 无 2" monster="蕈人王Myconid Sovereign"><TD><a href="怪物图鉴2025/植物/蕈人/蕈人王.htm#Myconid_Sovereign">蕈人王Myconid Sovereign</a></TD><TD>大型</TD><TD>植物</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 植物 无 1" monster="蕈人孢子奴仆Myconid Spore Servant"><TD><a href="怪物图鉴2025/植物/蕈人/蕈人孢子奴仆.htm#Myconid_Spore_Servant">蕈人孢子奴仆Myconid Spore Servant</a></TD><TD>小型</TD><TD>植物</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 植物 无 0" monster="蕈人幼体Myconid Sprout"><TD><a href="怪物图鉴2025/植物/蕈人/蕈人幼体.htm#Myconid_Sprout">蕈人幼体Myconid Sprout</a></TD><TD>小型</TD><TD>植物</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 邪魔 无 13" monster="判魂魔Nalfeshnee"><TD><a href="怪物图鉴2025/邪魔/恶魔/判魂魔.htm#Nalfeshnee">判魂魔Nalfeshnee</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>13</TD></TR>
+<TR tags="中型 植物 无 1/4" monster="枯针怪Needle Blight"><TD><a href="怪物图鉴2025/植物/枯萎怪/枯针怪.htm#Needle_Blight">枯针怪Needle Blight</a></TD><TD>中型</TD><TD>植物</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 邪魔 无 5" monster="夜鬼婆Night Hag"><TD><a href="怪物图鉴2025/多类型/鬼婆/夜鬼婆.htm#Night_Hag">夜鬼婆Night Hag</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 邪魔 无 3" monster="梦魇Nightmare"><TD><a href="怪物图鉴2025/邪魔/梦魇.htm#Nightmare">梦魇Nightmare</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 类人 无 1/8" monster="贵族Noble"><TD><a href="怪物图鉴2025/类人/贵族/贵族.htm#Noble">贵族Noble</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 10" monster="贵血天骄Noble Prodigy"><TD><a href="怪物图鉴2025/类人/贵族/贵血天骄.htm#Noble_Prodigy">贵血天骄Noble Prodigy</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="中型 异怪 无 2" monster="诺斯怪Nothic"><TD><a href="怪物图鉴2025/异怪/诺斯怪.htm#Nothic">诺斯怪Nothic</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 邪魔 无 9" monster="征伐罗斯魔Nycaloth"><TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/征伐罗斯魔.htm#Nycaloth">征伐罗斯魔Nycaloth</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="大型 泥怪 无 2" monster="赭果冻Ochre Jelly"><TD><a href="怪物图鉴2025/泥怪/赭果冻.htm#Ochre_Jelly">赭果冻Ochre Jelly</a></TD><TD>大型</TD><TD>泥怪</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 野兽 无 0" monster="章鱼Octopus"><TD><a href="怪物图鉴2025/附录A/章鱼.htm#Octopus">章鱼Octopus</a></TD><TD>小型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 巨人 无 2" monster="食人魔Ogre"><TD><a href="怪物图鉴2025/巨人/食人魔/食人魔.htm#Ogre">食人魔Ogre</a></TD><TD>大型</TD><TD>巨人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 亡灵 无 2" monster="食人魔丧尸Ogre Zombie"><TD><a href="怪物图鉴2025/亡灵/丧尸/食人魔丧尸.htm#Ogre_Zombie">食人魔丧尸Ogre Zombie</a></TD><TD>大型</TD><TD>亡灵</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 巨人 无 1" monster="半食人魔Ogrillon Ogre"><TD><a href="怪物图鉴2025/巨人/食人魔/半食人魔.htm#Ogrillon_Ogre">半食人魔Ogrillon Ogre</a></TD><TD>大型</TD><TD>巨人</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 邪魔 无 7" monster="恶鬼Oni"><TD><a href="怪物图鉴2025/邪魔/恶鬼.htm#Oni">恶鬼Oni</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 异怪 无 5" monster="食腐兽Otyugh"><TD><a href="怪物图鉴2025/异怪/食腐兽.htm#Otyugh">食腐兽Otyugh</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="微型 野兽 无 0" monster="猫头鹰Owl"><TD><a href="怪物图鉴2025/附录A/猫头鹰.htm#Owl">猫头鹰Owl</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="枭熊Owlbear"><TD><a href="怪物图鉴2025/怪兽/枭熊/枭熊.htm#Owlbear">枭熊Owlbear</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="豹Panther"><TD><a href="怪物图鉴2025/附录A/豹.htm#Panther">豹Panther</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 天族 无 2" monster="天马Pegasus"><TD><a href="怪物图鉴2025/天族/天马.htm#Pegasus">天马Pegasus</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 类人 无 1/2" monster="演艺者Performer"><TD><a href="怪物图鉴2025/类人/演艺者/演艺者.htm#Performer">演艺者Performer</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 10" monster="演艺传奇Performer Legend"><TD><a href="怪物图鉴2025/类人/演艺者/演艺传奇.htm#Performer_Legend">演艺传奇Performer Legend</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="小型 类人 无 6" monster="演艺尊师Performer Maestro"><TD><a href="怪物图鉴2025/类人/演艺者/演艺尊师.htm#Performer_Maestro">演艺尊师Performer Maestro</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 怪兽 无 2" monster="鹿鹰Peryton"><TD><a href="怪物图鉴2025/怪兽/鹿鹰.htm#Peryton">鹿鹰Peryton</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="相位蜘蛛Phase Spider"><TD><a href="怪物图鉴2025/怪兽/相位蜘蛛.htm#Phase_Spider">相位蜘蛛Phase Spider</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 异怪 无 1/2" monster="石锥怪Piercer"><TD><a href="怪物图鉴2025/异怪/石锥怪.htm#Piercer">石锥怪Piercer</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="微型 野兽 无 0" monster="食人鱼Piranha"><TD><a href="怪物图鉴2025/附录A/食人鱼.htm#Piranha">食人鱼Piranha</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 类人 无 1" monster="海盗Pirate"><TD><a href="怪物图鉴2025/类人/海盗/海盗.htm#Pirate">海盗Pirate</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 类人 无 12" monster="海盗将军Pirate Admiral"><TD><a href="怪物图鉴2025/类人/海盗/海盗将军.htm#Pirate_Admiral">海盗将军Pirate Admiral</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="小型 类人 无 6" monster="海盗船长Pirate Captain"><TD><a href="怪物图鉴2025/类人/海盗/海盗船长.htm#Pirate_Captain">海盗船长Pirate Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 邪魔 无 20" monster="深狱炼魔Pit Fiend"><TD><a href="怪物图鉴2025/邪魔/魔鬼/深狱炼魔.htm#Pit_Fiend">深狱炼魔Pit Fiend</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>20</TD></TR>
+<TR tags="微型 妖精 无 1/4" monster="皮克精Pixie"><TD><a href="怪物图鉴2025/妖精/皮克精/皮克精.htm#Pixie">皮克精Pixie</a></TD><TD>微型</TD><TD>妖精</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 妖精 无 5" monster="皮克妙妙精Pixie Wonderbringer"><TD><a href="怪物图鉴2025/妖精/皮克精/皮克妙妙精.htm#Pixie_Wonderbringer">皮克妙妙精Pixie Wonderbringer</a></TD><TD>微型</TD><TD>妖精</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 天族 无 16" monster="星天神使Planetar"><TD><a href="怪物图鉴2025/天族/天使/星天神使.htm#Planetar">星天神使Planetar</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>16</TD></TR>
+<TR tags="大型 野兽 无 2" monster="蛇颈龙Plesiosaurus"><TD><a href="怪物图鉴2025/附录A/恐龙/蛇颈龙.htm#Plesiosaurus">蛇颈龙Plesiosaurus</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 野兽 无 2" monster="白熊Polar Bear"><TD><a href="怪物图鉴2025/附录A/白熊.htm#Polar_Bear">白熊Polar Bear</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 亡灵 无 2" monster="骚灵Poltergeist"><TD><a href="怪物图鉴2025/亡灵/骚灵.htm#Poltergeist">骚灵Poltergeist</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 野兽 无 1/8" monster="矮种马Pony"><TD><a href="怪物图鉴2025/附录A/矮种马.htm#Pony">矮种马Pony</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 2" monster="祭司Priest"><TD><a href="怪物图鉴2025/类人/祭司/祭司.htm#Priest">祭司Priest</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 类人 无 1/4" monster="侍祭僧侣Priest Acolyte"><TD><a href="怪物图鉴2025/类人/祭司/侍祭僧侣.htm#Priest_Acolyte">侍祭僧侣Priest Acolyte</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 怪兽 无 7" monster="原初枭熊Primeval Owlbear"><TD><a href="怪物图鉴2025/怪兽/枭熊/原初枭熊.htm#Primeval_Owlbear">原初枭熊Primeval Owlbear</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="微型 龙类 无 1/4" monster="伪龙Pseudodragon"><TD><a href="怪物图鉴2025/龙类/伪龙.htm#Pseudodragon">伪龙Pseudodragon</a></TD><TD>微型</TD><TD>龙类</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="中型 泥怪 无 1" monster="心能灰泥怪Psychic Gray Ooze"><TD><a href="怪物图鉴2025/泥怪/灰泥怪/心能灰泥怪.htm#Psychic_Gray_Ooze">心能灰泥怪Psychic Gray Ooze</a></TD><TD>中型</TD><TD>泥怪</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="无齿翼龙Pteranodon"><TD><a href="怪物图鉴2025/附录A/恐龙/无齿翼龙.htm#Pteranodon">无齿翼龙Pteranodon</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 怪兽 无 15" monster="紫虫Purple Worm"><TD><a href="怪物图鉴2025/怪兽/紫虫.htm#Purple_Worm">紫虫Purple Worm</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>15</TD></TR>
+<TR tags="中型 怪兽 无 2" monster="幽邃熊怪Quaggoth"><TD><a href="怪物图鉴2025/怪兽/幽邃熊怪/幽邃熊怪.htm#Quaggoth">幽邃熊怪Quaggoth</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="幽邃熊怪脑头Quaggoth Thonot"><TD><a href="怪物图鉴2025/怪兽/幽邃熊怪/幽邃熊怪脑头.htm#Quaggoth_Thonot">幽邃熊怪脑头Quaggoth Thonot</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="微型 邪魔 无 1" monster="小恶魔Quasit"><TD><a href="怪物图鉴2025/邪魔/恶魔/小恶魔.htm#Quasit">小恶魔Quasit</a></TD><TD>微型</TD><TD>邪魔</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 类人 无 12" monster="天命骑士Questing Knight"><TD><a href="怪物图鉴2025/类人/骑士/天命骑士.htm#Questing_Knight">天命骑士Questing Knight</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>12</TD></TR>
+<TR tags="中型 邪魔 无 13" monster="罗刹Rakshasa"><TD><a href="怪物图鉴2025/邪魔/罗刹.htm#Rakshasa">罗刹Rakshasa</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>13</TD></TR>
+<TR tags="微型 野兽 无 0" monster="鼠Rat"><TD><a href="怪物图鉴2025/附录A/鼠.htm#Rat">鼠Rat</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="微型 野兽 无 0" monster="渡鸦Raven"><TD><a href="怪物图鉴2025/附录A/渡鸦.htm#Raven">渡鸦Raven</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 龙类 无 4" monster="红龙雏龙Red Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/红龙/红龙雏龙.htm#Red_Dragon_Wyrmling">红龙雏龙Red Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="大型 异怪 无 5" monster="史拉红蟾Red Slaad"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉红蟾.htm#Red_Slaad">史拉红蟾Red Slaad</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 野兽 无 1/2" monster="礁鲨Reef Shark"><TD><a href="怪物图鉴2025/附录A/礁鲨.htm#Reef_Shark">礁鲨Reef Shark</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="巨型 怪兽 无 11" monster="百足魔兽Remorhaz"><TD><a href="怪物图鉴2025/怪兽/百足魔兽/百足魔兽.htm#Remorhaz">百足魔兽Remorhaz</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="中型 亡灵 无 5" monster="还魂鬼Revenant"><TD><a href="怪物图鉴2025/亡灵/还魂鬼/还魂鬼.htm#Revenant">还魂鬼Revenant</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 野兽 无 2" monster="犀牛Rhinoceros"><TD><a href="怪物图鉴2025/附录A/犀牛.htm#Rhinoceros">犀牛Rhinoceros</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 野兽 无 1/4" monster="乘用马Riding Horse"><TD><a href="怪物图鉴2025/附录A/乘用马.htm#Riding_Horse">乘用马Riding Horse</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="巨型 怪兽 无 11" monster="鹏鸟Roc"><TD><a href="怪物图鉴2025/怪兽/鹏鸟.htm#Roc">鹏鸟Roc</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>无</TD><TD>11</TD></TR>
+<TR tags="大型 异怪 无 5" monster="石绳怪Roper"><TD><a href="怪物图鉴2025/异怪/石绳怪.htm#Roper">石绳怪Roper</a></TD><TD>大型</TD><TD>异怪</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 1/2" monster="锈蚀怪Rust Monster"><TD><a href="怪物图鉴2025/怪兽/锈蚀怪.htm#Rust_Monster">锈蚀怪Rust Monster</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 野兽 无 2" monster="剑齿虎Saber-Toothed Tiger"><TD><a href="怪物图鉴2025/附录A/剑齿虎.htm#Saber-Toothed_Tiger">剑齿虎Saber-Toothed Tiger</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 邪魔 无 5" monster="鲨华男爵Sahuagin Baron"><TD><a href="怪物图鉴2025/邪魔/鲨华鱼人/鲨华男爵.htm#Sahuagin_Baron">鲨华男爵Sahuagin Baron</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 邪魔 无 2" monster="鲨华祭司Sahuagin Priest"><TD><a href="怪物图鉴2025/邪魔/鲨华鱼人/鲨华祭司.htm#Sahuagin_Priest">鲨华祭司Sahuagin Priest</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="  无 1/2" monster="軪Sahuagin Warrior"><TD><a href="怪物图鉴2025/邪魔/鲨华鱼人/鲨华武者.htm#Sahuagin_Warrior">軪Sahuagin Warrior</a></TD><TD></TD><TD></TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 元素 无 5" monster="火蜥蜴Salamander"><TD><a href="怪物图鉴2025/元素/火蜥蜴/火蜥蜴.htm#Salamander">火蜥蜴Salamander</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 元素 无 1" monster="火蜥蜴火蛇Salamander Fire Snake"><TD><a href="怪物图鉴2025/元素/火蜥蜴/火蜥蜴火蛇.htm#Salamander_Fire_Snake">火蜥蜴火蛇Salamander Fire Snake</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 元素 无 15" monster="火蜥蜴炎狱之主Salamander Inferno Master"><TD><a href="怪物图鉴2025/元素/火蜥蜴/火蜥蜴炎狱之主.htm#Salamander_Inferno_Master">火蜥蜴炎狱之主Salamander Inferno Master</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>15</TD></TR>
+<TR tags="中型 妖精 无 1/2" monster="半羊人Satyr"><TD><a href="怪物图鉴2025/妖精/半羊人/半羊人.htm#Satyr">半羊人Satyr</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 妖精 无 6" monster="半羊人欢庆之主Satyr Revelmaster"><TD><a href="怪物图鉴2025/妖精/半羊人/半羊人欢庆之主.htm#Satyr_Revelmaster">半羊人欢庆之主Satyr Revelmaster</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 构装 无 1" monster="稻草人Scarecrow"><TD><a href="怪物图鉴2025/构装/稻草人.htm#Scarecrow">稻草人Scarecrow</a></TD><TD>中型</TD><TD>构装</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蝎Scorpion"><TD><a href="怪物图鉴2025/附录A/蝎.htm#Scorpion">蝎Scorpion</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 类人 无 1/2" monster="斥候Scout"><TD><a href="怪物图鉴2025/类人/斥候/斥候.htm#Scout">斥候Scout</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 3" monster="斥候队长Scout Captain"><TD><a href="怪物图鉴2025/类人/斥候/斥候队长.htm#Scout_Captain">斥候队长Scout Captain</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 妖精 无 2" monster="海鬼婆Sea Hag"><TD><a href="怪物图鉴2025/多类型/鬼婆/海鬼婆.htm#Sea_Hag">海鬼婆Sea Hag</a></TD><TD>中型</TD><TD>妖精</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="微型 野兽 无 0" monster="海马Seahorse"><TD><a href="怪物图鉴2025/附录A/海马.htm#Seahorse">海马Seahorse</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 亡灵 无 1/2" monster="幽影Shadow"><TD><a href="怪物图鉴2025/亡灵/幽影.htm#Shadow">幽影Shadow</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 邪魔 无 4" monster="幽影恶魔Shadow Demon"><TD><a href="怪物图鉴2025/邪魔/恶魔/幽影恶魔.htm#Shadow_Demon">幽影恶魔Shadow Demon</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="大型 龙类 有 13" monster="幽影龙Shadow Dragon"><TD><a href="怪物图鉴2025/龙类/幽影龙/幽影龙.htm#Shadow_Dragon">幽影龙Shadow Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>有</TD><TD>13</TD></TR>
+<TR tags="大型 植物 无 5" monster="蔓生怪Shambling Mound"><TD><a href="怪物图鉴2025/植物/蔓生怪.htm#Shambling_Mound">蔓生怪Shambling Mound</a></TD><TD>大型</TD><TD>植物</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 构装 无 7" monster="盾卫Shield Guardian"><TD><a href="怪物图鉴2025/构装/盾卫.htm#Shield_Guardian">盾卫Shield Guardian</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 植物 无 0" monster="尖叫菌Shrieker Fungus"><TD><a href="怪物图鉴2025/植物/真菌/尖叫菌.htm#Shrieker_Fungus">尖叫菌Shrieker Fungus</a></TD><TD>中型</TD><TD>植物</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="中型 龙类 无 2" monster="银龙雏龙Silver Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/银龙/银龙雏龙.htm#Silver_Dragon_Wyrmling">银龙雏龙Silver Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 亡灵 无 1/4" monster="骷髅Skeleton"><TD><a href="怪物图鉴2025/亡灵/骷髅/骷髅.htm#Skeleton">骷髅Skeleton</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 异怪 无 1/8" monster="史拉蟾蝌蚪Slaad Tadpole"><TD><a href="怪物图鉴2025/异怪/史拉蟾/史拉蟾蝌蚪.htm#Slaad_Tadpole">史拉蟾蝌蚪Slaad Tadpole</a></TD><TD>微型</TD><TD>异怪</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 元素 无 1/4" monster="烟魔蝠Smoke Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/烟魔蝠.htm#Smoke_Mephit">烟魔蝠Smoke Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 天族 有 21" monster="炽天神使Solar"><TD><a href="怪物图鉴2025/天族/天使/炽天神使.htm#Solar">炽天神使Solar</a></TD><TD>大型</TD><TD>天族</TD><TD>有</TD><TD>21</TD></TR>
+<TR tags="中型 异怪 无 3" monster="观察者眼魔Spectator"><TD><a href="怪物图鉴2025/多类型/眼魔/观察者眼魔.htm#Spectator">观察者眼魔Spectator</a></TD><TD>中型</TD><TD>异怪</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 亡灵 无 1" monster="恶灵Specter"><TD><a href="怪物图鉴2025/亡灵/恶灵.htm#Specter">恶灵Specter</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="大型 天族 有 11" monster="晓谕斯芬克斯Sphinx of Lore"><TD><a href="怪物图鉴2025/天族/斯芬克斯/晓谕斯芬克斯.htm#Sphinx_of_Lore">晓谕斯芬克斯Sphinx of Lore</a></TD><TD>大型</TD><TD>天族</TD><TD>有</TD><TD>11</TD></TR>
+<TR tags="大型 天族 无 8" monster="隐秘斯芬克斯Sphinx of Secrets"><TD><a href="怪物图鉴2025/天族/斯芬克斯/隐秘斯芬克斯.htm#Sphinx_of_Secrets">隐秘斯芬克斯Sphinx of Secrets</a></TD><TD>大型</TD><TD>天族</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 天族 有 17" monster="勇气斯芬克斯Sphinx of Valor"><TD><a href="怪物图鉴2025/天族/斯芬克斯/勇气斯芬克斯.htm#Sphinx_of_Valor">勇气斯芬克斯Sphinx of Valor</a></TD><TD>大型</TD><TD>天族</TD><TD>有</TD><TD>17</TD></TR>
+<TR tags="微型 天族 无 1" monster="求索斯芬克斯Sphinx of Wonder"><TD><a href="怪物图鉴2025/天族/斯芬克斯/求索斯芬克斯.htm#Sphinx_of_Wonder">求索斯芬克斯Sphinx of Wonder</a></TD><TD>微型</TD><TD>天族</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="微型 野兽 无 0" monster="蜘蛛Spider"><TD><a href="怪物图鉴2025/附录A/蜘蛛.htm#Spider">蜘蛛Spider</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 邪魔 无 2" monster="棘魔Spined Devil"><TD><a href="怪物图鉴2025/邪魔/魔鬼/棘魔.htm#Spined_Devil">棘魔Spined Devil</a></TD><TD>小型</TD><TD>邪魔</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="大型 邪魔 无 8" monster="阴魂纳迦Spirit Naga"><TD><a href="怪物图鉴2025/多类型/纳迦/阴魂纳迦.htm#Spirit_Naga">阴魂纳迦Spirit Naga</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="微型 妖精 无 1/4" monster="小仙灵Sprite"><TD><a href="怪物图鉴2025/妖精/小仙灵.htm#Sprite">小仙灵Sprite</a></TD><TD>微型</TD><TD>妖精</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="小型 类人 无 1" monster="间谍Spy"><TD><a href="怪物图鉴2025/类人/间谍/间谍.htm#Spy">间谍Spy</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 类人 无 10" monster="间谍大师Spy Master"><TD><a href="怪物图鉴2025/类人/间谍/间谍大师.htm#Spy_Master">间谍大师Spy Master</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="小型 元素 无 1/4" monster="蒸汽魔蝠Steam Mephit"><TD><a href="怪物图鉴2025/元素/魔蝠/蒸汽魔蝠.htm#Steam_Mephit">蒸汽魔蝠Steam Mephit</a></TD><TD>小型</TD><TD>元素</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 怪兽 无 1/8" monster="蚊蝠Stirge"><TD><a href="怪物图鉴2025/怪兽/蚊蝠/蚊蝠.htm#Stirge">蚊蝠Stirge</a></TD><TD>微型</TD><TD>怪兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="巨型 巨人 无 7" monster="石巨人Stone Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/石巨人.htm#Stone_Giant">石巨人Stone Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 构装 无 10" monster="石魔像Stone Golem"><TD><a href="怪物图鉴2025/构装/魔像/石魔像.htm#Stone_Golem">石魔像Stone Golem</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="巨型 巨人 无 13" monster="风暴巨人Storm Giant"><TD><a href="怪物图鉴2025/巨人/序位巨人/风暴巨人.htm#Storm_Giant">风暴巨人Storm Giant</a></TD><TD>巨型</TD><TD>巨人</TD><TD>无</TD><TD>13</TD></TR>
+<TR tags="中型 邪魔 无 4" monster="魅魔Succubus"><TD><a href="怪物图鉴2025/邪魔/魅魔.htm#Succubus">魅魔Succubus</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="微型 野兽 无 1/4" monster="蝙蝠集群Swarm of Bats"><TD><a href="怪物图鉴2025/附录A/集群/蝙蝠集群.htm#Swarm_of_Bats">蝙蝠集群Swarm of Bats</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 亡灵 无 3" monster="蠕行之爪集群Swarm of Crawling Claw"><TD><a href="怪物图鉴2025/亡灵/蠕行之爪/蠕行之爪集群.htm#Swarm_of_Crawling_Claw">蠕行之爪集群Swarm of Crawling Claw</a></TD><TD>微型</TD><TD>亡灵</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 邪魔 无 4" monster="怯魔集群Swarm of Dretch"><TD><a href="怪物图鉴2025/邪魔/恶魔/怯魔/怯魔集群.htm#Swarm_of_Dretch">怯魔集群Swarm of Dretch</a></TD><TD>小型</TD><TD>邪魔</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="微型 野兽 无 1/2" monster="昆虫集群Swarm of Insects"><TD><a href="怪物图鉴2025/附录A/集群/昆虫集群.htm#Swarm_of_Insects">昆虫集群Swarm of Insects</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 邪魔 无 1" monster="幼虫魔集群Swarm of Larvae"><TD><a href="怪物图鉴2025/邪魔/幼虫魔/幼虫魔集群.htm#Swarm_of_Larvae">幼虫魔集群Swarm of Larvae</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 邪魔 无 3" monster="劣魔集群Swarm of Lemures"><TD><a href="怪物图鉴2025/邪魔/魔鬼/劣魔/劣魔集群.htm#Swarm_of_Lemures">劣魔集群Swarm of Lemures</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="微型 野兽 无 1" monster="食人鱼集群Swarm of Piranhas"><TD><a href="怪物图鉴2025/附录A/集群/食人鱼集群.htm#Swarm_of_Piranhas">食人鱼集群Swarm of Piranhas</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="微型 野兽 无 1/4" monster="鼠集群Swarm of Rats"><TD><a href="怪物图鉴2025/附录A/集群/鼠集群.htm#Swarm_of_Rats">鼠集群Swarm of Rats</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 野兽 无 1/4" monster="渡鸦集群Swarm of Ravens"><TD><a href="怪物图鉴2025/附录A/集群/渡鸦集群.htm#Swarm_of_Ravens">渡鸦集群Swarm of Ravens</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="微型 怪兽 无 2" monster="蚊蝠集群Swarm of Stirges"><TD><a href="怪物图鉴2025/怪兽/蚊蝠/蚊蝠集群.htm#Swarm_of_Stirges">蚊蝠集群Swarm of Stirges</a></TD><TD>微型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="微型 野兽 无 2" monster="毒蛇集群Swarm of Venomous Snakes"><TD><a href="怪物图鉴2025/附录A/集群/毒蛇集群.htm#Swarm_of_Venomous_Snakes">毒蛇集群Swarm of Venomous Snakes</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="巨型 怪兽 有 30" monster="泰拉斯奎Tarrasque"><TD><a href="怪物图鉴2025/多类型/泰坦/泰拉斯奎.htm#Tarrasque">泰拉斯奎Tarrasque</a></TD><TD>巨型</TD><TD>怪兽</TD><TD>有</TD><TD>30</TD></TR>
+<TR tags="中型 怪兽 无 1" monster="螳螂人劫掠者Thri-kreen Marauder"><TD><a href="怪物图鉴2025/怪兽/螳螂人/螳螂人劫掠者.htm#Thri-kreen_Marauder">螳螂人劫掠者Thri-kreen Marauder</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 怪兽 无 8" monster="螳螂人灵能使Thri-kreen Psion"><TD><a href="怪物图鉴2025/怪兽/螳螂人/螳螂人灵能使.htm#Thri-kreen_Psion">螳螂人灵能使Thri-kreen Psion</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 野兽 无 1" monster="虎Tiger"><TD><a href="怪物图鉴2025/附录A/虎.htm#Tiger">虎Tiger</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="小型 类人 无 1/2" monster="打手Tough"><TD><a href="怪物图鉴2025/类人/打手/打手.htm#Tough">打手Tough</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 4" monster="打手老大Tough Boss"><TD><a href="怪物图鉴2025/类人/打手/打手老大.htm#Tough_Boss">打手老大Tough Boss</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="巨型 植物 无 9" monster="树人Treant"><TD><a href="怪物图鉴2025/植物/树人.htm#Treant">树人Treant</a></TD><TD>巨型</TD><TD>植物</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="巨型 植物 无 7" monster="枯树怪Tree Blight"><TD><a href="怪物图鉴2025/植物/枯萎怪/枯树怪.htm#Tree_Blight">枯树怪Tree Blight</a></TD><TD>巨型</TD><TD>植物</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="巨型 野兽 无 5" monster="三角龙Triceratops"><TD><a href="怪物图鉴2025/附录A/恐龙/三角龙.htm#Triceratops">三角龙Triceratops</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="中型 怪兽 无 1/4" monster="穴蜥人Troglodyte"><TD><a href="怪物图鉴2025/怪兽/穴蜥人.htm#Troglodyte">穴蜥人Troglodyte</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 巨人 无 5" monster="巨魔Troll"><TD><a href="怪物图鉴2025/巨人/巨魔/巨魔.htm#Troll">巨魔Troll</a></TD><TD>大型</TD><TD>巨人</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="小型 巨人 无 1/2" monster="巨魔断肢Troll Limb"><TD><a href="怪物图鉴2025/巨人/巨魔/巨魔断肢.htm#Troll_Limb">巨魔断肢Troll Limb</a></TD><TD>小型</TD><TD>巨人</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 植物 无 1/8" monster="枯枝怪Twig Blight"><TD><a href="怪物图鉴2025/植物/枯萎怪/枯枝怪.htm#Twig_Blight">枯枝怪Twig Blight</a></TD><TD>小型</TD><TD>植物</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="巨型 野兽 无 8" monster="霸王龙Tyrannosaurus Rex"><TD><a href="怪物图鉴2025/附录A/恐龙/霸王龙.htm#Tyrannosaurus_Rex">霸王龙Tyrannosaurus Rex</a></TD><TD>巨型</TD><TD>野兽</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="中型 邪魔 无 13" monster="超等罗斯魔Ultroloth"><TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/超等罗斯魔.htm#Ultroloth">超等罗斯魔Ultroloth</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>13</TD></TR>
+<TR tags="大型 怪兽 无 5" monster="掘土巨怪Umber Hulk"><TD><a href="怪物图鉴2025/怪兽/掘土巨怪.htm#Umber_Hulk">掘土巨怪Umber Hulk</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 天族 有 5" monster="独角兽Unicorn"><TD><a href="怪物图鉴2025/天族/独角兽.htm#Unicorn">独角兽Unicorn</a></TD><TD>大型</TD><TD>天族</TD><TD>有</TD><TD>5</TD></TR>
+<TR tags="小型 亡灵 有 13" monster="吸血鬼Vampire"><TD><a href="怪物图鉴2025/多类型/吸血鬼/吸血鬼.htm#Vampire">吸血鬼Vampire</a></TD><TD>小型</TD><TD>亡灵</TD><TD>有</TD><TD>13</TD></TR>
+<TR tags="小型 类人 无 3" monster="血仆Vampire Familiar"><TD><a href="怪物图鉴2025/多类型/吸血鬼/血仆.htm#Vampire_Familiar">血仆Vampire Familiar</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="小型 亡灵 无 8" monster="吸血夜魇Vampire Nightbringer"><TD><a href="怪物图鉴2025/多类型/吸血鬼/吸血夜魇.htm#Vampire_Nightbringer">吸血夜魇Vampire Nightbringer</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="小型 亡灵 无 5" monster="初生吸血鬼Vampire Spawn"><TD><a href="怪物图鉴2025/多类型/吸血鬼/初生吸血鬼.htm#Vampire_Spawn">初生吸血鬼Vampire Spawn</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="小型 亡灵 有 15" monster="吸血鬼暗影尊主Vampire Umbral Lord"><TD><a href="怪物图鉴2025/多类型/吸血鬼/吸血鬼暗影尊主.htm#Vampire_Umbral_Lord">吸血鬼暗影尊主Vampire Umbral Lord</a></TD><TD>小型</TD><TD>亡灵</TD><TD>有</TD><TD>15</TD></TR>
+<TR tags="微型 野兽 无 1/8" monster="毒蛇Venomous Snake"><TD><a href="怪物图鉴2025/附录A/毒蛇.htm#Venomous_Snake">毒蛇Venomous Snake</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="中型 植物 无 1/2" monster="枯藤怪Vine Blight"><TD><a href="怪物图鉴2025/植物/枯萎怪/枯藤怪.htm#Vine_Blight">枯藤怪Vine Blight</a></TD><TD>中型</TD><TD>植物</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="中型 植物 无 1/4" monster="紫腐菌Violet Fungus"><TD><a href="怪物图鉴2025/植物/真菌/紫腐菌.htm#Violet_Fungus">紫腐菌Violet Fungus</a></TD><TD>中型</TD><TD>植物</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 植物 无 7" monster="紫腐菌尸聚怪Violet Fungus Necrohulk"><TD><a href="怪物图鉴2025/植物/真菌/紫腐菌尸聚怪.htm#Violet_Fungus_Necrohulk">紫腐菌尸聚怪Violet Fungus Necrohulk</a></TD><TD>大型</TD><TD>植物</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 邪魔 无 6" monster="鹫魔Vrock"><TD><a href="怪物图鉴2025/邪魔/恶魔/鹫魔.htm#Vrock">鹫魔Vrock</a></TD><TD>大型</TD><TD>邪魔</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 野兽 无 0" monster="秃鹫Vulture"><TD><a href="怪物图鉴2025/附录A/秃鹫.htm#Vulture">秃鹫Vulture</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="大型 野兽 无 1/2" monster="战马Warhorse"><TD><a href="怪物图鉴2025/附录A/战马.htm#Warhorse">战马Warhorse</a></TD><TD>大型</TD><TD>野兽</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="大型 亡灵 无 1/2" monster="骷髅战马Warhorse Skeleton"><TD><a href="怪物图鉴2025/亡灵/骷髅/骷髅战马.htm#Warhorse_Skeleton">骷髅战马Warhorse Skeleton</a></TD><TD>大型</TD><TD>亡灵</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 类人 无 10" monster="武将Warrior Commander"><TD><a href="怪物图鉴2025/类人/武者/武将.htm#Warrior_Commander">武将Warrior Commander</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="小型 类人 无 1/8" monster="新晋武者Warrior Infantry"><TD><a href="怪物图鉴2025/类人/武者/新晋武者.htm#Warrior_Infantry">新晋武者Warrior Infantry</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>1/8</TD></TR>
+<TR tags="小型 类人 无 3" monster="历战武者Warrior Veteran"><TD><a href="怪物图鉴2025/类人/武者/历战武者.htm#Warrior_Veteran">历战武者Warrior Veteran</a></TD><TD>小型</TD><TD>类人</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="大型 元素 无 5" monster="水元素Water Elemental"><TD><a href="怪物图鉴2025/元素/四元素/水元素.htm#Water_Elemental">水元素Water Elemental</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 元素 无 3" monster="水诡Water Weird"><TD><a href="怪物图鉴2025/元素/水诡.htm#Water_Weird">水诡Water Weird</a></TD><TD>大型</TD><TD>元素</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="微型 野兽 无 0" monster="鼬Weasel"><TD><a href="怪物图鉴2025/附录A/鼬.htm#Weasel">鼬Weasel</a></TD><TD>微型</TD><TD>野兽</TD><TD>无</TD><TD>0</TD></TR>
+<TR tags="小型 怪兽 无 5" monster="熊人Werebear"><TD><a href="怪物图鉴2025/怪兽/兽化人/熊人.htm#Werebear">熊人Werebear</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="小型 怪兽 无 4" monster="野猪人Wereboar"><TD><a href="怪物图鉴2025/怪兽/兽化人/野猪人.htm#Wereboar">野猪人Wereboar</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="小型 怪兽 无 2" monster="鼠人Wererat"><TD><a href="怪物图鉴2025/怪兽/兽化人/鼠人.htm#Wererat">鼠人Wererat</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 怪兽 无 4" monster="虎人Weretiger"><TD><a href="怪物图鉴2025/怪兽/兽化人/虎人.htm#Weretiger">虎人Weretiger</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>4</TD></TR>
+<TR tags="小型 怪兽 无 3" monster="狼人Werewolf"><TD><a href="怪物图鉴2025/怪兽/兽化人/狼人.htm#Werewolf">狼人Werewolf</a></TD><TD>小型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 龙类 无 2" monster="白龙雏龙White Dragon Wyrmling"><TD><a href="怪物图鉴2025/龙类/白龙/白龙雏龙.htm#White_Dragon_Wyrmling">白龙雏龙White Dragon Wyrmling</a></TD><TD>中型</TD><TD>龙类</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="中型 亡灵 无 3" monster="尸妖Wight"><TD><a href="怪物图鉴2025/亡灵/尸妖.htm#Wight">尸妖Wight</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="微型 亡灵 无 2" monster="鬼火Will-o’-Wisp"><TD><a href="怪物图鉴2025/亡灵/鬼火.htm#Will-o’-Wisp">鬼火Will-o’-Wisp</a></TD><TD>微型</TD><TD>亡灵</TD><TD>无</TD><TD>2</TD></TR>
+<TR tags="小型 龙类 无 1/4" monster="带翼狗头人Winged Kobold"><TD><a href="怪物图鉴2025/龙类/狗头人/带翼狗头人.htm#Winged_Kobold">带翼狗头人Winged Kobold</a></TD><TD>小型</TD><TD>龙类</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="冬狼Winter Wolf"><TD><a href="怪物图鉴2025/怪兽/冬狼.htm#Winter_Wolf">冬狼Winter Wolf</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 野兽 无 1/4" monster="狼Wolf"><TD><a href="怪物图鉴2025/附录A/狼.htm#Wolf">狼Wolf</a></TD><TD>中型</TD><TD>野兽</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 妖精 无 1/2" monster="座狼Worg"><TD><a href="怪物图鉴2025/妖精/座狼/座狼.htm#Worg">座狼Worg</a></TD><TD>大型</TD><TD>妖精</TD><TD>无</TD><TD>1/2</TD></TR>
+<TR tags="小型 亡灵 无 5" monster="邪灵Wraith"><TD><a href="怪物图鉴2025/亡灵/邪灵.htm#Wraith">邪灵Wraith</a></TD><TD>小型</TD><TD>亡灵</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 龙类 无 6" monster="飞龙Wyvern"><TD><a href="怪物图鉴2025/龙类/飞龙.htm#Wyvern">飞龙Wyvern</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="中型 元素 无 5" monster="石鼎兽Xorn"><TD><a href="怪物图鉴2025/元素/石鼎兽.htm#Xorn">石鼎兽Xorn</a></TD><TD>中型</TD><TD>元素</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 怪兽 无 3" monster="雪怪Yeti"><TD><a href="怪物图鉴2025/怪兽/雪怪/雪怪.htm#Yeti">雪怪Yeti</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 邪魔 无 10" monster="蜡融妖Yochlol"><TD><a href="怪物图鉴2025/邪魔/恶魔/蜡融妖.htm#Yochlol">蜡融妖Yochlol</a></TD><TD>中型</TD><TD>邪魔</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 龙类 无 7" monster="青年黑龙Young Black Dragon"><TD><a href="怪物图鉴2025/龙类/黑龙/青年黑龙.htm#Young_Black_Dragon">青年黑龙Young Black Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 龙类 无 9" monster="青年蓝龙Young Blue Dragon"><TD><a href="怪物图鉴2025/龙类/蓝龙/青年蓝龙.htm#Young_Blue_Dragon">青年蓝龙Young Blue Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="大型 龙类 无 6" monster="青年黄铜龙Young Brass Dragon"><TD><a href="怪物图鉴2025/龙类/黄铜龙/青年黄铜龙.htm#Young_Brass_Dragon">青年黄铜龙Young Brass Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 龙类 无 8" monster="青年青铜龙Young Bronze Dragon"><TD><a href="怪物图鉴2025/龙类/青铜龙/青年青铜龙.htm#Young_Bronze_Dragon">青年青铜龙Young Bronze Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 龙类 无 7" monster="青年赤铜龙Young Copper Dragon"><TD><a href="怪物图鉴2025/龙类/赤铜龙/青年赤铜龙.htm#Young_Copper_Dragon">青年赤铜龙Young Copper Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="大型 龙类 无 10" monster="青年金龙Young Gold Dragon"><TD><a href="怪物图鉴2025/龙类/金龙/青年金龙.htm#Young_Gold_Dragon">青年金龙Young Gold Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 龙类 无 8" monster="青年绿龙Young Green Dragon"><TD><a href="怪物图鉴2025/龙类/绿龙/青年绿龙.htm#Young_Green_Dragon">青年绿龙Young Green Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>8</TD></TR>
+<TR tags="大型 龙类 无 10" monster="青年红龙Young Red Dragon"><TD><a href="怪物图鉴2025/龙类/红龙/青年红龙.htm#Young_Red_Dragon">青年红龙Young Red Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>10</TD></TR>
+<TR tags="大型 怪兽 无 5" monster="青年百足魔兽Young Remorhaz"><TD><a href="怪物图鉴2025/怪兽/百足魔兽/青年百足魔兽.htm#Young_Remorhaz">青年百足魔兽Young Remorhaz</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>5</TD></TR>
+<TR tags="大型 龙类 无 9" monster="青年银龙Young Silver Dragon"><TD><a href="怪物图鉴2025/龙类/银龙/青年银龙.htm#Young_Silver_Dragon">青年银龙Young Silver Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>9</TD></TR>
+<TR tags="大型 龙类 无 6" monster="青年白龙Young White Dragon"><TD><a href="怪物图鉴2025/龙类/白龙/青年白龙.htm#Young_White_Dragon">青年白龙Young White Dragon</a></TD><TD>大型</TD><TD>龙类</TD><TD>无</TD><TD>6</TD></TR>
+<TR tags="大型 怪兽 无 7" monster="憎恶蛇人Yuan-ti Abomination"><TD><a href="怪物图鉴2025/怪兽/蛇人/憎恶蛇人.htm#Yuan-ti_Abomination">憎恶蛇人Yuan-ti Abomination</a></TD><TD>大型</TD><TD>怪兽</TD><TD>无</TD><TD>7</TD></TR>
+<TR tags="中型 怪兽 无 1" monster="渗蚀蛇人Yuan-ti Infiltrator"><TD><a href="怪物图鉴2025/怪兽/蛇人/渗蚀蛇人.htm#Yuan-ti_Infiltrator">渗蚀蛇人Yuan-ti Infiltrator</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>1</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="恶咒蛇人（1型）Yuan-ti Malison (Type 1)"><TD><a href="怪物图鉴2025/怪兽/蛇人/恶咒蛇人（1型）.htm#Yuan-ti_Malison_(Type_1)">恶咒蛇人（1型）Yuan-ti Malison (Type 1)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="恶咒蛇人（2型）Yuan-ti Malison (Type 2)"><TD><a href="怪物图鉴2025/怪兽/蛇人/恶咒蛇人（2型）.htm#Yuan-ti_Malison_(Type_2)">恶咒蛇人（2型）Yuan-ti Malison (Type 2)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 怪兽 无 3" monster="恶咒蛇人（3型）Yuan-ti Malison (Type 3)"><TD><a href="怪物图鉴2025/怪兽/蛇人/恶咒蛇人（3型）.htm#Yuan-ti_Malison_(Type_3)">恶咒蛇人（3型）Yuan-ti Malison (Type 3)</a></TD><TD>中型</TD><TD>怪兽</TD><TD>无</TD><TD>3</TD></TR>
+<TR tags="中型 亡灵 无 1/4" monster="丧尸Zombie"><TD><a href="怪物图鉴2025/亡灵/丧尸/丧尸.htm#Zombie">丧尸Zombie</a></TD><TD>中型</TD><TD>亡灵</TD><TD>无</TD><TD>1/4</TD></TR>
+<TR tags="大型 构装 无 2" monster="魔冢五元冢Modron Quadrone"><TD><a href="怪物图鉴2025/构装/魔冢/魔冢·五元冢.htm#Modron_Quadrone">魔冢五元冢Modron Quadrone</a></TD><TD>大型</TD><TD>构装</TD><TD>无</TD><TD>2</TD></TR>
 </table>
 </body>
 </html>

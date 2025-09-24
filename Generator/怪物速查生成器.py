@@ -17,7 +17,7 @@ source_priority: dict[str,int] = {
 }
 
 size_list = ["微型", "小型", "中型", "大型", "巨型", "超巨型"]
-type_list = ["异怪", "野兽", "天族", "构装", "龙类", "元素", "妖精", "邪魔", "巨人", "类人", "怪兽", "泥怪", "植物", "亡灵"]
+type_list = ["异怪", "野兽", "天族", "构装", "龙类", "元素", "妖精", "邪魔", "巨人", "类人", "怪兽", "泥怪", "植物", "亡灵", "天族或邪魔"]
 cr_list = ["0", "1/8", "1/4", "1/2"] + [str(i) for i in range(1, 31)]  
 
 html_template_big = "../空白页模板/怪物大速查模板.htm"
@@ -31,6 +31,7 @@ class Monster:
         self.monster_type = ""
         self.monster_tag = ""
         self.monster_cr = ""
+        self.monster_legendary = "无"  # 新增传奇动作属性
 
         self.monster_source_tag = source_tag
         self.monster_source_priority = source_priority[source_tag]
@@ -101,6 +102,9 @@ class Monster:
         
             # 改进的CR解析
             self._parse_cr_improved(soup, content)
+            
+            # 检测传奇动作
+            self._parse_legendary_actions(soup, content)
                 
         except Exception as e:
             print(f"初始化怪物时出错: {str(e)}")
@@ -112,6 +116,7 @@ class Monster:
             self.monster_type = "怪兽"
             self.monster_tag = ""
             self.monster_cr = "0"
+            self.monster_legendary = "无"
 
     def _parse_cr_improved(self, soup, content):
         """改进的CR解析方法"""
@@ -167,6 +172,24 @@ class Monster:
         
         return False
 
+    def _parse_legendary_actions(self, soup, content):
+        """检测是否有传奇动作"""
+        self.monster_legendary = "无"  # 默认值
+        
+        # 方法1: 查找h6标签中包含"传奇动作"的内容
+        h6_tags = soup.find_all('h6')
+        for h6 in h6_tags:
+            h6_text = h6.get_text()
+            if '传奇动作' in h6_text and 'Legendary Actions' in h6_text:
+                self.monster_legendary = "有"
+                return
+        
+        # 方法2: 在整个内容中搜索传奇动作标识
+        all_text = soup.get_text()
+        if '传奇动作Legendary Actions' in all_text or '传奇动作 Legendary Actions' in all_text:
+            self.monster_legendary = "有"
+            return
+
     def output_id_and_link(self,_class="万兽大全") -> str:
         display_name = self.monster_name
 
@@ -176,13 +199,14 @@ class Monster:
             tags = [
                 self.monster_size,
                 self.monster_type,
+                self.monster_legendary,
                 self.monster_cr,
             ]
             labels = [
                 id_and_link,
                 self.monster_size,
                 self.monster_type,
-                self.monster_size,  # 将标签改为体型
+                self.monster_legendary,
                 self.monster_cr
             ]
             id_and_link = "<TR tags=\"" +" ".join(tags)+"\" monster=\""+self.monster_name+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
@@ -242,18 +266,14 @@ def process_file(file_path: str, file_name: str):
                 if content.strip():  # 只添加非空内容
                     contents.append(content)
         
-        # 修复路径处理 - 生成相对于速查文件的正确路径
+        # 修复路径处理
         chm_path = file_path.replace("\\", "/")
         if "DND5e_chm/" in chm_path:
-            # 提取DND5e_chm/之后的部分
-            relative_path = chm_path.split("DND5e_chm/")[1]
-            # 生成从速查目录到目标文件的相对路径
-            chm_path = "../" + relative_path
+            chm_path = chm_path.split("DND5e_chm/")[1]
         else:
-            # 如果不在DND5e_chm目录中，使用相对路径
-            chm_path = os.path.relpath(file_path, os.path.dirname(os.path.abspath("../速查"))).replace("\\", "/")
+            chm_path = os.path.relpath(file_path, os.getcwd()).replace("\\", "/")
         
-        book = relative_path.split("/")[0] if "DND5e_chm/" in file_path and "/" in relative_path else file_name
+        book = chm_path.split("/")[0] if "/" in chm_path else file_name
         source = source_tag.get(book, book)
         
         print(f"开始处理 {book} 内的资源，共找到 {len(contents)} 个条目。")
@@ -279,7 +299,7 @@ def process_file(file_path: str, file_name: str):
                 if monster.monster_id not in big_monster_list_keys:
                     big_monster_list_keys.append(monster.monster_id)
                     success_count += 1
-                    print(f"成功添加怪物: {monster.monster_name} (CR: {monster.monster_cr})")
+                    print(f"成功添加怪物: {monster.monster_name} (CR: {monster.monster_cr}, 传奇动作: {monster.monster_legendary})")
 
             except Exception as e:
                 print(f"解析第 {i+1} 个条目时出错: {str(e)}")
@@ -347,20 +367,37 @@ if __name__ == "__main__":
             except Exception as e:
                 print(f"生成怪物 {monster_id} 的行时出错: {str(e)}")
         
-        # 修复模板替换逻辑
-        final_content = template_big.replace("{{内容}}", "\n".join(monster_rows))
+        # 修复模板替换逻辑 - 使用正确的占位符
+        final_content = template_big.replace("怪物列表内容", "\n".join(monster_rows))
         
-        # 修复模板中的HTML结构错误
+        # 如果第一个替换没有成功，尝试其他可能的占位符
+        if "怪物列表内容" not in template_big:
+            # 尝试其他可能的占位符格式
+            possible_placeholders = [
+                "     内容     ",
+                "{{内容}}",
+                "内容占位符",
+                "MONSTER_LIST_CONTENT"
+            ]
+            for placeholder in possible_placeholders:
+                if placeholder in template_big:
+                    final_content = template_big.replace(placeholder, "\n".join(monster_rows))
+                    break
+                    
+        # 清理重复的HTML结构
         final_content = final_content.replace("</table>\n</body>\n</html>\n</table>\n</body>\n</html>", "</table>\n</body>\n</html>")
         
         with open(output_file, mode="w", encoding="gbk", errors='ignore') as _f:
             _f.write(final_content)
             
         print(f"成功生成速查文件: {output_file}")
+        print(f"占位符替换状态: {'成功' if '怪物列表内容' not in final_content else '失败'}")
         
     except Exception as e:
         print(f"程序执行过程中发生错误: {str(e)}")
         import traceback
         traceback.print_exc()
+    except Exception as e:
+        print(f"程序执行过程中发生错误: {str(e)}")
         import traceback
         traceback.print_exc()
