@@ -11,7 +11,6 @@ a {
 	color: #800000;
 	text-decoration:none;
 	font-weight: bold;
-	font-style: italic;
 	margin-left: 20px;
 }
 span {
@@ -33,17 +32,11 @@ sup {
 	display: block;
 }
 
-.cr-range-container {
-	margin: 10px 0;
-}
 .cr-select {
-	margin: 0 10px;
+	margin-right: 10px;
 	padding: 2px;
 }
-#crMinValue, #crMaxValue {
-	font-weight: bold;
-	color: #704cd9;
-}
+
 </style>
 <script>
 var crValues = ["0", "1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"];
@@ -179,15 +172,14 @@ function toggleVisibility() {
 </script>
 </head>
 <body>
-<h1><FONT color=#704cd9>万兽大全速查表 List of Many Monsters</FONT></h1>
+<h1><FONT color=#800000>Corellon's Charming Concubines</FONT></h1>
 <div style="MARGIN: 20px">
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
-<div class="cr-range-container">
-<b>CR范围：</b><br>
-<label for="crMinSelect">最小值</label>
-<select id="crMinSelect" class="cr-select" onchange="updateCRValues(); search();">
-<option value="0">0</option>
+<b>挑战等级：</b>
+<label for="crMinSelect">最小值：</label>
+<select id="crMinSelect" class="cr-select" onchange="updateCRValues();">
+<option value="0" selected>0</option>
 <option value="1">1/8</option>
 <option value="2">1/4</option>
 <option value="3">1/2</option>
@@ -222,8 +214,8 @@ function toggleVisibility() {
 <option value="32">29</option>
 <option value="33">30</option>
 </select>
-<label for="crMaxSelect">最大值</label>
-<select id="crMaxSelect" class="cr-select" onchange="updateCRValues(); search();">
+<label for="crMaxSelect">最大值：</label>
+<select id="crMaxSelect" class="cr-select" onchange="updateCRValues();">
 <option value="0">0</option>
 <option value="1">1/8</option>
 <option value="2">1/4</option>
@@ -259,9 +251,20 @@ function toggleVisibility() {
 <option value="32">29</option>
 <option value="33" selected>30</option>
 </select>
-</div>
+<br><b>传奇动作：</b>
+<button onclick="select_all('legendary');">全选</button>
+<input type="checkbox" id="lg1" name="legendary" value="有" checked><label for="lg1">有</label>
+<input type="checkbox" id="lg2" name="legendary" value="无" checked><label for="lg2">无</label>
+<br><b>生物体型：</b>
+<button onclick="select_all('size');">全选</button>
+<input type="checkbox" id="sz1" name="size" value="微型" checked><label for="sz1">微型</label>
+<input type="checkbox" id="sz2" name="size" value="小型" checked><label for="sz2">小型</label>
+<input type="checkbox" id="sz3" name="size" value="中型" checked><label for="sz3">中型</label>
+<input type="checkbox" id="sz4" name="size" value="大型" checked><label for="sz4">大型</label>
+<input type="checkbox" id="sz5" name="size" value="巨型" checked><label for="sz5">巨型</label>
+<input type="checkbox" id="sz6" name="size" value="超型" checked><label for="sz6">超巨型</label>
 <br><b>生物类型：</b>
-<button onclick="select_all('type'); search();">全选</button>
+<button onclick="select_all('type');">全选</button>
 <input type="checkbox" id="tp1" name="type" value="异怪" checked><label for="tp1">异怪</label>
 <input type="checkbox" id="tp2" name="type" value="野兽" checked><label for="tp2">野兽</label>
 <input type="checkbox" id="tp3" name="type" value="天族" checked><label for="tp3">天族</label>
@@ -276,23 +279,12 @@ function toggleVisibility() {
 <input type="checkbox" id="tp12" name="type" value="泥怪" checked><label for="tp12">泥怪</label>
 <input type="checkbox" id="tp13" name="type" value="植物" checked><label for="tp13">植物</label>
 <input type="checkbox" id="tp14" name="type" value="亡灵" checked><label for="tp14">亡灵</label>
-<input type="checkbox" id="tp15" name="type" value="天族或邪魔" checked><label for="tp15">天族或邪魔</label>
-<br><b>体型：</b>
-<button onclick="select_all('size'); search();">全选</button>
-<input type="checkbox" id="sz1" name="size" value="微型" checked><label for="sz1">微型</label>
-<input type="checkbox" id="sz2" name="size" value="小型" checked><label for="sz2">小型</label>
-<input type="checkbox" id="sz3" name="size" value="中型" checked><label for="sz3">中型</label>
-<input type="checkbox" id="sz4" name="size" value="大型" checked><label for="sz4">大型</label>
-<input type="checkbox" id="sz5" name="size" value="巨型" checked><label for="sz5">巨型</label>
-<input type="checkbox" id="sz6" name="size" value="超巨型" checked><label for="sz6">超巨型</label>
-<br><b>传奇动作：</b>
-<button onclick="select_all('legendary'); search();">全选</button>
-<input type="checkbox" id="lg1" name="legendary" value="有" checked><label for="lg1">有</label>
-<input type="checkbox" id="lg2" name="legendary" value="无" checked><label for="lg2">无</label>
+
+
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
 <table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
-<tr><td><b>怪物名</b></td><td width=60><b>体型</b></td><td width=80><b>生物类型</b></td><td width=60><b>传奇动作</b></td><td width=50><b>CR</b></td></tr>
+<tr><td><b>怪物名</b></td><td width=80><b>生物体型</b></td><td width=80><b>生物类型</b></td><td width=80><b>传奇动作</b></td><td width=80><b>挑战等级</b></td><td width=80><b>怪物来源</b></td></tr>
 怪物列表内容
 </table>
 </body>

@@ -16,8 +16,8 @@ source_priority: dict[str,int] = {
     "MM25": 0, # 最高优先级
 }
 
-size_list = ["微型", "小型", "中型", "大型", "巨型", "超巨型"]
-type_list = ["异怪", "野兽", "天族", "构装", "龙类", "元素", "妖精", "邪魔", "巨人", "类人", "怪兽", "泥怪", "植物", "亡灵", "天族或邪魔"]
+size_list = ["微型", "小型", "中型", "大型", "巨型"]
+type_list = ["异怪", "野兽", "天族", "构装", "龙类", "元素", "妖精", "邪魔", "巨人", "类人", "怪兽", "泥怪", "植物", "亡灵"]
 cr_list = ["0", "1/8", "1/4", "1/2"] + [str(i) for i in range(1, 31)]  
 
 html_template_big = "../空白页模板/怪物大速查模板.htm"
@@ -28,6 +28,7 @@ class Monster:
         self.monster_id = ""
         self.monster_subline = ""
         self.monster_size = ""
+        self.monster_size_tag = ""
         self.monster_type = ""
         self.monster_tag = ""
         self.monster_cr = ""
@@ -82,16 +83,24 @@ class Monster:
                     self.monster_subline = lines[1]
             
             # 解析体型
-            for size in size_list:
-                if size in self.monster_subline:
-                    self.monster_size = size
-                    break
+            if "超巨型" in self.monster_subline:
+                self.monster_size_tag = "超型"
+                self.monster_size = "超巨型"
+            else:
+                for size in size_list:
+                    if size in self.monster_subline:
+                        self.monster_size_tag = size
+                        self.monster_size = size
+                        break
             
             # 解析类型
-            for monster_type in type_list:
-                if monster_type in self.monster_subline:
-                    self.monster_type = monster_type
-                    break
+            if "天族或邪魔" in self.monster_subline:
+                self.monster_type = "天族/邪魔"
+            else:
+                for monster_type in type_list:
+                    if monster_type in self.monster_subline:
+                        self.monster_type = monster_type
+                        break
             
             # 解析标签
             if "（" in self.monster_subline and "）" in self.monster_subline:
@@ -192,26 +201,27 @@ class Monster:
 
     def output_id_and_link(self,_class="万兽大全") -> str:
         display_name = self.monster_name
-
-        id_and_link = "<a href=\""+self.chm_path+"#"+self.monster_id+"\">"+display_name+"</a>"
+        if self.monster_source_tag in ["MM14","VGM","MTF"]: #旧版
+            id_and_link = "<a class=legacy href=\""+self.chm_path+"#"+self.monster_id+"\">"+display_name+"</a>"
+        else:id_and_link = "<a href=\""+self.chm_path+"#"+self.monster_id+"\">"+display_name+"</a>"
 
         if _class == "万兽大全":
             tags = [
-                self.monster_size,
+                self.monster_size_tag,
                 self.monster_type,
                 self.monster_legendary,
                 self.monster_cr,
+                self.monster_source_tag,
             ]
             labels = [
                 id_and_link,
                 self.monster_size,
                 self.monster_type,
                 self.monster_legendary,
-                self.monster_cr
+                self.monster_cr,
+                self.monster_source_tag,
             ]
-            id_and_link = "<TR tags=\"" +" ".join(tags)+"\" monster=\""+self.monster_name+"\"><TD>"+"</TD><TD>".join(labels)+"</TD></TR>"
-        elif self.monster_source_tag not in ["","MM25"]: #角标
-            id_and_link += "<sup>"+self.monster_source_tag+"</sup>"
+            id_and_link = "<TR tags=\"" +" ".join(tags)+"\" monster=\""+self.monster_name+"\">\r\n<TD>"+"</TD>\r\n<TD>".join(labels)+"</TD>\r\n</TR>"
         return id_and_link
     
     def output_database(self) -> list[str]:

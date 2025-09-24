@@ -37,11 +37,13 @@ sup {
 function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
 	var cb_school = document.getElementsByName("school");
+	var cb_action = document.getElementsByName("action");
 	var cb_class = document.getElementsByName("class");
 	var cb_level = document.getElementsByName("level");
 	var cb_book = document.getElementsByName("book");
 	var cb_special = document.getElementsByName("special");
 	var choosen_school = [];
+	var choosen_action = [];
 	var choosen_class = [];
 	var choosen_level = [];
 	var choosen_book = [];
@@ -49,6 +51,11 @@ function search() {
 	for (var i = 0; i < cb_school.length; i++) {
 		if (cb_school[i].checked) {
 			choosen_school.push(cb_school[i].value)
+		}
+	}
+	for (var i = 0; i < cb_action.length; i++) {
+		if (cb_action[i].checked) {
+			choosen_action.push(cb_action[i].value)
 		}
 	}
 	for (var i = 0; i < cb_class.length; i++) {
@@ -90,6 +97,12 @@ function search() {
 					has_school = true;
 				}
 			}
+			var has_action = false;
+			for (var j = 0; j < choosen_action.length && !has_action; j++) {
+				if (tags.indexOf(choosen_action[j]) != -1) {
+					has_action = true;
+				}
+			}
 			var has_class = false;
 			for (var j = 0; j < choosen_class.length && !has_class; j++) {
 				if (tags.indexOf(choosen_class[j]) != -1) {
@@ -114,7 +127,7 @@ function search() {
 					has_special = false;
 				}
 			}
-			if (has_word && has_school && has_class && has_level && has_book && has_special) {
+			if (has_word && has_school && has_action && has_class && has_level && has_book && has_special) {
 				elements[i].style.display = "";
 			} else {
 				elements[i].style.display = "none";
@@ -157,7 +170,7 @@ function toggleVisibility() {
 </script>
 </head>
 <body>
-<h1><FONT color=#704cd9>万法大全速查表 List of Many Spells</FONT></h1>
+<h1><FONT color=#704cd9>Elminster's All-Around Spell Book</FONT></h1>
 <div style="MARGIN: 20px">
 <input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
 <div id="filterDiv" style="MARGIN-LEFT: 20px">
@@ -175,6 +188,12 @@ function toggleVisibility() {
 <input type="checkbox" id="sp3" name="special" value="非姿"><label for="sp3">无姿势</label>
 <input type="checkbox" id="sp4" name="special" value="非材"><label for="sp4">无材料</label>
 <input type="checkbox" id="sp5" name="special" value="无特"><label for="sp5">无价值/不消耗的材料成分</label>
+<br><b>时间：</b>
+<button onclick="select_all('action')">全选</button>
+<input type="checkbox" id="ac0" name="action" value="动作" checked><label for="ac0">动作</label>
+<input type="checkbox" id="ac1" name="action" value="附赠" checked><label for="ac1">附赠</label>
+<input type="checkbox" id="ac2" name="action" value="反应" checked><label for="ac2">反应</label>
+<input type="checkbox" id="ac3" name="action" value="其他" checked><label for="ac3">其他</label>
 <br><b>环阶：</b>
 <button onclick="select_all('level')">全选</button>
 <input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
@@ -208,7 +227,7 @@ function toggleVisibility() {
 <input type="checkbox" id="cl7" name="class" value="术士" checked><label for="cl7">术士</label>
 <input type="checkbox" id="cl8" name="class" value="法师" checked><label for="cl8">法师</label>
 <input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
-<input type="checkbox" id="cl10" name="class" value="其他" checked><label for="cl10">其他</label>
+<input type="checkbox" id="cl10" name="class" value="无职" checked><label for="cl10">无职</label>
 <BR><b>来源：</b>
 <button onclick="select_all('book')">全选</button>
 <input type="checkbox" id="bk1" name="book" value="PHB24" checked><label for="bk1">PHB24</label>
@@ -228,7 +247,7 @@ function toggleVisibility() {
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
 <table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
-<tr><td><b>法术名</b></td><td width=120><b>环阶</b></td><td width=60><b>学派</b></td><td><b>职业</b></td><td><b>言语</b></td><td><b>姿势</b></td><td><b>材料</b></td><td><b>仪式</b></td><td><b>专注</b></td><td><b>来源</b></td></tr>
+<tr><td><b>法术名</b></td><td width=60><b>环阶</b></td><td width=60><b>学派</b></td><td><b>职业</b></td><td width=60><b>时间</b></td><td width=40><b>言语</b></td><td width=40><b>姿势</b></td><td width=40><b>材料</b></td><td width=40><b>仪式</b></td><td width=40><b>专注</b></td><td width=60><b>来源</b></td></tr>
 {{内容}}
 </table>
 </body>
