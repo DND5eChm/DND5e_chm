@@ -1,0 +1,234 @@
+<!-- coding: gbk -->
+<html>
+<head>
+<title>万兽大全快查表</title>
+<meta content="text/html; charset=gb2312">
+<style>
+html,body { 
+	font-family: Arial, Helvetica, sans-serif;
+}
+a {
+	color: #704cd9;
+	text-decoration:none;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 20px;
+}
+span {
+	display: block;
+}
+.legacy {
+	color: #777777;
+	text-decoration: line-through;
+}
+p {
+	line-height: 150%;
+}
+
+sup {
+	line-height: 0;
+	margin-left: 0.2rem;
+}
+#filterDiv {
+	display: block;
+}
+
+.cr-range-container {
+	margin: 10px 0;
+}
+.cr-slider {
+	width: 300px;
+	margin: 0 10px;
+}
+.cr-values {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 5px;
+	font-size: 12px;
+}
+#crMinValue, #crMaxValue {
+	font-weight: bold;
+	color: #704cd9;
+}
+</style>
+<script>
+var crValues = ["0", "1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"];
+
+function updateCRValues() {
+	var minSlider = document.getElementById("crMinSlider");
+	var maxSlider = document.getElementById("crMaxSlider");
+	var minValue = document.getElementById("crMinValue");
+	var maxValue = document.getElementById("crMaxValue");
+	
+	var minIndex = parseInt(minSlider.value);
+	var maxIndex = parseInt(maxSlider.value);
+	
+	if (minIndex > maxIndex) {
+		if (minSlider === document.activeElement) {
+			maxSlider.value = minIndex;
+			maxIndex = minIndex;
+		} else {
+			minSlider.value = maxIndex;
+			minIndex = maxIndex;
+		}
+	}
+	
+	minValue.textContent = crValues[minIndex];
+	maxValue.textContent = crValues[maxIndex];
+}
+
+function search() {
+    var keyword = document.getElementById("input").value.toLowerCase();
+	var cb_type = document.getElementsByName("type");
+	var cb_size = document.getElementsByName("size");
+	var choosen_type = [];
+	var choosen_size = [];
+	
+	var minCRIndex = parseInt(document.getElementById("crMinSlider").value);
+	var maxCRIndex = parseInt(document.getElementById("crMaxSlider").value);
+	
+	for (var i = 0; i < cb_type.length; i++) {
+		if (cb_type[i].checked) {
+			choosen_type.push(cb_type[i].value)
+		}
+	}
+	for (var i = 0; i < cb_size.length; i++) {
+		if (cb_size[i].checked) {
+			choosen_size.push(cb_size[i].value)
+		}
+	}
+	
+    var elements = document.getElementsByTagName("tr");
+	for (var i = 1; i < elements.length; i++) {
+		var has_word = false;
+		if (keyword != '') {
+			var content = elements[i].getAttribute("monster");
+			if (content.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+				has_word = true
+			}
+		} else {
+			has_word = true
+		}
+		var tags = elements[i].getAttribute("tags");
+		if (tags != null) {
+			var has_type = false;
+			for (var j = 0; j < choosen_type.length && !has_type; j++) {
+				if (tags.indexOf(choosen_type[j]) != -1) {
+					has_type = true;
+				}
+			}
+			var has_size = false;
+			for (var j = 0; j < choosen_size.length && !has_size; j++) {
+				if (tags.indexOf(choosen_size[j]) != -1) {
+					has_size = true;
+				}
+			}
+			
+			var has_cr = false;
+			var tagArray = tags.split(" ");
+			for (var j = 0; j < tagArray.length; j++) {
+				var crIndex = crValues.indexOf(tagArray[j]);
+				if (crIndex >= 0 && crIndex >= minCRIndex && crIndex <= maxCRIndex) {
+					has_cr = true;
+					break;
+				}
+			}
+			
+			if (has_word && has_type && has_size && has_cr) {
+				elements[i].style.display = "";
+			} else {
+				elements[i].style.display = "none";
+			}
+		}
+	}
+}
+
+function select_all(type_name){
+	var cb = document.getElementsByName(type_name);
+	var all_selected = true;
+	for (var i = 0; i < cb.length && all_selected; i++) {
+		if (all_selected && !(cb[i].checked)) {
+			all_selected = false;
+		}
+	}
+	if (all_selected) {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = false;
+		}
+	} else {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = true;
+		}
+	}
+}
+
+function toggleVisibility() {
+	var div = document.getElementById("filterDiv");
+	var btn = document.getElementById("toggleBtn");
+	var isHidden = (div.style.display === "none") || 
+          (div.currentStyle && div.currentStyle.display === "none") || 
+          (div.offsetHeight === 0);
+	if (isHidden) {
+		div.style.display = "block";
+		btn.innerText = "隐藏筛选";
+	} else {
+		div.style.display = "none";
+		btn.innerText = "显示筛选";
+	}
+}
+</script>
+</head>
+<body>
+<h1><FONT color=#704cd9>万兽大全快查表 List of Many Monsters</FONT></h1>
+<div style="MARGIN: 20px">
+<input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
+<div id="filterDiv" style="MARGIN-LEFT: 20px">
+<div class="cr-range-container">
+<b>CR范围：</b><br>
+<label for="crMinSlider">最小值</label>
+<input type="range" id="crMinSlider" class="cr-slider" min="0" max="33" value="0" oninput="updateCRValues(); search();">
+<span id="crMinValue">0</span>
+<br>
+<label for="crMaxSlider">最大值</label>
+<input type="range" id="crMaxSlider" class="cr-slider" min="0" max="33" value="33" oninput="updateCRValues(); search();">
+<span id="crMaxValue">30</span>
+</div>
+<br><b>生物类型：</b>
+<button onclick="select_all('type'); search();">全选</button>
+<input type="checkbox" id="tp1" name="type" value="异怪" checked><label for="tp1">异怪</label>
+<input type="checkbox" id="tp2" name="type" value="野兽" checked><label for="tp2">野兽</label>
+<input type="checkbox" id="tp3" name="type" value="天族" checked><label for="tp3">天族</label>
+<input type="checkbox" id="tp4" name="type" value="构装" checked><label for="tp4">构装</label>
+<input type="checkbox" id="tp5" name="type" value="龙类" checked><label for="tp5">龙类</label>
+<input type="checkbox" id="tp6" name="type" value="元素" checked><label for="tp6">元素</label>
+<input type="checkbox" id="tp7" name="type" value="妖精" checked><label for="tp7">妖精</label>
+<input type="checkbox" id="tp8" name="type" value="邪魔" checked><label for="tp8">邪魔</label>
+<input type="checkbox" id="tp9" name="type" value="巨人" checked><label for="tp9">巨人</label>
+<input type="checkbox" id="tp10" name="type" value="类人" checked><label for="tp10">类人</label>
+<input type="checkbox" id="tp11" name="type" value="怪兽" checked><label for="tp11">怪兽</label>
+<input type="checkbox" id="tp12" name="type" value="泥怪" checked><label for="tp12">泥怪</label>
+<input type="checkbox" id="tp13" name="type" value="植物" checked><label for="tp13">植物</label>
+<input type="checkbox" id="tp14" name="type" value="亡灵" checked><label for="tp14">亡灵</label>
+<br><b>体型：</b>
+<button onclick="select_all('size'); search();">全选</button>
+<input type="checkbox" id="sz1" name="size" value="微型" checked><label for="sz1">微型</label>
+<input type="checkbox" id="sz2" name="size" value="小型" checked><label for="sz2">小型</label>
+<input type="checkbox" id="sz3" name="size" value="中型" checked><label for="sz3">中型</label>
+<input type="checkbox" id="sz4" name="size" value="大型" checked><label for="sz4">大型</label>
+<input type="checkbox" id="sz5" name="size" value="巨型" checked><label for="sz5">巨型</label>
+<input type="checkbox" id="sz6" name="size" value="超巨型" checked><label for="sz6">超巨型</label>
+</div>
+<HR style="HEIGHT: 2px; COLOR: #b79c61">
+<table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<tr><td><b>怪物名</b></td><td width=60><b>体型</b></td><td width=80><b>生物类型</b></td><td><b>体型</b></td><td width=50><b>CR</b></td></tr>
+{{内容}}
+</table>
+</body>
+</html>
+{{    }}
+</table>
+</body>
+</html>
+</table>
+</body>
+</html>
