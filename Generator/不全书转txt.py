@@ -80,8 +80,14 @@ def transform_html_2_txt(base_path, output_path = None):
                     # 替换多个连续换行符为两个换行符（保留段落结构）
                     text_content = re.sub(r'\n+', '\n', text_content).strip()
 
-                    if (text_content.split('\n')[0].startswith('coding:')):
+                    # 清理开头的编码声明
+                    if text_content.startswith('coding:'):
                         text_content = '\n'.join(text_content.split('\n')[1:])
+                    
+                    # 清理结尾的EndFragment
+                    if text_content.endswith('EndFragment'):
+                        text_content = text_content[:-len('EndFragment')]
+                        
                     # 写入TXT文件
                     with open(txt_path, 'w', encoding='utf-8') as f:
                         f.write(text_content)
@@ -99,6 +105,6 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     parser.add_argument("base_path", nargs="?", default=root_dir, help="不全书根目录")
-    parser.add_argument("output_path", nargs="?", default=os.path.join(root_dir, "txt"), help="输出TXT文件的路径")
+    parser.add_argument("output_path", nargs="?", default=os.path.join(script_dir, "Generated/txt"), help="输出TXT文件的路径")
     args = parser.parse_args()
     transform_html_2_txt(args.base_path, args.output_path)
