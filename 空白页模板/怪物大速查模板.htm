@@ -1,7 +1,7 @@
 <!-- coding: gbk -->
 <html>
 <head>
-<title>万兽大全速查表</title>
+<title>怪物速查</title>
 <meta content="text/html; charset=gb2312">
 <style>
 html,body { 
@@ -120,7 +120,13 @@ function search() {
 			var has_cr = false;
 			var tagArray = tags.split(" ");
 			for (var j = 0; j < tagArray.length; j++) {
-				var crIndex = crValues.indexOf(tagArray[j]);
+				var crIndex = -1;
+				for (var k = 0; k < crValues.length; k++) {
+    					if (crValues[k] === tagArray[j]) {
+        					crIndex = k;
+        					break;
+    				}
+			}
 				if (crIndex >= 0 && crIndex >= minCRIndex && crIndex <= maxCRIndex) {
 					has_cr = true;
 					break;
@@ -283,7 +289,7 @@ function toggleVisibility() {
 
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
-<table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<table style="BORDER-COLLAPSE: collapse; TEXT-ALIGN: center" cellSpacing=0 cellPadding=2 border=0>
 <tr><td><b>怪物名</b></td><td width=80><b>生物体型</b></td><td width=80><b>生物类型</b></td><td width=80><b>传奇动作</b></td><td width=80><b>挑战等级</b></td><td width=80><b>怪物来源</b></td></tr>
 怪物列表内容
 </table>

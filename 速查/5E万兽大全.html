@@ -120,7 +120,13 @@ function search() {
 			var has_cr = false;
 			var tagArray = tags.split(" ");
 			for (var j = 0; j < tagArray.length; j++) {
-				var crIndex = crValues.indexOf(tagArray[j]);
+				var crIndex = -1;
+				for (var k = 0; k < crValues.length; k++) {
+    					if (crValues[k] === tagArray[j]) {
+        					crIndex = k;
+        					break;
+    				}
+			}
 				if (crIndex >= 0 && crIndex >= minCRIndex && crIndex <= maxCRIndex) {
 					has_cr = true;
 					break;
