@@ -65,9 +65,12 @@ def transform_html_2_txt(base_path, output_path = None):
                         elif element.name == 'br':
                             # 处理<br>标签为换行
                             text_parts.append('\n')
-                        elif element.name in ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul', 'ol']:
+                        elif element.name in ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul', 'ol','table','tr']:
                             # 块级元素前后添加空行
                             text_parts.append('\n\n')
+                        elif element.name == 'td':
+                            # 处理<td>标签为空格间隔
+                            text_parts.append(' ')
 
                     # 合并内容并处理连续空行
                     text_content = ''
@@ -79,7 +82,7 @@ def transform_html_2_txt(base_path, output_path = None):
                         text_content += t
                     # 替换多个连续换行符为两个换行符（保留段落结构）
                     text_content = re.sub(r'\n+', '\n', text_content).strip()
-
+                    text_content = text_content.replace('if !supportLists·endif','')
                     # 清理开头的编码声明
                     if text_content.startswith('coding:'):
                         text_content = '\n'.join(text_content.split('\n')[1:])
@@ -87,7 +90,10 @@ def transform_html_2_txt(base_path, output_path = None):
                     # 清理结尾的EndFragment
                     if text_content.endswith('EndFragment'):
                         text_content = text_content[:-len('EndFragment')]
-                        
+                    
+                    # 将全角引号替换为半角引号（麻烦编辑们好好看看英文里的引号吧！）
+                    text_content = text_content.replace('’','\'')
+                    
                     # 写入TXT文件
                     with open(txt_path, 'w', encoding='utf-8') as f:
                         f.write(text_content)
