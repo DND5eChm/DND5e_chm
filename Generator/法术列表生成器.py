@@ -310,7 +310,7 @@ if __name__ == "__main__":
         for level in level_list:
             if len(class_spell_list[c][level]) != 0:
                 # 去legacy，排序并输出
-                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy or c == "奇械师"] # 忽略legacy内容
+                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy] # 忽略legacy内容
                 sorted_spells = sorted(sorted_spells,key=lambda x: (x.spell_source_priority,x.spell_name_en))# 排序：来源优先，法术名次优先
                 contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in sorted_spells])+"</p>")
         with open("../速查/法术速查/"+c+"法术速查.html",mode="w",encoding="gbk") as _f:
