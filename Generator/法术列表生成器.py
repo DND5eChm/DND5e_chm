@@ -19,6 +19,7 @@ spell_file_list = [
     "印记城与外域/第一章/新法术详述.htm",
     "万象无常书/贤者/卡牌法术详述.htm",
     "玩家手册2024/法术详述",
+    "艾伯伦：奇械锻炉/第一章/法术.htm",
 ]
 
 source_tag: dict[str,str] = {
@@ -36,6 +37,7 @@ source_tag: dict[str,str] = {
     "玩家手册2024" : "PHB24",
     "夸力许" : "夸力许",
     "冰风谷" : "冰风谷",
+    "艾伯伦：奇械锻炉" : "EFA",
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
@@ -52,6 +54,7 @@ source_priority: dict[str,int] = {
     "SO": 11,
     "夸力许": 12,
     "冰风谷": 13,
+    "EBR" : 14,
 }
 
 short_cut: dict[str,str] = {
