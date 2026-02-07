@@ -20,6 +20,7 @@ spell_file_list = [
     "万象无常书/贤者/卡牌法术详述.htm",
     "玩家手册2024/法术详述",
     "艾伯伦：奇械锻炉/第一章/法术.htm",
+    "被遗忘的国度/费伦英雄/第五章/新法术.htm",
 ]
 
 source_tag: dict[str,str] = {
@@ -38,6 +39,7 @@ source_tag: dict[str,str] = {
     "夸力许" : "夸力许",
     "冰风谷" : "冰风谷",
     "艾伯伦：奇械锻炉" : "EFA",
+    "被遗忘的国度" : "FR",
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
@@ -52,9 +54,10 @@ source_priority: dict[str,int] = {
     "SCC": 9,
     "AAG": 10,
     "SO": 11,
-    "夸力许": 12,
-    "冰风谷": 13,
-    "EBR" : 14,
+    "FR" : 12,
+    "EBR" : 13,
+    "冰风谷": 14,
+    "夸力许": 15,
 }
 
 short_cut: dict[str,str] = {
@@ -83,13 +86,13 @@ html_template = "../空白页模板/法术列表模板.htm"
 html_template_big = "../空白页模板/法术大速查模板.htm"
 
 class Spell:
-    def __init__(self, content, chm_path="", source_tag="PHB14"):
+    def __init__(self, content, chm_path="", source_tag="PHB14", order=0):
         self.spell_name = ""
         self.spell_name_en = ""
         self.spell_id = ""
         self.spell_subline = ""
         self.spell_content = ""
-        
+        self.parse_order = order
         self.spell_classes = []
         self.spell_level = ""
         self.spell_action = ""
@@ -229,6 +232,8 @@ class_spell_list: dict[str, dict[str, list[Spell]]] = {}
 big_spell_list: dict[str, Spell] = {}
 big_spell_list_keys: list[str] = []
 
+parse_counter = 0
+
 def process_file(file_path: str,file_name: str):
     data = ""
     contents = []
@@ -260,7 +265,9 @@ def process_file(file_path: str,file_name: str):
     for content in contents:
         #try:
             # 获取法术
-            spell = Spell(content,chm_path,source)
+            global parse_counter
+            parse_counter += 1
+            spell = Spell(content, chm_path, source, order=parse_counter)
             
             for _class in spell.spell_classes:
                 if _class not in class_spell_list.keys():
@@ -268,21 +275,11 @@ def process_file(file_path: str,file_name: str):
                 if spell.spell_level not in class_spell_list[_class].keys():
                     class_spell_list[_class][spell.spell_level] = []
                 class_spell_list[_class][spell.spell_level].append(spell)
+    
+            key = f"{spell.spell_id}__{spell.spell_source_tag}"
+            big_spell_list[key] = spell
+            big_spell_list_keys.append(key)
             
-            if spell.spell_id in big_spell_list.keys():
-                big_spell_list[spell.spell_id].legacy = True
-                big_spell_list["zzzzzzzzz"+spell.spell_id] = big_spell_list[spell.spell_id]
-                big_spell_list_keys.append("zzzzzzzzz"+spell.spell_id)
-            elif spell.spell_id in spell_conflict.keys():#手动冲突检测
-                new_id = spell_conflict[spell.spell_id]
-                big_spell_list[new_id] = spell
-                big_spell_list_keys.append(new_id)
-                spell.legacy = True  # 标记为过时
-            else:
-                big_spell_list[spell.spell_id] = spell
-                big_spell_list_keys.append(spell.spell_id)
-            
-            big_spell_list[spell.spell_id] = spell
         #except:
         #    if len(content) > 100:
         #        print(content[:100]+"... 解析出错")
@@ -301,6 +298,34 @@ if __name__ == "__main__":
             class_spell_list[c][level]: list[str] = []
     for file in spell_file_list:
         walk_through_files(process_file,file)
+    
+    from collections import defaultdict
+
+    # 1. 按 spell_id 分组
+    spell_groups: dict[str, list[Spell]] = defaultdict(list)
+
+    for spell in big_spell_list.values():
+        spell_groups[spell.spell_id].append(spell)
+
+# 2. 每组按来源优先级排序，标记 legacy
+    big_spell_list.clear()
+    big_spell_list_keys.clear()
+
+    for spell_id, spells in spell_groups.items():
+     # 按解析顺序，后出现的在前
+        spells.sort(key=lambda s: s.parse_order, reverse=True)
+
+        for i, spell in enumerate(spells):
+            spell.legacy = (i != 0)
+
+            key = spell.spell_id
+            if spell.legacy:
+                key = f"zzzzzzzzz{spell.spell_id}__{spell.spell_source_tag}"
+            else:
+                key = f"{spell.spell_id}__{spell.spell_source_tag}"
+
+            big_spell_list[key] = spell
+            big_spell_list_keys.append(key)
 
     # 生成速查
     template = ""

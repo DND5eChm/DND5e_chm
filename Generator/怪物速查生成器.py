@@ -7,13 +7,19 @@ from 文件遍历 import walk_through_files
 
 monster_file_list = [
     "怪物图鉴2025",
+    "被遗忘的国度/洛温初光/洛温怪物",
+    "被遗忘的国度/耐瑟瑞尔/耐瑟怪物",
 ]
 
 source_tag: dict[str,str] = {
     "怪物图鉴2025": "MM25",
+    "洛温初光": "LFL",
+    "耐瑟瑞尔": "NF",
 }
 source_priority: dict[str,int] = {
     "MM25": 0, # 最高优先级
+    "LFL": 1,
+    "NF": 2,
 }
 
 size_list = ["微型", "小型", "中型", "大型", "巨型"]
@@ -283,8 +289,14 @@ def process_file(file_path: str, file_name: str):
         else:
             chm_path = os.path.relpath(file_path, os.getcwd()).replace("\\", "/")
         
-        book = chm_path.split("/")[0] if "/" in chm_path else file_name
-        source = source_tag.get(book, book)
+        book = chm_path.split("/")[0]
+        if book in ("被遗忘的国度","第三方"): #被遗忘的国度和第三方文件夹，取路径第二位
+            book = chm_path.split("/")[1]
+            source = source_tag[book]
+        elif book in source_tag.keys():
+            source = source_tag[book]
+        else:
+            source = book
         
         print(f"开始处理 {book} 内的资源，共找到 {len(contents)} 个条目。")
         
