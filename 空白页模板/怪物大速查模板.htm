@@ -61,9 +61,11 @@ function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
 	var cb_type = document.getElementsByName("type");
 	var cb_size = document.getElementsByName("size");
+	var cb_book = document.getElementsByName("book");
 	var cb_legendary = document.getElementsByName("legendary");
 	var choosen_type = [];
 	var choosen_size = [];
+	var choosen_book = [];
 	var choosen_legendary = [];
 	
 	var minCRIndex = parseInt(document.getElementById("crMinSelect").value);
@@ -77,6 +79,11 @@ function search() {
 	for (var i = 0; i < cb_size.length; i++) {
 		if (cb_size[i].checked) {
 			choosen_size.push(cb_size[i].value)
+		}
+	}
+	for (var i = 0; i < cb_book.length; i++) {
+		if (cb_book[i].checked) {
+			choosen_book.push(cb_book[i].value)
 		}
 	}
 	for (var i = 0; i < cb_legendary.length; i++) {
@@ -110,6 +117,12 @@ function search() {
 					has_size = true;
 				}
 			}
+			var has_book = false;
+			for (var j = 0; j < choosen_book.length && !has_book; j++) {
+				if (tags.indexOf(choosen_book[j]) != -1) {
+					has_book = true;
+				}
+			}
 			var has_legendary = false;
 			for (var j = 0; j < choosen_legendary.length && !has_legendary; j++) {
 				if (tags.indexOf(choosen_legendary[j]) != -1) {
@@ -133,7 +146,7 @@ function search() {
 				}
 			}
 			
-			if (has_word && has_type && has_size && has_legendary && has_cr) {
+			if (has_word && has_type && has_size && has_book && has_legendary && has_cr) {
 				elements[i].style.display = "";
 			} else {
 				elements[i].style.display = "none";
@@ -285,7 +298,12 @@ function toggleVisibility() {
 <input type="checkbox" id="tp12" name="type" value="泥怪" checked><label for="tp12">泥怪</label>
 <input type="checkbox" id="tp13" name="type" value="植物" checked><label for="tp13">植物</label>
 <input type="checkbox" id="tp14" name="type" value="亡灵" checked><label for="tp14">亡灵</label>
-
+<BR><b>来源：</b>
+<button onclick="select_all('book')">全选</button>
+<input type="checkbox" id="bk1" name="book" value="MM25" checked><label for="bk1">MM25</label>
+<input type="checkbox" id="bk2" name="book" value="FR" checked><label for="bk2">FR</label>
+<input type="checkbox" id="bk3" name="book" value="LFL" checked><label for="bk3">LFL</label>
+<input type="checkbox" id="bk4" name="book" value="NF" checked><label for="bk4">NF</label>
 
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">

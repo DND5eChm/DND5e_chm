@@ -61,9 +61,11 @@ function search() {
     var keyword = document.getElementById("input").value.toLowerCase();
 	var cb_type = document.getElementsByName("type");
 	var cb_size = document.getElementsByName("size");
+	var cb_book = document.getElementsByName("book");
 	var cb_legendary = document.getElementsByName("legendary");
 	var choosen_type = [];
 	var choosen_size = [];
+	var choosen_book = [];
 	var choosen_legendary = [];
 	
 	var minCRIndex = parseInt(document.getElementById("crMinSelect").value);
@@ -77,6 +79,11 @@ function search() {
 	for (var i = 0; i < cb_size.length; i++) {
 		if (cb_size[i].checked) {
 			choosen_size.push(cb_size[i].value)
+		}
+	}
+	for (var i = 0; i < cb_book.length; i++) {
+		if (cb_book[i].checked) {
+			choosen_book.push(cb_book[i].value)
 		}
 	}
 	for (var i = 0; i < cb_legendary.length; i++) {
@@ -110,6 +117,12 @@ function search() {
 					has_size = true;
 				}
 			}
+			var has_book = false;
+			for (var j = 0; j < choosen_book.length && !has_book; j++) {
+				if (tags.indexOf(choosen_book[j]) != -1) {
+					has_book = true;
+				}
+			}
 			var has_legendary = false;
 			for (var j = 0; j < choosen_legendary.length && !has_legendary; j++) {
 				if (tags.indexOf(choosen_legendary[j]) != -1) {
@@ -133,7 +146,7 @@ function search() {
 				}
 			}
 			
-			if (has_word && has_type && has_size && has_legendary && has_cr) {
+			if (has_word && has_type && has_size && has_book && has_legendary && has_cr) {
 				elements[i].style.display = "";
 			} else {
 				elements[i].style.display = "none";
@@ -285,7 +298,12 @@ function toggleVisibility() {
 <input type="checkbox" id="tp12" name="type" value="泥怪" checked><label for="tp12">泥怪</label>
 <input type="checkbox" id="tp13" name="type" value="植物" checked><label for="tp13">植物</label>
 <input type="checkbox" id="tp14" name="type" value="亡灵" checked><label for="tp14">亡灵</label>
-
+<BR><b>来源：</b>
+<button onclick="select_all('book')">全选</button>
+<input type="checkbox" id="bk1" name="book" value="MM25" checked><label for="bk1">MM25</label>
+<input type="checkbox" id="bk2" name="book" value="FR" checked><label for="bk2">FR</label>
+<input type="checkbox" id="bk3" name="book" value="LFL" checked><label for="bk3">LFL</label>
+<input type="checkbox" id="bk4" name="book" value="NF" checked><label for="bk4">NF</label>
 
 </div>
 <HR style="HEIGHT: 2px; COLOR: #b79c61">
@@ -371,6 +389,14 @@ function toggleVisibility() {
 <TD>14</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="巨型 龙类 有 11 FR" monster="成年深龙Adult Deep Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/成年深龙.htm#Adult_Deep_Dragon">成年深龙Adult Deep Dragon</a></TD>
+<TD>巨型</TD>
+<TD>龙类</TD>
+<TD>有</TD>
+<TD>11</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="巨型 龙类 有 17 MM25" monster="成年金龙Adult Gold Dragon">
 <TD><a href="怪物图鉴2025/龙类/金龙/成年金龙.htm#Adult_Gold_Dragon">成年金龙Adult Gold Dragon</a></TD>
 <TD>巨型</TD>
@@ -402,6 +428,14 @@ function toggleVisibility() {
 <TD>有</TD>
 <TD>16</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="巨型 龙类 有 15 FR" monster="成年灵龙Adult Spirit Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/成年灵龙.htm#Adult_Spirit_Dragon">成年灵龙Adult Spirit Dragon</a></TD>
+<TD>巨型</TD>
+<TD>龙类</TD>
+<TD>有</TD>
+<TD>15</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="巨型 龙类 有 13 MM25" monster="成年白龙Adult White Dragon">
 <TD><a href="怪物图鉴2025/龙类/白龙/成年白龙.htm#Adult_White_Dragon">成年白龙Adult White Dragon</a></TD>
@@ -467,6 +501,14 @@ function toggleVisibility() {
 <TD>21</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="超型 龙类 有 18 FR" monster="远古深龙Ancient Deep Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/远古深龙.htm#Ancient_Deep_Dragon">远古深龙Ancient Deep Dragon</a></TD>
+<TD>超巨型</TD>
+<TD>龙类</TD>
+<TD>有</TD>
+<TD>18</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="超型 龙类 有 24 MM25" monster="远古金龙Ancient Gold Dragon">
 <TD><a href="怪物图鉴2025/龙类/金龙/远古金龙.htm#Ancient_Gold_Dragon">远古金龙Ancient Gold Dragon</a></TD>
 <TD>超巨型</TD>
@@ -498,6 +540,14 @@ function toggleVisibility() {
 <TD>有</TD>
 <TD>23</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="超型 龙类 有 22 FR" monster="远古灵龙Ancient Spirit Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/远古灵龙.htm#Ancient_Spirit_Dragon">远古灵龙Ancient Spirit Dragon</a></TD>
+<TD>超巨型</TD>
+<TD>龙类</TD>
+<TD>有</TD>
+<TD>22</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="超型 龙类 有 20 MM25" monster="远古白龙Ancient White Dragon">
 <TD><a href="怪物图鉴2025/龙类/白龙/远古白龙.htm#Ancient_White_Dragon">远古白龙Ancient White Dragon</a></TD>
@@ -570,6 +620,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>1/2</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 怪兽 无 2 FR" monster="变形蛛Aranea">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/变形蛛.htm#Aranea">变形蛛Aranea</a></TD>
+<TD>中型</TD>
+<TD>怪兽</TD>
+<TD>无</TD>
+<TD>2</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 邪魔 无 12 MM25" monster="奥法罗斯魔Arcanaloth">
 <TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/奥法罗斯魔.htm#Arcanaloth">奥法罗斯魔Arcanaloth</a></TD>
@@ -763,6 +821,14 @@ function toggleVisibility() {
 <TD>3</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="中型 怪兽 无 11 FR" monster="犸拉之兽Beast of Malar">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/玛拉之兽.htm#Beast_of_Malar">犸拉之兽Beast of Malar</a></TD>
+<TD>中型</TD>
+<TD>怪兽</TD>
+<TD>无</TD>
+<TD>11</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="巨型 怪兽 无 11 MM25" monster="青足龙蛇Behir">
 <TD><a href="怪物图鉴2025/怪兽/青足龙蛇.htm#Behir">青足龙蛇Behir</a></TD>
 <TD>巨型</TD>
@@ -802,6 +868,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>8</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="大型 元素 有 12 FR" monster="碧哈巴比尔Biha Babir">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/碧哈·巴比尔.htm#Biha_Babir">碧哈巴比尔Biha Babir</a></TD>
+<TD>大型</TD>
+<TD>元素</TD>
+<TD>有</TD>
+<TD>12</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 野兽 无 1/2 MM25" monster="黑熊Black Bear">
 <TD><a href="怪物图鉴2025/附录A/黑熊.htm#Black_Bear">黑熊Black Bear</a></TD>
@@ -970,6 +1044,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>1/4</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 构装 无 4 NF" monster="釜魔卫Caldron Magen">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/釜魔卫.htm#Caldron_Magen">釜魔卫Caldron Magen</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>4</TD>
+<TD>NF</TD>
 </TR>
 <TR tags="中型 邪魔 无 5 MM25" monster="坎比翁Cambion">
 <TD><a href="怪物图鉴2025/邪魔/坎比翁.htm#Cambion">坎比翁Cambion</a></TD>
@@ -1179,6 +1261,30 @@ function toggleVisibility() {
 <TD>10</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="小型 类人 无 9 FR" monster="班恩邪教徒Cultist of Bane">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/班恩邪教徒.htm#Cultist_of_Bane">班恩邪教徒Cultist of Bane</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>9</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="小型 类人 无 7 FR" monster="巴尔邪教徒Cultist of Bhaal">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/巴尔邪教徒.htm#Cultist_of_Bhaal">巴尔邪教徒Cultist of Bhaal</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>7</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="小型 类人 无 11 FR" monster="米尔寇邪教徒Cultist of Myrkul">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/米尔寇邪教徒.htm#Cultist_of_Myrkul">米尔寇邪教徒Cultist of Myrkul</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>11</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="巨型 巨人 无 10 MM25" monster="独眼巨人先知Cyclops Oracle">
 <TD><a href="怪物图鉴2025/巨人/独眼巨人/独眼巨人先知.htm#Cyclops_Oracle">独眼巨人先知Cyclops Oracle</a></TD>
 <TD>巨型</TD>
@@ -1210,6 +1316,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>1/2</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="小型 类人 有 16 FR" monster="死亡三神门徒Dead Three Scion">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/死亡三神门徒.htm#Dead_Three_Scion">死亡三神门徒Dead Three Scion</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>有</TD>
+<TD>16</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="小型 类人 无 8 MM25" monster="死亡邪教徒Death Cultist">
 <TD><a href="怪物图鉴2025/类人/邪教徒/死亡邪教徒.htm#Death_Cultist">死亡邪教徒Death Cultist</a></TD>
@@ -1258,6 +1372,14 @@ function toggleVisibility() {
 <TD>有</TD>
 <TD>14</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 龙类 无 1 FR" monster="深龙雏龙Deep Dragon Wyrmling">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/深龙雏龙.htm#Deep_Dragon_Wyrmling">深龙雏龙Deep Dragon Wyrmling</a></TD>
+<TD>中型</TD>
+<TD>龙类</TD>
+<TD>无</TD>
+<TD>1</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 野兽 无 0 MM25" monster="鹿Deer">
 <TD><a href="怪物图鉴2025/附录A/鹿.htm#Deer">鹿Deer</a></TD>
@@ -1363,6 +1485,38 @@ function toggleVisibility() {
 <TD>6</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="中型 类人 无 5 FR" monster="罗丝卓尔精英武者Drow Elite Warrior of Lolth">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/罗丝卓尔精英武者.htm#Drow_Elite_Warrior_of_Lolth">罗丝卓尔精英武者Drow Elite Warrior of Lolth</a></TD>
+<TD>中型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>5</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 类人 无 7 FR" monster="罗丝卓尔魔法师Drow Mage of Lolth">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/罗丝卓尔魔法师.htm#Drow_Mage_of_Lolth">罗丝卓尔魔法师Drow Mage of Lolth</a></TD>
+<TD>中型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>7</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 类人 无 8 FR" monster="罗丝卓尔女祭司Drow Priestess of Lolth">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/罗丝卓尔女祭司.htm#Drow_Priestess_of_Lolth">罗丝卓尔女祭司Drow Priestess of Lolth</a></TD>
+<TD>中型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="  无 1/4 FR" monster="罗丝卓尔Drow of Lolth">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/罗斯卓尔.htm#Drow_of_Lolth">罗丝卓尔Drow of Lolth</a></TD>
+<TD></TD>
+<TD></TD>
+<TD>无</TD>
+<TD>1/4</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="小型 类人 无 2 MM25" monster="德鲁伊Druid">
 <TD><a href="怪物图鉴2025/类人/德鲁伊.htm#Druid">德鲁伊Druid</a></TD>
 <TD>小型</TD>
@@ -1410,6 +1564,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>11</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="大型 构装 无 6 NF" monster="魔能涡旋Eldritch Eddy">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/魔能涡旋.htm#Eldritch_Eddy">魔能涡旋Eldritch Eddy</a></TD>
+<TD>大型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>6</TD>
+<TD>NF</TD>
 </TR>
 <TR tags="超型 元素 无 22 MM25" monster="元初天劫Elemental Cataclysm">
 <TD><a href="怪物图鉴2025/多类型/泰坦/元初天劫.htm#Elemental_Cataclysm">元初天劫Elemental Cataclysm</a></TD>
@@ -2355,6 +2517,14 @@ function toggleVisibility() {
 <TD>1</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="巨型 妖精 无 7 LFL" monster="瞬息之化身Incarnation of Transience">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/瞬息之化身.htm#Incarnation_of_Transience">瞬息之化身Incarnation of Transience</a></TD>
+<TD>巨型</TD>
+<TD>妖精</TD>
+<TD>无</TD>
+<TD>7</TD>
+<TD>LFL</TD>
+</TR>
 <TR tags="中型 邪魔 无 4 MM25" monster="梦魔Incubus">
 <TD><a href="怪物图鉴2025/邪魔/梦魔.htm#Incubus">梦魔Incubus</a></TD>
 <TD>中型</TD>
@@ -2410,6 +2580,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>4</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 类人 有 8 FR" monster="卡拉丝彻伯瑞Karas Chembryl">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/卡拉斯·彻伯瑞.htm#Karas_Chembryl">卡拉丝彻伯瑞Karas Chembryl</a></TD>
+<TD>中型</TD>
+<TD>类人</TD>
+<TD>有</TD>
+<TD>8</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 怪兽 无 1/4 MM25" monster="天狗Kenku">
 <TD><a href="怪物图鉴2025/怪兽/天狗.htm#Kenku">天狗Kenku</a></TD>
@@ -2555,6 +2733,14 @@ function toggleVisibility() {
 <TD>4</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="巨型 巨人 无 6 LFL" monster="洛温巨人Lorwyn Giant">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/洛温巨人.htm#Lorwyn_Giant">洛温巨人Lorwyn Giant</a></TD>
+<TD>巨型</TD>
+<TD>巨人</TD>
+<TD>无</TD>
+<TD>6</TD>
+<TD>LFL</TD>
+</TR>
 <TR tags="小型 类人 无 6 MM25" monster="魔法师Mage">
 <TD><a href="怪物图鉴2025/类人/魔法师/魔法师.htm#Mage">魔法师Mage</a></TD>
 <TD>小型</TD>
@@ -2610,6 +2796,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>1</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 类人 无 13 FR" monster="曼松Manshoon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/曼松.htm#Manshoon">曼松Manshoon</a></TD>
+<TD>中型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>13</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="大型 怪兽 无 3 MM25" monster="刺尾狮Manticore">
 <TD><a href="怪物图鉴2025/怪兽/刺尾狮.htm#Manticore">刺尾狮Manticore</a></TD>
@@ -2674,6 +2868,22 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>2</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 怪兽 无 4 LFL" monster="梅洛巧言者Merrow Doublespeaker">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/梅洛巧言者.htm#Merrow_Doublespeaker">梅洛巧言者Merrow Doublespeaker</a></TD>
+<TD>中型</TD>
+<TD>怪兽</TD>
+<TD>无</TD>
+<TD>4</TD>
+<TD>LFL</TD>
+</TR>
+<TR tags="中型 怪兽 无 5 LFL" monster="梅洛演说家Merrow Haranguer">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/梅洛演说家.htm#Merrow_Haranguer">梅洛演说家Merrow Haranguer</a></TD>
+<TD>中型</TD>
+<TD>怪兽</TD>
+<TD>无</TD>
+<TD>5</TD>
+<TD>LFL</TD>
 </TR>
 <TR tags="中型 邪魔 无 5 MM25" monster="毒虫罗斯魔Mezzoloth">
 <TD><a href="怪物图鉴2025/邪魔/尤格罗斯魔/毒虫罗斯魔.htm#Mezzoloth">毒虫罗斯魔Mezzoloth</a></TD>
@@ -2851,6 +3061,30 @@ function toggleVisibility() {
 <TD>3</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="大型 构装 无 7 FR" monster="秘偶巨擎NimbleWright Hulk">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/秘偶巨擎.htm#NimbleWright_Hulk">秘偶巨擎NimbleWright Hulk</a></TD>
+<TD>大型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>7</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="大型 构装 无 2 FR" monster="秘偶座驾NimbleWright Steed">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/秘偶座驾.htm#NimbleWright_Steed">秘偶座驾NimbleWright Steed</a></TD>
+<TD>大型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>2</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 构装 无 3 FR" monster="秘偶警卫Nimblewright Guard">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/秘偶警卫.htm#Nimblewright_Guard">秘偶警卫Nimblewright Guard</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>3</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="小型 类人 无 1/8 MM25" monster="贵族Noble">
 <TD><a href="怪物图鉴2025/类人/贵族/贵族.htm#Noble">贵族Noble</a></TD>
 <TD>小型</TD>
@@ -2866,6 +3100,22 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>10</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="小型 妖精 无 1/4 LFL" monster="诺格劫掠者Noggle Ransacker">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/诺格劫掠者.htm#Noggle_Ransacker">诺格劫掠者Noggle Ransacker</a></TD>
+<TD>小型</TD>
+<TD>妖精</TD>
+<TD>无</TD>
+<TD>1/4</TD>
+<TD>LFL</TD>
+</TR>
+<TR tags="小型 妖精 无 1 LFL" monster="诺格狂野巫师Noggle Wild Mage">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/诺格狂野巫师.htm#Noggle_Wild_Mage">诺格狂野巫师Noggle Wild Mage</a></TD>
+<TD>小型</TD>
+<TD>妖精</TD>
+<TD>无</TD>
+<TD>1</TD>
+<TD>LFL</TD>
 </TR>
 <TR tags="中型 异怪 无 2 MM25" monster="诺斯怪Nothic">
 <TD><a href="怪物图鉴2025/异怪/诺斯怪.htm#Nothic">诺斯怪Nothic</a></TD>
@@ -3003,6 +3253,38 @@ function toggleVisibility() {
 <TD>2</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="大型 异怪 无 8 FR" monster="费林游葵Phaerimm Agent">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/费林游葵.htm#Phaerimm_Agent">费林游葵Phaerimm Agent</a></TD>
+<TD>大型</TD>
+<TD>异怪</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="巨型 异怪 无 14 NF" monster="费林古葵Phaerimm Elder">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/费林古葵.htm#Phaerimm_Elder">费林古葵Phaerimm Elder</a></TD>
+<TD>巨型</TD>
+<TD>异怪</TD>
+<TD>无</TD>
+<TD>14</TD>
+<TD>NF</TD>
+</TR>
+<TR tags="小型 异怪 无 1/4 FR" monster="费林幼葵Phaerimm Hatchling">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/费林幼葵.htm#Phaerimm_Hatchling">费林幼葵Phaerimm Hatchling</a></TD>
+<TD>小型</TD>
+<TD>异怪</TD>
+<TD>无</TD>
+<TD>1/4</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 异怪 无 2 NF" monster="费林潜葵Phaerimm Scout">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/费林潜葵.htm#Phaerimm_Scout">费林潜葵Phaerimm Scout</a></TD>
+<TD>中型</TD>
+<TD>异怪</TD>
+<TD>无</TD>
+<TD>2</TD>
+<TD>NF</TD>
+</TR>
 <TR tags="大型 怪兽 无 3 MM25" monster="相位蜘蛛Phase Spider">
 <TD><a href="怪物图鉴2025/怪兽/相位蜘蛛.htm#Phase_Spider">相位蜘蛛Phase Spider</a></TD>
 <TD>大型</TD>
@@ -3099,6 +3381,14 @@ function toggleVisibility() {
 <TD>2</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="大型 元素 无 3 FR" monster="极地蛇Polar Serpent">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/极地蛇.htm#Polar_Serpent">极地蛇Polar Serpent</a></TD>
+<TD>大型</TD>
+<TD>元素</TD>
+<TD>无</TD>
+<TD>3</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="小型 亡灵 无 2 MM25" monster="骚灵Poltergeist">
 <TD><a href="怪物图鉴2025/亡灵/骚灵.htm#Poltergeist">骚灵Poltergeist</a></TD>
 <TD>小型</TD>
@@ -3194,6 +3484,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>1</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 构装 无 10 FR" monster="堕落女王Queen Forfallen">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/堕落女王.htm#Queen_Forfallen">堕落女王Queen Forfallen</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>10</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="小型 类人 无 12 MM25" monster="天命骑士Questing Knight">
 <TD><a href="怪物图鉴2025/类人/骑士/天命骑士.htm#Questing_Knight">天命骑士Questing Knight</a></TD>
@@ -3307,6 +3605,30 @@ function toggleVisibility() {
 <TD>1/2</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="巨型 构装 无 9 FR" monster="锈蚀贝希摩斯Rusted Behemoth">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/锈蚀贝希摩斯.htm#Rusted_Behemoth">锈蚀贝希摩斯Rusted Behemoth</a></TD>
+<TD>巨型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>9</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 构装 无 4 FR" monster="锈蚀狂战士Rusted Berserker">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/锈蚀狂战士.htm#Rusted_Berserker">锈蚀狂战士Rusted Berserker</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>4</TD>
+<TD>FR</TD>
+</TR>
+<TR tags=" 构装 无 14 FR" monster="锈蚀蛟龙Rusted Wyrm">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/锈蚀蛟龙.htm#Rusted_Wyrm">锈蚀蛟龙Rusted Wyrm</a></TD>
+<TD></TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>14</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="大型 野兽 无 2 MM25" monster="剑齿虎Saber-Toothed Tiger">
 <TD><a href="怪物图鉴2025/附录A/剑齿虎.htm#Saber-Toothed_Tiger">剑齿虎Saber-Toothed Tiger</a></TD>
 <TD>大型</TD>
@@ -3362,6 +3684,22 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>15</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="巨型 亡灵 有 22 FR" monster="萨马斯特（龙巫妖形态）Sammaster (Dracolich Form)">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/萨马斯特.htm#Sammaster_(Dracolich_Form)">萨马斯特（龙巫妖形态）Sammaster (Dracolich Form)</a></TD>
+<TD>巨型</TD>
+<TD>亡灵</TD>
+<TD>有</TD>
+<TD>22</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="中型 亡灵 有 22 FR" monster="萨马斯特（巫妖形态）Sammaster (Lich Form)">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/萨马斯特.htm#Sammaster_(Lich_Form)">萨马斯特（巫妖形态）Sammaster (Lich Form)</a></TD>
+<TD>中型</TD>
+<TD>亡灵</TD>
+<TD>有</TD>
+<TD>22</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 妖精 无 1/2 MM25" monster="半羊人Satyr">
 <TD><a href="怪物图鉴2025/妖精/半羊人/半羊人.htm#Satyr">半羊人Satyr</a></TD>
@@ -3450,6 +3788,14 @@ function toggleVisibility() {
 <TD>有</TD>
 <TD>13</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="巨型 巨人 无 8 LFL" monster="影原巨人Shadowmoor Giant">
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/影原巨人.htm#Shadowmoor_Giant">影原巨人Shadowmoor Giant</a></TD>
+<TD>巨型</TD>
+<TD>巨人</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>LFL</TD>
 </TR>
 <TR tags="大型 植物 无 5 MM25" monster="蔓生怪Shambling Mound">
 <TD><a href="怪物图鉴2025/植物/蔓生怪.htm#Shambling_Mound">蔓生怪Shambling Mound</a></TD>
@@ -3579,6 +3925,14 @@ function toggleVisibility() {
 <TD>2</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="中型 龙类 无 2 FR" monster="灵龙雏龙Spirit Dragon Wyrmling">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/灵龙雏龙.htm#Spirit_Dragon_Wyrmling">灵龙雏龙Spirit Dragon Wyrmling</a></TD>
+<TD>中型</TD>
+<TD>龙类</TD>
+<TD>无</TD>
+<TD>2</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="大型 邪魔 无 8 MM25" monster="阴魂纳迦Spirit Naga">
 <TD><a href="怪物图鉴2025/多类型/纳迦/阴魂纳迦.htm#Spirit_Naga">阴魂纳迦Spirit Naga</a></TD>
 <TD>大型</TD>
@@ -3586,6 +3940,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>8</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="巨型 植物 无 12 FR" monster="摩安多孢子Spore of Moander">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/摩安多孢子.htm#Spore_of_Moander">摩安多孢子Spore of Moander</a></TD>
+<TD>巨型</TD>
+<TD>植物</TD>
+<TD>无</TD>
+<TD>12</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="微型 妖精 无 1/4 MM25" monster="小仙灵Sprite">
 <TD><a href="怪物图鉴2025/妖精/小仙灵.htm#Sprite">小仙灵Sprite</a></TD>
@@ -3658,6 +4020,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>4</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 妖精 无 3 FR" monster="天鹅之女Swanmay">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/天鹅之女.htm#Swanmay">天鹅之女Swanmay</a></TD>
+<TD>中型</TD>
+<TD>妖精</TD>
+<TD>无</TD>
+<TD>3</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="微型 野兽 无 1/4 MM25" monster="蝙蝠集群Swarm of Bats">
 <TD><a href="怪物图鉴2025/附录A/集群/蝙蝠集群.htm#Swarm_of_Bats">蝙蝠集群Swarm of Bats</a></TD>
@@ -3754,6 +4124,14 @@ function toggleVisibility() {
 <TD>有</TD>
 <TD>30</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 构装 无 8 NF" monster="地魔卫Terran Magen">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/地魔卫.htm#Terran_Magen">地魔卫Terran Magen</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>NF</TD>
 </TR>
 <TR tags="中型 怪兽 无 1 MM25" monster="螳螂人劫掠者Thri-kreen Marauder">
 <TD><a href="怪物图鉴2025/怪兽/螳螂人/螳螂人劫掠者.htm#Thri-kreen_Marauder">螳螂人劫掠者Thri-kreen Marauder</a></TD>
@@ -3883,6 +4261,14 @@ function toggleVisibility() {
 <TD>5</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="中型 亡灵 有 21 FR" monster="瓦琳德拉影帷Valindra Shadowmantle">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/瓦琳德拉·影帷.htm#Valindra_Shadowmantle">瓦琳德拉影帷Valindra Shadowmantle</a></TD>
+<TD>中型</TD>
+<TD>亡灵</TD>
+<TD>有</TD>
+<TD>21</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="小型 亡灵 有 13 MM25" monster="吸血鬼Vampire">
 <TD><a href="怪物图鉴2025/多类型/吸血鬼/吸血鬼.htm#Vampire">吸血鬼Vampire</a></TD>
 <TD>小型</TD>
@@ -3954,6 +4340,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>7</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 构装 无 6 NF" monster="绘魔卫Virvos Magen">
+<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/绘魔卫.htm#Virvos_Magen">绘魔卫Virvos Magen</a></TD>
+<TD>中型</TD>
+<TD>构装</TD>
+<TD>无</TD>
+<TD>6</TD>
+<TD>NF</TD>
 </TR>
 <TR tags="大型 邪魔 无 6 MM25" monster="鹫魔Vrock">
 <TD><a href="怪物图鉴2025/邪魔/恶魔/鹫魔.htm#Vrock">鹫魔Vrock</a></TD>
@@ -4074,6 +4468,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>3</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="中型 龙类 无 8 FR" monster="飞龙人Werewyvern">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/飞龙人.htm#Werewyvern">飞龙人Werewyvern</a></TD>
+<TD>中型</TD>
+<TD>龙类</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="中型 龙类 无 2 MM25" monster="白龙雏龙White Dragon Wyrmling">
 <TD><a href="怪物图鉴2025/龙类/白龙/白龙雏龙.htm#White_Dragon_Wyrmling">白龙雏龙White Dragon Wyrmling</a></TD>
@@ -4211,6 +4613,14 @@ function toggleVisibility() {
 <TD>7</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="大型 龙类 无 5 FR" monster="青年深龙Young Deep Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/青年深龙.htm#Young_Deep_Dragon">青年深龙Young Deep Dragon</a></TD>
+<TD>大型</TD>
+<TD>龙类</TD>
+<TD>无</TD>
+<TD>5</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="大型 龙类 无 10 MM25" monster="青年金龙Young Gold Dragon">
 <TD><a href="怪物图鉴2025/龙类/金龙/青年金龙.htm#Young_Gold_Dragon">青年金龙Young Gold Dragon</a></TD>
 <TD>大型</TD>
@@ -4250,6 +4660,14 @@ function toggleVisibility() {
 <TD>无</TD>
 <TD>9</TD>
 <TD>MM25</TD>
+</TR>
+<TR tags="大型 龙类 无 8 FR" monster="青年灵龙Young Spirit Dragon">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/青年灵龙.htm#Young_Spirit_Dragon">青年灵龙Young Spirit Dragon</a></TD>
+<TD>大型</TD>
+<TD>龙类</TD>
+<TD>无</TD>
+<TD>8</TD>
+<TD>FR</TD>
 </TR>
 <TR tags="大型 龙类 无 6 MM25" monster="青年白龙Young White Dragon">
 <TD><a href="怪物图鉴2025/龙类/白龙/青年白龙.htm#Young_White_Dragon">青年白龙Young White Dragon</a></TD>
@@ -4299,6 +4717,30 @@ function toggleVisibility() {
 <TD>3</TD>
 <TD>MM25</TD>
 </TR>
+<TR tags="小型 类人 无 4 FR" monster="散提拉军班恩圣武士Zhentilar Paladin of Bane">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/散提拉军班恩圣武士.htm#Zhentilar_Paladin_of_Bane">散提拉军班恩圣武士Zhentilar Paladin of Bane</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>4</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="小型 类人 无 1 FR" monster="散提拉军士兵Zhentilar Soldier">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/散提拉军士兵.htm#Zhentilar_Soldier">散提拉军士兵Zhentilar Soldier</a></TD>
+<TD>小型</TD>
+<TD>类人</TD>
+<TD>无</TD>
+<TD>1</TD>
+<TD>FR</TD>
+</TR>
+<TR tags="巨型 亡灵 有 18 FR" monster="兹兰Zlan">
+<TD><a href="被遗忘的国度/费伦冒险/第九章/兹兰.htm#Zlan">兹兰Zlan</a></TD>
+<TD>巨型</TD>
+<TD>亡灵</TD>
+<TD>有</TD>
+<TD>18</TD>
+<TD>FR</TD>
+</TR>
 <TR tags="中型 亡灵 无 1/4 MM25" monster="丧尸Zombie">
 <TD><a href="怪物图鉴2025/亡灵/丧尸/丧尸.htm#Zombie">丧尸Zombie</a></TD>
 <TD>中型</TD>
@@ -4307,228 +4749,12 @@ function toggleVisibility() {
 <TD>1/4</TD>
 <TD>MM25</TD>
 </TR>
-<TR tags="中型 亡灵 有 22 FR" monster="萨马斯特Sammaster（龙巫妖形态Dracolich Form）">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/萨马斯特.htm#unknown_1066">萨马斯特Sammaster（龙巫妖形态Dracolich Form）</a></TD>
-<TD>中型</TD>
-<TD>亡灵</TD>
-<TD>有</TD>
-<TD>22</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="小型 类人 无 7 FR" monster="巴尔邪教徒Cultist of Bhaal">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/巴尔邪教徒.htm#unknown_1384">巴尔邪教徒Cultist of Bhaal</a></TD>
-<TD>小型</TD>
-<TD>类人</TD>
-<TD>无</TD>
-<TD>7</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 怪兽 无 5 LFL" monster="梅洛演说家Merrow Haranguer">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/梅洛演说家.htm#unknown_1611">梅洛演说家Merrow Haranguer</a></TD>
-<TD>中型</TD>
-<TD>怪兽</TD>
-<TD>无</TD>
-<TD>5</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="中型 构装 无 6 NF" monster="绘魔卫Virvos Magen">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/绘魔卫.htm#unknown_2096">绘魔卫Virvos Magen</a></TD>
-<TD>中型</TD>
-<TD>构装</TD>
-<TD>无</TD>
-<TD>6</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="巨型 亡灵 有 18 FR" monster="兹兰Zlan">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/兹兰.htm#unknown_2604">兹兰Zlan</a></TD>
-<TD>巨型</TD>
-<TD>亡灵</TD>
-<TD>有</TD>
-<TD>18</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="巨型 异怪 无 14 NF" monster="费林古葵Phaerimm Elder">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/费林古葵.htm#unknown_2704">费林古葵Phaerimm Elder</a></TD>
-<TD>巨型</TD>
-<TD>异怪</TD>
-<TD>无</TD>
-<TD>14</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="中型 怪兽 无 2 FR" monster="变形蛛Aranea">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/变形蛛.htm#unknown_2715">变形蛛Aranea</a></TD>
-<TD>中型</TD>
-<TD>怪兽</TD>
-<TD>无</TD>
-<TD>2</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="小型 类人 无 9 FR" monster="班恩邪教徒Cultist of Bane">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/班恩邪教徒.htm#unknown_3595">班恩邪教徒Cultist of Bane</a></TD>
-<TD>小型</TD>
-<TD>类人</TD>
-<TD>无</TD>
-<TD>9</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="大型 元素 有 12 FR" monster="碧哈巴比尔Biha Babir">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/碧哈·巴比尔.htm#unknown_3915">碧哈巴比尔Biha Babir</a></TD>
-<TD>大型</TD>
-<TD>元素</TD>
-<TD>有</TD>
-<TD>12</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="巨型 巨人 无 8 LFL" monster="影原巨人Shadowmoor Giant">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/影原巨人.htm#unknown_4073">影原巨人Shadowmoor Giant</a></TD>
-<TD>巨型</TD>
-<TD>巨人</TD>
-<TD>无</TD>
-<TD>8</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="巨型 妖精 无 7 LFL" monster="瞬息之化身Incarnation of Transience">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/瞬息之化身.htm#unknown_4343">瞬息之化身Incarnation of Transience</a></TD>
-<TD>巨型</TD>
-<TD>妖精</TD>
-<TD>无</TD>
-<TD>7</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="小型 类人 有 16 FR" monster="死亡三神门徒Dead Three Scion">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/死亡三神门徒.htm#unknown_4399">死亡三神门徒Dead Three Scion</a></TD>
-<TD>小型</TD>
-<TD>类人</TD>
-<TD>有</TD>
-<TD>16</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 构装 无 8 NF" monster="地魔卫Terran Magen">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/地魔卫.htm#unknown_4532">地魔卫Terran Magen</a></TD>
-<TD>中型</TD>
-<TD>构装</TD>
-<TD>无</TD>
-<TD>8</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="大型 构装 无 6 NF" monster="魔能涡旋Eldritch Eddy">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/魔能涡旋.htm#unknown_4685">魔能涡旋Eldritch Eddy</a></TD>
-<TD>大型</TD>
-<TD>构装</TD>
-<TD>无</TD>
-<TD>6</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="中型 亡灵 有 21 FR" monster="瓦琳德拉影帷Valindra Shadowmantle">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/瓦琳德拉·影帷.htm#unknown_4771">瓦琳德拉影帷Valindra Shadowmantle</a></TD>
-<TD>中型</TD>
-<TD>亡灵</TD>
-<TD>有</TD>
-<TD>21</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 构装 无 4 NF" monster="釜魔卫Caldron Magen">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/釜魔卫.htm#unknown_4861">釜魔卫Caldron Magen</a></TD>
-<TD>中型</TD>
-<TD>构装</TD>
-<TD>无</TD>
-<TD>4</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="中型 亡灵 有 22 FR" monster="萨马斯特Sammaster（巫妖形态Lich Form）">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/萨马斯特.htm#unknown_5026">萨马斯特Sammaster（巫妖形态Lich Form）</a></TD>
-<TD>中型</TD>
-<TD>亡灵</TD>
-<TD>有</TD>
-<TD>22</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 类人 有 8 FR" monster="卡拉丝彻伯瑞Karas Chembryl">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/卡拉斯·彻伯瑞.htm#unknown_5609">卡拉丝彻伯瑞Karas Chembryl</a></TD>
-<TD>中型</TD>
-<TD>类人</TD>
-<TD>有</TD>
-<TD>8</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="小型 妖精 无 1/4 LFL" monster="诺格劫掠者Noggle Ransacker">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/诺格劫掠者.htm#unknown_6299">诺格劫掠者Noggle Ransacker</a></TD>
-<TD>小型</TD>
-<TD>妖精</TD>
-<TD>无</TD>
-<TD>1/4</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="小型 妖精 无 1 LFL" monster="诺格狂野巫师Noggle Wild Mage">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/诺格狂野巫师.htm#unknown_7397">诺格狂野巫师Noggle Wild Mage</a></TD>
-<TD>小型</TD>
-<TD>妖精</TD>
-<TD>无</TD>
-<TD>1</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="中型 异怪 无 2 NF" monster="费林潜葵Phaerimm Scout">
-<TD><a href="被遗忘的国度/耐瑟瑞尔/耐瑟怪物/费林潜葵.htm#unknown_8264">费林潜葵Phaerimm Scout</a></TD>
-<TD>中型</TD>
-<TD>异怪</TD>
-<TD>无</TD>
-<TD>2</TD>
-<TD>NF</TD>
-</TR>
-<TR tags="小型 类人 无 11 FR" monster="米尔寇邪教徒Cultist of Myrkul">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/米尔寇邪教徒.htm#unknown_8290">米尔寇邪教徒Cultist of Myrkul</a></TD>
-<TD>小型</TD>
-<TD>类人</TD>
-<TD>无</TD>
-<TD>11</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 怪兽 无 4 LFL" monster="梅洛巧言者Merrow Doublespeaker">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/梅洛巧言者.htm#unknown_8473">梅洛巧言者Merrow Doublespeaker</a></TD>
-<TD>中型</TD>
-<TD>怪兽</TD>
-<TD>无</TD>
-<TD>4</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="中型 怪兽 无 11 FR" monster="犸拉之兽Beast of Malar">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/玛拉之兽.htm#unknown_8698">犸拉之兽Beast of Malar</a></TD>
-<TD>中型</TD>
-<TD>怪兽</TD>
-<TD>无</TD>
-<TD>11</TD>
-<TD>FR</TD>
-</TR>
 <TR tags="巨型 妖精 无 10 LFL" monster="活力之化身Incarnation of Transience">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/活力之化身.htm#unknown_9095">活力之化身Incarnation of Transience</a></TD>
+<TD><a href="被遗忘的国度/洛温初光/洛温怪物/活力之化身.htm#Incarnation_of_Transience">活力之化身Incarnation of Transience</a></TD>
 <TD>巨型</TD>
 <TD>妖精</TD>
 <TD>无</TD>
 <TD>10</TD>
-<TD>LFL</TD>
-</TR>
-<TR tags="中型 构装 无 10 FR" monster="堕落女王Queen Forfallen">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/堕落女王.htm#unknown_9276">堕落女王Queen Forfallen</a></TD>
-<TD>中型</TD>
-<TD>构装</TD>
-<TD>无</TD>
-<TD>10</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="中型 妖精 无 3 FR" monster="天鹅之女Swanmay">
-<TD><a href="被遗忘的国度/费伦冒险/第九章/天鹅之女.htm#unknown_9719">天鹅之女Swanmay</a></TD>
-<TD>中型</TD>
-<TD>妖精</TD>
-<TD>无</TD>
-<TD>3</TD>
-<TD>FR</TD>
-</TR>
-<TR tags="巨型 巨人 无 6 LFL" monster="洛温巨人Lorwyn Giant">
-<TD><a href="被遗忘的国度/洛温初光/洛温怪物/洛温巨人.htm#unknown_9775">洛温巨人Lorwyn Giant</a></TD>
-<TD>巨型</TD>
-<TD>巨人</TD>
-<TD>无</TD>
-<TD>6</TD>
 <TD>LFL</TD>
 </TR>
 <TR tags="大型 构装 无 2 MM25" monster="魔冢五元冢Modron Pentadrone">
