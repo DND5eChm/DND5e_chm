@@ -1,0 +1,3412 @@
+<!-- coding: gbk -->
+<html>
+<head>
+<title>万法大全速查表</title>
+<meta content="text/html; charset=gb2312">
+<style>
+html,body { 
+	font-family: Arial, Helvetica, sans-serif;
+}
+a {
+	color: #704cd9;
+	text-decoration:none;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 20px;
+}
+span {
+	display: block;
+}
+.legacy {
+	color: #777777;
+	text-decoration: line-through;
+}
+p {
+	line-height: 150%;
+}
+
+sup {
+	line-height: 0;
+	margin-left: 0.2rem;
+}
+#filterDiv {
+	display: block;
+}
+</style>
+<script>
+function search() {
+    var keyword = document.getElementById("input").value.toLowerCase();
+	var cb_school = document.getElementsByName("school");
+	var cb_action = document.getElementsByName("action");
+	var cb_class = document.getElementsByName("class");
+	var cb_level = document.getElementsByName("level");
+	var cb_book = document.getElementsByName("book");
+	var cb_special = document.getElementsByName("special");
+	var choosen_school = [];
+	var choosen_action = [];
+	var choosen_class = [];
+	var choosen_level = [];
+	var choosen_book = [];
+	var choosen_special = [];
+	for (var i = 0; i < cb_school.length; i++) {
+		if (cb_school[i].checked) {
+			choosen_school.push(cb_school[i].value)
+		}
+	}
+	for (var i = 0; i < cb_action.length; i++) {
+		if (cb_action[i].checked) {
+			choosen_action.push(cb_action[i].value)
+		}
+	}
+	for (var i = 0; i < cb_class.length; i++) {
+		if (cb_class[i].checked) {
+			choosen_class.push(cb_class[i].value)
+		}
+	}
+	for (var i = 0; i < cb_level.length; i++) {
+		if (cb_level[i].checked) {
+			choosen_level.push(cb_level[i].value)
+		}
+	}
+	for (var i = 0; i < cb_book.length; i++) {
+		if (cb_book[i].checked) {
+			choosen_book.push(cb_book[i].value)
+		}
+	}
+	for (var i = 0; i < cb_special.length; i++) {
+		if (cb_special[i].checked) {
+			choosen_special.push(cb_special[i].value)
+		}
+	}
+    var elements = document.getElementsByTagName("tr");
+	for (var i = 1; i < elements.length; i++) {
+		var has_word = false;
+		if (keyword != '') {
+			var content = elements[i].getAttribute("spell");
+			if (content.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+				has_word = true
+			}
+		} else {
+			has_word = true
+		}
+		var tags = elements[i].getAttribute("tags");
+		if (tags != null) {
+			var has_school = false;
+			for (var j = 0; j < choosen_school.length && !has_school; j++) {
+				if (tags.indexOf(choosen_school[j]) != -1) {
+					has_school = true;
+				}
+			}
+			var has_action = false;
+			for (var j = 0; j < choosen_action.length && !has_action; j++) {
+				if (tags.indexOf(choosen_action[j]) != -1) {
+					has_action = true;
+				}
+			}
+			var has_class = false;
+			for (var j = 0; j < choosen_class.length && !has_class; j++) {
+				if (tags.indexOf(choosen_class[j]) != -1) {
+					has_class = true;
+				}
+			}
+			var has_level = false;
+			for (var j = 0; j < choosen_level.length && !has_level; j++) {
+				if (tags.indexOf(choosen_level[j]) != -1) {
+					has_level = true;
+				}
+			}
+			var has_book = false;
+			for (var j = 0; j < choosen_book.length && !has_book; j++) {
+				if (tags.indexOf(choosen_book[j]) != -1) {
+					has_book = true;
+				}
+			}
+			var has_special = true;
+			for (var j = 0; j < choosen_special.length && has_special; j++) {
+				if (tags.indexOf(choosen_special[j]) == -1) {
+					has_special = false;
+				}
+			}
+			if (has_word && has_school && has_action && has_class && has_level && has_book && has_special) {
+				elements[i].style.display = "";
+			} else {
+				elements[i].style.display = "none";
+			}
+		}
+	}
+}
+function select_all(type_name){
+	var cb = document.getElementsByName(type_name);
+	var all_selected = true;
+	for (var i = 0; i < cb.length && all_selected; i++) {
+		if (all_selected && !(cb[i].checked)) {
+			all_selected = false;
+		}
+	}
+	if (all_selected) {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = false;
+		}
+	} else {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = true;
+		}
+	}
+}
+function toggleVisibility() {
+			var div = document.getElementById("filterDiv");
+			var btn = document.getElementById("toggleBtn");
+			var isHidden = (div.style.display === "none") || 
+                  (div.currentStyle && div.currentStyle.display === "none") || // IE专属方法
+                  (div.offsetHeight === 0); // 通过实际渲染高度判断
+			if (isHidden) {
+				div.style.display = "block";
+				btn.innerText = "隐藏筛选";
+			} else {
+				div.style.display = "none";
+				btn.innerText = "显示筛选";
+			}
+		}
+</script>
+</head>
+<body>
+<h1><FONT color=#704cd9>Elminster's Other World Spell Book</FONT></h1>
+<div style="MARGIN: 20px">
+<input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
+<div id="filterDiv" style="MARGIN-LEFT: 20px">
+<b>特殊：</b>
+<input type="checkbox" id="sp0" name="special" value="专注"><label for="sp0">专注</label>
+<input type="checkbox" id="sp1" name="special" value="仪式"><label for="sp1">仪式</label>
+<input type="checkbox" id="sp2" name="special" value="言语"><label for="sp2">言语成分</label>
+<input type="checkbox" id="sp3" name="special" value="姿势"><label for="sp3">姿势成分</label>
+<input type="checkbox" id="sp4" name="special" value="材料"><label for="sp4">材料成分</label>
+<input type="checkbox" id="sp5" name="special" value="价耗"><label for="sp5">有价值/会消耗的材料成分</label>
+<br><b>凡骨：</b>
+<input type="checkbox" id="sp0" name="special" value="非专"><label for="sp0">无专注</label>
+<input type="checkbox" id="sp1" name="special" value="非仪"><label for="sp1">非仪式</label>
+<input type="checkbox" id="sp2" name="special" value="非言"><label for="sp2">无言语</label>
+<input type="checkbox" id="sp3" name="special" value="非姿"><label for="sp3">无姿势</label>
+<input type="checkbox" id="sp4" name="special" value="非材"><label for="sp4">无材料</label>
+<input type="checkbox" id="sp5" name="special" value="无特"><label for="sp5">无价值/不消耗的材料成分</label>
+<br><b>时间：</b>
+<button onclick="select_all('action')">全选</button>
+<input type="checkbox" id="ac0" name="action" value="动作" checked><label for="ac0">动作</label>
+<input type="checkbox" id="ac1" name="action" value="附赠" checked><label for="ac1">附赠</label>
+<input type="checkbox" id="ac2" name="action" value="反应" checked><label for="ac2">反应</label>
+<input type="checkbox" id="ac3" name="action" value="其他" checked><label for="ac3">其他</label>
+<br><b>环阶：</b>
+<button onclick="select_all('level')">全选</button>
+<input type="checkbox" id="le0" name="level" value="戏法" checked><label for="le0">零</label>
+<input type="checkbox" id="le1" name="level" value="一环" checked><label for="le1">一</label>
+<input type="checkbox" id="le2" name="level" value="二环" checked><label for="le2">二</label>
+<input type="checkbox" id="le3" name="level" value="三环" checked><label for="le3">三</label>
+<input type="checkbox" id="le4" name="level" value="四环" checked><label for="le4">四</label>
+<input type="checkbox" id="le5" name="level" value="五环" checked><label for="le5">五</label>
+<input type="checkbox" id="le6" name="level" value="六环" checked><label for="le6">六</label>
+<input type="checkbox" id="le7" name="level" value="七环" checked><label for="le7">七</label>
+<input type="checkbox" id="le8" name="level" value="八环" checked><label for="le8">八</label>
+<input type="checkbox" id="le9" name="level" value="九环" checked><label for="le9">九</label>
+<br><b>学派：</b>
+<button onclick="select_all('school')">全选</button>
+<input type="checkbox" id="sc1" name="school" value="防护" checked><label for="sc1">防护</label>
+<input type="checkbox" id="sc2" name="school" value="咒法" checked><label for="sc2">咒法</label>
+<input type="checkbox" id="sc3" name="school" value="预言" checked><label for="sc3">预言</label>
+<input type="checkbox" id="sc4" name="school" value="惑控" checked><label for="sc4">惑控</label>
+<input type="checkbox" id="sc5" name="school" value="塑能" checked><label for="sc5">塑能</label>
+<input type="checkbox" id="sc6" name="school" value="幻术" checked><label for="sc6">幻术</label>
+<input type="checkbox" id="sc7" name="school" value="死灵" checked><label for="sc7">死灵</label>
+<input type="checkbox" id="sc8" name="school" value="变化" checked><label for="sc8">变化</label>
+<br><b>职业：</b>
+<button onclick="select_all('class')">全选</button>
+<input type="checkbox" id="cl1" name="class" value="奇械师" checked><label for="cl1">奇械师</label>
+<input type="checkbox" id="cl2" name="class" value="吟游诗人" checked><label for="cl2">吟游诗人</label>
+<input type="checkbox" id="cl3" name="class" value="牧师" checked><label for="cl3">牧师</label>
+<input type="checkbox" id="cl4" name="class" value="德鲁伊" checked><label for="cl4">德鲁伊</label>
+<input type="checkbox" id="cl5" name="class" value="圣武士" checked><label for="cl5">圣武士</label>
+<input type="checkbox" id="cl6" name="class" value="游侠" checked><label for="cl6">游侠</label>
+<input type="checkbox" id="cl7" name="class" value="术士" checked><label for="cl7">术士</label>
+<input type="checkbox" id="cl8" name="class" value="法师" checked><label for="cl8">法师</label>
+<input type="checkbox" id="cl9" name="class" value="魔契师" checked><label for="cl9">魔契师</label>
+<input type="checkbox" id="cl10" name="class" value="无职" checked><label for="cl10">无职</label>
+<BR><b>来源：</b>
+<button onclick="select_all('book')">全选</button>
+<input type="checkbox" id="bk1" name="book" value="塔尔多雷" checked><label for="bk1">塔尔多雷</label>
+<input type="checkbox" id="bk2" name="book" value="艾巢" checked><label for="bk2">艾巢</label>
+<input type="checkbox" id="bk3" name="book" value="鬼谷14" checked><label for="bk3">鬼谷14</label>
+<input type="checkbox" id="bk4" name="book" value="德城" checked><label for="bk4">德城</label>
+<input type="checkbox" id="bk5" name="book" value="谦战" checked><label for="bk5">谦卑林战役</label>
+<input type="checkbox" id="bk5" name="book" value="谦故" checked><label for="bk5">谦卑林故事</label>
+<input type="checkbox" id="bk6" name="book" value="黯潮" checked><label for="bk6">黯潮</label>
+<input type="checkbox" id="bk7" name="book" value="邪狱使" checked><label for="bk7">邪狱使</label>
+<input type="checkbox" id="bk8" name="book" value="胧忆岛" checked><label for="bk8">胧忆岛</label>
+<input type="checkbox" id="bk9" name="book" value="尖塔" checked><label for="bk9">尖塔</label>
+<input type="checkbox" id="bk10" name="book" value="铳士" checked><label for="bk10">铳士</label>
+<input type="checkbox" id="bk11" name="book" value="歪月" checked><label for="bk11">歪月</label>
+<input type="checkbox" id="bk12" name="book" value="克苏鲁" checked><label for="bk12">克苏鲁</label>
+
+</div>
+<HR style="HEIGHT: 2px; COLOR: #b79c61">
+<table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<tr><td><b>法术名</b></td><td width=60><b>环阶</b></td><td width=60><b>学派</b></td><td><b>职业</b></td><td width=60><b>时间</b></td><td width=40><b>言语</b></td><td width=40><b>姿势</b></td><td width=40><b>材料</b></td><td width=40><b>仪式</b></td><td width=40><b>专注</b></td><td width=60><b>来源</b></td></tr>
+<TR tags="变化 反应 吟游诗人 牧师 术士 法师 一环 尖塔 言语 姿势 材料 无特 非仪 非专" spell="增能术/缓能术Accelerate/Decelerate">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Accelerate/Decelerate">增能术/缓能术Accelerate/Decelerate</a></TD>
+<TD>一环</TD>
+<TD>变化</TD>
+<TD>诗 牧 术 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="幻术 动作 游侠 二环 谦战 非言 姿势 材料 无特 非仪 非专" spell="伏击猎物Ambush Prey">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Ambush_Prey">伏击猎物Ambush Prey</a></TD>
+<TD>二环</TD>
+<TD>幻术</TD>
+<TD>软</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="预言 动作 牧师 德鲁伊 游侠 术士 一环 歪月 言语 姿势 非材 非仪 专注" spell="先祖授慧Ancestral Communion">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Ancestral_Communion">先祖授慧Ancestral Communion</a></TD>
+<TD>一环</TD>
+<TD>预言</TD>
+<TD>牧 德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 动作 牧师 法师 六环 铳士 言语 姿势 材料 无特 非仪 专注" spell="反弹道场Antiballistic Field">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Antiballistic_Field">反弹道场Antiballistic Field</a></TD>
+<TD>六环</TD>
+<TD>防护</TD>
+<TD>牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 七环 艾巢 言语 姿势 材料 无特 非仪 专注" spell="化树诅咒Arboreal Curse">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Arboreal_Curse">化树诅咒Arboreal Curse</a></TD>
+<TD>七环</TD>
+<TD>变化</TD>
+<TD>德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 牧师 圣武士 游侠 法师 一环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="武装术Armament">
+<TD><a href="第三方/胧忆岛/法术.htm#Armament">武装术Armament</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>诗 牧 帕 软 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 牧师 德鲁伊 游侠 法师 二环 胧忆岛 言语 姿势 非材 非仪 非专" spell="步履相随At Your Side">
+<TD><a href="第三方/胧忆岛/法术.htm#At_Your_Side">步履相随At Your Side</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>诗 牧 德 软 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="防护 动作 牧师 圣武士 四环 邪狱使 言语 非姿 非材 非仪 非专" spell="亵渎灵光Aura of Desecration">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Aura_of_Desecration">亵渎灵光Aura of Desecration</a></TD>
+<TD>四环</TD>
+<TD>防护</TD>
+<TD>牧 帕</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="塑能 附赠 圣武士 一环 铳士 言语 非姿 非材 非仪 非专" spell="斩击弹Ballistic Smite">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Ballistic_Smite">斩击弹Ballistic Smite</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>帕</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 德鲁伊 游侠 法师 二环 胧忆岛 非言 姿势 非材 非仪 专注" spell="兽形化人Beast Transmutation">
+<TD><a href="第三方/胧忆岛/法术.htm#Beast_Transmutation">兽形化人Beast Transmutation</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>诗 德 软 法</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 术士 魔契师 三环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="刺骨寒风Bitter Wind">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Bitter_Wind">刺骨寒风Bitter Wind</a></TD>
+<TD>三环</TD>
+<TD>塑能</TD>
+<TD>德 术 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 圣武士 游侠 魔契师 一环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="血骨之刃Blade of Blood and Bone">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Blade_of_Blood_and_Bone">血骨之刃Blade of Blood and Bone</a></TD>
+<TD>一环</TD>
+<TD>死灵</TD>
+<TD>帕 软 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 术士 法师 魔契师 戏法 歪月 言语 姿势 非材 非仪 非专" spell="血蚀箭Blood Bolt">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Blood_Bolt">血蚀箭Blood Bolt</a></TD>
+<TD>戏法</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="死灵 附赠 术士 法师 魔契师 二环 歪月 言语 姿势 材料 无特 非仪 非专" spell="血祭Blood Sacrifice">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Blood_Sacrifice">血祭Blood Sacrifice</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="死灵 附赠 牧师 圣武士 游侠 二环 鬼谷14 言语 姿势 非材 非仪 专注" spell="放血术Bloodletter">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Bloodletter">放血术Bloodletter</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>牧 帕 软</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="变化 动作 术士 法师 魔契师 一环 克苏鲁 非言 姿势 非材 非仪 专注" spell="戈尔戈罗斯形体扭曲术Body Warping of Gorgoroth">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Body_Warping_of_Gorgoroth">戈尔戈罗斯形体扭曲术Body Warping of Gorgoroth</a></TD>
+<TD>一环</TD>
+<TD>变化</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 二环 克苏鲁 言语 姿势 非材 非仪 专注" spell="深渊之息Breath of the Deep">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Breath_of_the_Deep">深渊之息Breath of the Deep</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 牧师 术士 法师 戏法 黯潮 言语 非姿 材料 无特 非仪 非专" spell="灵光闪耀Bright Sparks">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Bright_Sparks">灵光闪耀Bright Sparks</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>诗 牧 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 术士 法师 一环 胧忆岛 言语 非姿 非材 非仪 非专" spell="升腾泡泡Bubble Lift">
+<TD><a href="第三方/胧忆岛/法术.htm#Bubble_Lift">升腾泡泡Bubble Lift</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 术士 法师 魔契师 四环 歪月 言语 姿势 材料 无特 非仪 非专" spell="活埋术Buried Alive">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Buried_Alive">活埋术Buried Alive</a></TD>
+<TD>四环</TD>
+<TD>变化</TD>
+<TD>德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 法师 魔契师 三环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="蝶云风暴Butterfly Storm">
+<TD><a href="第三方/胧忆岛/法术.htm#Butterfly_Storm">蝶云风暴Butterfly Storm</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 八环 克苏鲁 言语 姿势 非材 非仪 非专" spell="请神术Call Deity">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Call_Deity">请神术Call Deity</a></TD>
+<TD>八环</TD>
+<TD>咒法</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 德鲁伊 游侠 魔契师 四环 歪月 言语 姿势 材料 无特 非仪 专注" spell="野性呼唤Call of the Wild">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Call_of_the_Wild">野性呼唤Call of the Wild</a></TD>
+<TD>四环</TD>
+<TD>惑控</TD>
+<TD>诗 德 软 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="死灵 动作 吟游诗人 牧师 术士 法师 魔契师 一环 歪月 言语 姿势 材料 无特 非仪 专注" spell="迷惑亡灵Captivate Undead">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Captivate_Undead">迷惑亡灵Captivate Undead</a></TD>
+<TD>一环</TD>
+<TD>死灵</TD>
+<TD>诗 牧 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 德鲁伊 术士 法师 魔契师 戏法 克苏鲁 言语 姿势 非材 非仪 非专" spell="猫之跃动Cat's Spring">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Cat's_Spring">猫之跃动Cat's Spring</a></TD>
+<TD>戏法</TD>
+<TD>咒法</TD>
+<TD>诗 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 附赠 圣武士 魔契师 二环 歪月 非言 姿势 非材 非仪 非专" spell="判罪锁链Chain of Conviction">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Chain_of_Conviction">判罪锁链Chain of Conviction</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>帕 锁</TD>
+<TD>附赠</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 其他 吟游诗人 术士 法师 魔契师 戏法 克苏鲁 言语 非姿 非材 非仪 非专" spell="透特之颂Chant of Thoth">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Chant_of_Thoth">透特之颂Chant of Thoth</a></TD>
+<TD>戏法</TD>
+<TD>预言</TD>
+<TD>诗 术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="死灵 其他 吟游诗人 术士 法师 七环 黯潮 言语 姿势 材料 无特 仪式 非专" spell="停灵飨Charnel Banquet">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Charnel_Banquet">停灵飨Charnel Banquet</a></TD>
+<TD>七环</TD>
+<TD>死灵</TD>
+<TD>诗 术 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 八环 黯潮 言语 姿势 材料 无特 非仪 非专" spell="晦明之子Child of Light and Darkness">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Child_of_Light_and_Darkness">晦明之子Child of Light and Darkness</a></TD>
+<TD>八环</TD>
+<TD>变化</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 吟游诗人 牧师 术士 法师 魔契师 二环 歪月 言语 姿势 材料 价耗 非仪 专注" spell="失落者合颂Chorus of the Lost">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Chorus_of_the_Lost">失落者合颂Chorus of the Lost</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>诗 牧 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 动作 吟游诗人 牧师 德鲁伊 圣武士 游侠 法师 一环 尖塔 言语 姿势 材料 无特 仪式 非专" spell="显迹术Clue">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Clue">显迹术Clue</a></TD>
+<TD>一环</TD>
+<TD>预言</TD>
+<TD>诗 牧 德 帕 软 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="咒法 附赠 术士 法师 魔契师 二环 克苏鲁 言语 姿势 非材 非仪 专注" spell="黑暗攫握Clutch of Darkness">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Clutch_of_Darkness">黑暗攫握Clutch of Darkness</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="幻术 动作 吟游诗人 德鲁伊 术士 法师 魔契师 戏法 铳士 非言 姿势 材料 无特 非仪 非专" spell="隐蔽射击Concealed Shot">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Concealed_Shot">隐蔽射击Concealed Shot</a></TD>
+<TD>戏法</TD>
+<TD>幻术</TD>
+<TD>诗 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 戏法 克苏鲁 言语 姿势 非材 非仪 非专" spell="惑影术Confounding Shadows">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Confounding_Shadows">惑影术Confounding Shadows</a></TD>
+<TD>戏法</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 三环 铳士 言语 姿势 材料 无特 非仪 非专" spell="加农炮击Conjure Cannonball">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Conjure_Cannonball">加农炮击Conjure Cannonball</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="咒法 附赠 德鲁伊 圣武士 术士 法师 一环 铳士 言语 姿势 材料 无特 非仪 专注" spell="咒唤掩体Conjure Cover">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Conjure_Cover">咒唤掩体Conjure Cover</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>德 帕 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="咒法 动作 牧师 法师 二环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="咒唤摆渡人Conjure Ferryman">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Conjure_Ferryman">咒唤摆渡人Conjure Ferryman</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 法师 六环 黯潮 言语 姿势 非材 非仪 专注" spell="咒唤巨人Conjure Giant">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Conjure_Giant">咒唤巨人Conjure Giant</a></TD>
+<TD>六环</TD>
+<TD>咒法</TD>
+<TD>德 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 法师 三环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="咒唤海洋Conjure Ocean">
+<TD><a href="第三方/胧忆岛/法术.htm#Conjure_Ocean">咒唤海洋Conjure Ocean</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>德 软 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 术士 法师 魔契师 五环 德城 言语 姿势 材料 价耗 非仪 专注" spell="浓厚污霭咒唤术Conjure the Deep Haze">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Conjure_the_Deep_Haze">浓厚污霭咒唤术Conjure the Deep Haze</a></TD>
+<TD>五环</TD>
+<TD>咒法</TD>
+<TD>德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="死灵 动作 牧师 法师 魔契师 四环 艾巢 言语 姿势 材料 无特 非仪 非专" spell="吞食意识Consume Mind">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Consume_Mind">吞食意识Consume Mind</a></TD>
+<TD>四环</TD>
+<TD>死灵</TD>
+<TD>牧 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 圣武士 魔契师 四环 歪月 言语 姿势 非材 非仪 专注" spell="薪火焚身Consuming Pyre">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Consuming_Pyre">薪火焚身Consuming Pyre</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>德 帕 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 其他 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 五环 克苏鲁 言语 姿势 材料 无特 仪式 非专" spell="神话通神术Contact Deity">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Contact_Deity">神话通神术Contact Deity</a></TD>
+<TD>五环</TD>
+<TD>预言</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="变化 附赠 术士 法师 魔契师 八环 德城 言语 姿势 材料 价耗 非仪 非专" spell="污染之力Contaminated Power">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Contaminated_Power">污染之力Contaminated Power</a></TD>
+<TD>八环</TD>
+<TD>变化</TD>
+<TD>术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="防护 其他 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 七环 德城 言语 姿势 材料 价耗 非仪 非专" spell="污染免疫Contamination Immunity">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Contamination_Immunity">污染免疫Contamination Immunity</a></TD>
+<TD>七环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="惑控 动作 德鲁伊 游侠 术士 二环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="驭兽术Control Animal">
+<TD><a href="第三方/胧忆岛/法术.htm#Control_Animal">驭兽术Control Animal</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="防护 其他 吟游诗人 牧师 德鲁伊 法师 魔契师 二环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="反侦术Counterspy">
+<TD><a href="第三方/胧忆岛/法术.htm#Counterspy">反侦术Counterspy</a></TD>
+<TD>二环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 一环 克苏鲁 言语 姿势 非材 非仪 专注" spell="拉莱耶造雾术Create Mist of R'lyeh">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Create_Mist_of_R'lyeh">拉莱耶造雾术Create Mist of R'lyeh</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 其他 吟游诗人 术士 法师 五环 胧忆岛 言语 姿势 材料 价耗 非仪 非专" spell="灵之列车站Create Spirit Train Stop">
+<TD><a href="第三方/胧忆岛/法术.htm#Create_Spirit_Train_Stop">灵之列车站Create Spirit Train Stop</a></TD>
+<TD>五环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 动作 德鲁伊 游侠 术士 法师 魔契师 三环 歪月 言语 姿势 非材 非仪 非专" spell="蠕行腐朽Creeping Rot">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Creeping_Rot">蠕行腐朽Creeping Rot</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 魔契师 一环 鬼谷14 言语 姿势 非材 非仪 专注" spell="匍匐之触Creeping Touch">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Creeping_Touch">匍匐之触Creeping Touch</a></TD>
+<TD>一环</TD>
+<TD>变化</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="死灵 动作 术士 法师 魔契师 三环 歪月 言语 姿势 材料 无特 非仪 非专" spell="猩红丰获Crimson Harvest">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Crimson_Harvest">猩红丰获Crimson Harvest</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 动作 德鲁伊 游侠 法师 魔契师 三环 歪月 言语 姿势 材料 无特 非仪 专注" spell="歪曲结界Crooked Ward">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Crooked_Ward">歪曲结界Crooked Ward</a></TD>
+<TD>三环</TD>
+<TD>防护</TD>
+<TD>德 软 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 牧师 德鲁伊 六环 鬼谷14 言语 姿势 非材 非仪 非专" spell="光耀冠冕Crownof Radiance">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Crown">光耀冠冕Crownof Radiance</a></TD>
+<TD>六环</TD>
+<TD>塑能</TD>
+<TD>诗 牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="防护 动作 术士 法师 六环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="甲壳形态Crustacean Form">
+<TD><a href="第三方/胧忆岛/法术.htm#Crustacean_Form">甲壳形态Crustacean Form</a></TD>
+<TD>六环</TD>
+<TD>防护</TD>
+<TD>术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 附赠 德鲁伊 术士 法师 魔契师 三环 歪月 言语 姿势 非材 非仪 专注" spell="剔肉镰刀Culling Sickle">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Culling_Sickle">剔肉镰刀Culling Sickle</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>德 术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="幻术 动作 术士 法师 魔契师 三环 克苏鲁 言语 姿势 非材 非仪 专注" spell="腐烂外皮之诅咒Curse of the Putrid Husk">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Curse_of_the_Putrid_Husk">腐烂外皮之诅咒Curse of the Putrid Husk</a></TD>
+<TD>三环</TD>
+<TD>幻术</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 魔契师 三环 歪月 非言 姿势 材料 无特 仪式 专注" spell="受诅杂音Cursed Cacophony">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Cursed_Cacophony">受诅杂音Cursed Cacophony</a></TD>
+<TD>三环</TD>
+<TD>惑控</TD>
+<TD>诗 术 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 三环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="达良之块Dara Blocks">
+<TD><a href="第三方/胧忆岛/法术.htm#Dara_Blocks">达良之块Dara Blocks</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 三环 黯潮 言语 非姿 材料 价耗 仪式 非专" spell="深根入月Deep Roots of the Moon">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Deep_Roots_of_the_Moon">深根入月Deep Roots of the Moon</a></TD>
+<TD>三环</TD>
+<TD>塑能</TD>
+<TD>牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M*</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 术士 法师 二环 尖塔 言语 姿势 非材 非仪 非专" spell="掷出窗外Defenestration">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Defenestration">掷出窗外Defenestration</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 二环 尖塔 言语 姿势 材料 无特 非仪 非专" spell="延迟术Delay">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Delay">延迟术Delay</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 术士 法师 魔契师 四环 德城 言语 姿势 材料 价耗 非仪 非专" spell="妄能爆破Delerium Blast">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Delerium_Blast">妄能爆破Delerium Blast</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 一环 德城 言语 姿势 材料 价耗 非仪 非专" spell="妄彩球Delerium Orb">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Delerium_Orb">妄彩球Delerium Orb</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="死灵 反应 术士 法师 魔契师 一环 歪月 非言 姿势 材料 无特 非仪 非专" spell="魔鬼报偿Devil's Due">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Devil's_Due">魔鬼报偿Devil's Due</a></TD>
+<TD>一环</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>反应</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 动作 牧师 法师 四环 尖塔 言语 姿势 非材 非仪 非专" spell="凶兆预警Dire Warning">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Dire_Warning">凶兆预警Dire Warning</a></TD>
+<TD>四环</TD>
+<TD>预言</TD>
+<TD>牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="防护 动作 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 五环 克苏鲁 言语 姿势 非材 非仪 非专" spell="送神术Dismiss Deity">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Dismiss_Deity">送神术Dismiss Deity</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="变化 动作 法师 戏法 歪月 言语 姿势 非材 非仪 非专" spell="瓦解术Dissolution">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Dissolution">瓦解术Dissolution</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 牧师 魔契师 七环 胧忆岛 言语 姿势 材料 价耗 非仪 专注" spell="神圣箭矢Divine Arrow">
+<TD><a href="第三方/胧忆岛/法术.htm#Divine_Arrow">神圣箭矢Divine Arrow</a></TD>
+<TD>七环</TD>
+<TD>塑能</TD>
+<TD>诗 牧 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 附赠 牧师 三环 克苏鲁 言语 非姿 非材 非仪 专注" spell="末日Doom">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Doom">末日Doom</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>牧</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 八环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="友尽之灾Doom of False Friends">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Doom_of_False_Friends">友尽之灾Doom of False Friends</a></TD>
+<TD>八环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 术士 法师 六环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="叠石之灾Doom of Stacked Stones">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Doom_of_Stacked_Stones">叠石之灾Doom of Stacked Stones</a></TD>
+<TD>六环</TD>
+<TD>变化</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 牧师 术士 法师 七环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="夏年厄运Doom of Summer Years">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Doom_of_Summer_Years">夏年厄运Doom of Summer Years</a></TD>
+<TD>七环</TD>
+<TD>变化</TD>
+<TD>牧 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 吟游诗人 圣武士 术士 法师 一环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="厄运将至Doom of poor fortune">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Doom_of_poor_fortune">厄运将至Doom of poor fortune</a></TD>
+<TD>一环</TD>
+<TD>死灵</TD>
+<TD>诗 帕 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 牧师 圣武士 游侠 术士 法师 魔契师 二环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="德雷弗恩的钝刃术Drayfn's Blunted Blade">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Drayfn's_Blunted_Blade">德雷弗恩的钝刃术Drayfn's Blunted Blade</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>诗 牧 帕 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 吟游诗人 牧师 德鲁伊 圣武士 术士 法师 魔契师 四环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="德雷弗恩的无能诅咒Drayfn's Curse of Incompetence">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Drayfn's_Curse_of_Incompetence">德雷弗恩的无能诅咒Drayfn's Curse of Incompetence</a></TD>
+<TD>四环</TD>
+<TD>死灵</TD>
+<TD>诗 牧 德 帕 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 吟游诗人 牧师 术士 法师 魔契师 戏法 黯潮 言语 姿势 非材 非仪 专注" spell="德雷弗恩的卓越之灾Drayfn's bane of excellence">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Drayfn's_bane_of_excellence">德雷弗恩的卓越之灾Drayfn's bane of excellence</a></TD>
+<TD>戏法</TD>
+<TD>死灵</TD>
+<TD>诗 牧 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 附赠 术士 法师 魔契师 七环 克苏鲁 言语 非姿 非材 非仪 专注" spell="阿撒托斯的恐怖诅咒Dread Curse of Azathoth">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Dread_Curse_of_Azathoth">阿撒托斯的恐怖诅咒Dread Curse of Azathoth</a></TD>
+<TD>七环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 法师 戏法 黯潮 言语 姿势 非材 非仪 专注" spell="毛毛细雨Drizzle">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Drizzle">毛毛细雨Drizzle</a></TD>
+<TD>戏法</TD>
+<TD>咒法</TD>
+<TD>德 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 一环 胧忆岛 非言 姿势 材料 无特 非仪 非专" spell="复制术Duplicate">
+<TD><a href="第三方/胧忆岛/法术.htm#Duplicate">复制术Duplicate</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 牧师 德鲁伊 术士 法师 魔契师 四环 克苏鲁 言语 姿势 非材 非仪 专注" spell="苏莱曼之尘Dust of Suleiman">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Dust_of_Suleiman">苏莱曼之尘Dust of Suleiman</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>牧 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 法师 七环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="黯潮Ebon Tide">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Ebon_Tide">黯潮Ebon Tide</a></TD>
+<TD>七环</TD>
+<TD>塑能</TD>
+<TD>牧 德 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="预言 动作 牧师 德鲁伊 游侠 法师 魔契师 一环 谦战 言语 姿势 非材 非仪 专注" spell="提升视力Elevated Sight">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Elevated_Sight">提升视力Elevated Sight</a></TD>
+<TD>一环</TD>
+<TD>预言</TD>
+<TD>牧 德 软 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 一环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="妖箭术Elf Shot">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Elf_Shot">妖箭术Elf Shot</a></TD>
+<TD>一环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 游侠 术士 法师 二环 胧忆岛 非言 姿势 材料 价耗 非仪 非专" spell="余烬腹火Ember Belly">
+<TD><a href="第三方/胧忆岛/法术.htm#Ember_Belly">余烬腹火Ember Belly</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>诗 软 术 法</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="防护 动作 牧师 圣武士 法师 一环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="翡翠高脚杯Emerald Goblet">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Emerald_Goblet">翡翠高脚杯Emerald Goblet</a></TD>
+<TD>一环</TD>
+<TD>防护</TD>
+<TD>牧 帕 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 德鲁伊 术士 法师 魔契师 戏法 克苏鲁 非言 姿势 非材 非仪 非专" spell="邪眼术Evil Eye">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Evil_Eye">邪眼术Evil Eye</a></TD>
+<TD>戏法</TD>
+<TD>惑控</TD>
+<TD>德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="变化 反应 德鲁伊 法师 戏法 歪月 言语 姿势 材料 无特 非仪 非专" spell="灼眼术Eye Burn">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Eye_Burn">灼眼术Eye Burn</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>德 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 其他 吟游诗人 牧师 德鲁伊 圣武士 游侠 三环 黯潮 言语 姿势 材料 价耗 仪式 非专" spell="妖精祝酒Faerie Toast">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Faerie_Toast">妖精祝酒Faerie Toast</a></TD>
+<TD>三环</TD>
+<TD>变化</TD>
+<TD>诗 牧 德 帕 软</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 魔契师 五环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="血肉盛宴Feast of Flesh">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Feast_of_Flesh">血肉盛宴Feast of Flesh</a></TD>
+<TD>五环</TD>
+<TD>变化</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 游侠 三环 谦战 非言 姿势 材料 无特 非仪 非专" spell="羽化Feathered Reach">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Feathered_Reach">羽化Feathered Reach</a></TD>
+<TD>三环</TD>
+<TD>变化</TD>
+<TD>德 软</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 德鲁伊 术士 法师 魔契师 五环 克苏鲁 言语 非姿 非材 非仪 专注" spell="猫猫大混乱Feline Chaos">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Feline_Chaos">猫猫大混乱Feline Chaos</a></TD>
+<TD>五环</TD>
+<TD>变化</TD>
+<TD>诗 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 附赠 吟游诗人 德鲁伊 游侠 术士 法师 魔契师 二环 克苏鲁 言语 非姿 非材 非仪 非专" spell="猫之优雅Feline Grace">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Feline_Grace">猫之优雅Feline Grace</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>诗 德 软 术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 法师 五环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="庆典之王Festival King">
+<TD><a href="第三方/胧忆岛/法术.htm#Festival_King">庆典之王Festival King</a></TD>
+<TD>五环</TD>
+<TD>惑控</TD>
+<TD>诗 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 动作 牧师 德鲁伊 魔契师 五环 歪月 言语 姿势 材料 无特 非仪 专注" spell="收割场Field of Reaping">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Field_of_Reaping">收割场Field of Reaping</a></TD>
+<TD>五环</TD>
+<TD>死灵</TD>
+<TD>牧 德 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 附赠 吟游诗人 术士 法师 戏法 铳士 言语 姿势 非材 非仪 非专" spell="手指枪Finger Guns">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Finger_Guns">手指枪Finger Guns</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>诗 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="幻术 动作 吟游诗人 术士 法师 魔契师 四环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="火舞术Fire Dance">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Fire_Dance">火舞术Fire Dance</a></TD>
+<TD>四环</TD>
+<TD>幻术</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 一环 黯潮 言语 姿势 非材 非仪 非专" spell="莹虫术Fireflies">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Fireflies">莹虫术Fireflies</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 四环 克苏鲁 言语 姿势 非材 非仪 非专" spell="犹格·索托斯之拳Fist of Yog-Sothoth">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Fist_of_Yog-Sothoth">犹格·索托斯之拳Fist of Yog-Sothoth</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="死灵 动作 牧师 法师 八环 鬼谷14 言语 姿势 材料 无特 非仪 专注" spell="剥皮术Flense">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Flense">剥皮术Flense</a></TD>
+<TD>八环</TD>
+<TD>死灵</TD>
+<TD>牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="变化 动作 牧师 德鲁伊 戏法 黯潮 言语 非姿 非材 非仪 专注" spell="开花Flowering">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Flowering">开花Flowering</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 其他 术士 法师 魔契师 四环 德城 言语 姿势 材料 价耗 非仪 非专" spell="强制进化Forced Evolution">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Forced_Evolution">强制进化Forced Evolution</a></TD>
+<TD>四环</TD>
+<TD>变化</TD>
+<TD>术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 一环 胧忆岛 言语 姿势 非材 非仪 非专" spell="林地守卫Forest Guard">
+<TD><a href="第三方/胧忆岛/法术.htm#Forest">林地守卫Forest Guard</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 三环 塔尔多雷 言语 姿势 材料 无特 非仪 非专" spell="浪之自由Freedom of the Wave">
+<TD><a href="第三方/塔尔多雷/玩家选项/新法术详述.htm#Freedom_of_the_Wave">浪之自由Freedom of the Wave</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>塔尔多雷</TD>
+</TR>
+<TR tags="防护 动作 德鲁伊 游侠 术士 五环 塔尔多雷 言语 姿势 材料 无特 非仪 专注" spell="风之自由Freedom of the Wind">
+<TD><a href="第三方/塔尔多雷/玩家选项/新法术详述.htm#Freedom_of_the_Wind">风之自由Freedom of the Wind</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>塔尔多雷</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 法师 六环 尖塔 言语 姿势 材料 无特 仪式 非专" spell="命运游戏Game of Fate">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Game_of_Fate">命运游戏Game of Fate</a></TD>
+<TD>六环</TD>
+<TD>惑控</TD>
+<TD>诗 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="死灵 动作 术士 法师 魔契师 六环 歪月 言语 姿势 材料 无特 非仪 非专" spell="惊怖冲锋Ghastly Charge">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Ghastly_Charge">惊怖冲锋Ghastly Charge</a></TD>
+<TD>六环</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 圣武士 游侠 术士 法师 魔契师 一环 胧忆岛 言语 姿势 非材 非仪 非专" spell="赠生术Gift">
+<TD><a href="第三方/胧忆岛/法术.htm#Gift">赠生术Gift</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>诗 帕 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 一环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="暮色迷蒙Gloaming">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Gloaming">暮色迷蒙Gloaming</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 魔契师 三环 谦战 言语 姿势 材料 无特 非仪 专注" spell="暮光法球Globe of Twilight">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Globe_of_Twilight">暮光法球Globe of Twilight</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>德 软 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="死灵 附赠 牧师 德鲁伊 法师 魔契师 六环 黯潮 言语 姿势 材料 无特 非仪 非专" spell="残酷收割Grim Harvest">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Grim_Harvest">残酷收割Grim Harvest</a></TD>
+<TD>六环</TD>
+<TD>死灵</TD>
+<TD>牧 德 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 法师 魔契师 三环 黯潮 言语 姿势 非材 非仪 专注" spell="严峻之影Grim Shadows">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Grim_Shadows">严峻之影Grim Shadows</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 德鲁伊 术士 魔契师 戏法 谦战 非言 姿势 非材 非仪 非专" spell="尘风屏障Gust Barrier">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Gust_Barrier">尘风屏障Gust Barrier</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>诗 德 术 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 法师 二环 尖塔 言语 姿势 材料 无特 非仪 非专" spell="宿醉感Hangover">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Hangover">宿醉感Hangover</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="惑控 附赠 吟游诗人 术士 法师 二环 歪月 言语 姿势 非材 非仪 专注" spell="黯然销魂曲Harrowing Ballad">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Harrowing_Ballad">黯然销魂曲Harrowing Ballad</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 游侠 三环 歪月 言语 姿势 材料 无特 非仪 非专" spell="丰收月辉Harvest Moonglow">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Harvest_Moonglow">丰收月辉Harvest Moonglow</a></TD>
+<TD>三环</TD>
+<TD>塑能</TD>
+<TD>牧 德 软</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 六环 艾巢 言语 姿势 材料 价耗 非仪 专注" spell="钻心血刺Heartseeker">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Heartseeker">钻心血刺Heartseeker</a></TD>
+<TD>六环</TD>
+<TD>塑能</TD>
+<TD>术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 一环 邪狱使 言语 姿势 材料 无特 非仪 非专" spell="狱之笞Hell's Lash">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Hell's_Lash">狱之笞Hell's Lash</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 戏法 邪狱使 言语 姿势 非材 非仪 非专" spell="地狱火Hellfire">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Hellfire">地狱火Hellfire</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 圣武士 五环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="虚构英雄Hero of Fable">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Hero_of_Fable">虚构英雄Hero of Fable</a></TD>
+<TD>五环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 帕</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 德鲁伊 游侠 二环 黯潮 言语 非姿 材料 无特 非仪 非专" spell="冬眠术Hibernation">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Hibernation">冬眠术Hibernation</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>德 软</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 牧师 戏法 鬼谷14 言语 姿势 非材 非仪 非专" spell="圣言术Holy Word">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Holy_Word">圣言术Holy Word</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>牧</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="死灵 附赠 圣武士 游侠 魔契师 一环 歪月 言语 姿势 非材 非仪 非专" spell="饕餮魔刃Hungering Blade">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Hungering_Blade">饕餮魔刃Hungering Blade</a></TD>
+<TD>一环</TD>
+<TD>死灵</TD>
+<TD>帕 软 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 动作 德鲁伊 戏法 艾巢 言语 姿势 非材 非仪 专注" spell="猎人视界Hunter Sense">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Hunter_Sense">猎人视界Hunter Sense</a></TD>
+<TD>戏法</TD>
+<TD>预言</TD>
+<TD>德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="惑控 动作 圣武士 二环 邪狱使 言语 非姿 非材 非仪 非专" spell="戕狱对决Infernal Challenge">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Infernal_Challenge">戕狱对决Infernal Challenge</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>帕</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 魔契师 四环 歪月 言语 姿势 材料 无特 非仪 专注" spell="绝望侵袭Intrusive Despair">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Intrusive_Despair">绝望侵袭Intrusive Despair</a></TD>
+<TD>四环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="预言 其他 牧师 圣武士 三环 谦战 言语 姿势 材料 无特 非仪 非专" spell="祈求永荣者Invoke the Amaranthine">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Invoke">祈求永荣者Invoke the Amaranthine</a></TD>
+<TD>三环</TD>
+<TD>预言</TD>
+<TD>牧 帕</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="惑控 动作 法师 魔契师 三环 歪月 言语 姿势 材料 无特 非仪 专注" spell="孤立术Isolation">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Isolation">孤立术Isolation</a></TD>
+<TD>三环</TD>
+<TD>惑控</TD>
+<TD>法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 反应 吟游诗人 法师 二环 铳士 言语 姿势 材料 无特 非仪 非专" spell="卡你武器Jam Weapon">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Jam_Weapon">卡你武器Jam Weapon</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>诗 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 游侠 法师 二环 铳士 言语 姿势 材料 无特 非仪 非专" spell="叶忒罗的自动换弹Jethro's Instant Reload">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Jethro's_Instant_Reload">叶忒罗的自动换弹Jethro's Instant Reload</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>诗 软 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 术士 法师 魔契师 戏法 胧忆岛 言语 姿势 非材 非仪 非专" spell="电击术Jolt">
+<TD><a href="第三方/胧忆岛/法术.htm#Jolt">电击术Jolt</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 动作 牧师 德鲁伊 术士 法师 四环 黯潮 言语 姿势 材料 无特 非仪 非专" spell="命运之刃Knife of Fate">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Knife_of_Fate">命运之刃Knife of Fate</a></TD>
+<TD>四环</TD>
+<TD>死灵</TD>
+<TD>牧 德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 德鲁伊 游侠 魔契师 二环 黯潮 非言 姿势 材料 无特 非仪 专注" spell="克拉尔之蛆Krail's Maggot">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Krail's_Maggot">克拉尔之蛆Krail's Maggot</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>德 软 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 牧师 德鲁伊 术士 法师 五环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="克拉尔之腐Krail's Rot">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Krail's_Rot">克拉尔之腐Krail's Rot</a></TD>
+<TD>五环</TD>
+<TD>死灵</TD>
+<TD>牧 德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 反应 德鲁伊 圣武士 游侠 术士 法师 魔契师 二环 黯潮 非言 姿势 非材 非仪 非专" spell="克拉尔之裂Krail's Rupture">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Krail's_Rupture">克拉尔之裂Krail's Rupture</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>德 帕 软 术 法 锁</TD>
+<TD>反应</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 魔契师 七环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="雷洛赫的踉跄舞步Leiloch's Arduous Shuffle">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Leiloch's_Arduous_Shuffle">雷洛赫的踉跄舞步Leiloch's Arduous Shuffle</a></TD>
+<TD>七环</TD>
+<TD>惑控</TD>
+<TD>诗 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 魔契师 五环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="雷洛赫的长篇大论Leiloch's Interminable Yarn">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Leiloch's_Interminable_Yarn">雷洛赫的长篇大论Leiloch's Interminable Yarn</a></TD>
+<TD>五环</TD>
+<TD>惑控</TD>
+<TD>诗 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 魔契师 二环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="雷洛赫的恼人卡祖笛Leiloch's Irritating Kazoo">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Leiloch's_Irritating_Kazoo">雷洛赫的恼人卡祖笛Leiloch's Irritating Kazoo</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 牧师 术士 法师 魔契师 二环 鬼谷14 言语 姿势 非材 非仪 专注" spell="生命链接Life Tether">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Life_Tether">生命链接Life Tether</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>牧 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="塑能 附赠 吟游诗人 牧师 术士 法师 魔契师 三环 胧忆岛 言语 姿势 非材 非仪 非专" spell="光耀缚束Light Snare">
+<TD><a href="第三方/胧忆岛/法术.htm#Light_Snare">光耀缚束Light Snare</a></TD>
+<TD>三环</TD>
+<TD>塑能</TD>
+<TD>诗 牧 术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 三环 黯潮 言语 姿势 非材 非仪 非专" spell="迷失Lost">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Lost">迷失Lost</a></TD>
+<TD>三环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 游侠 五环 黯潮 言语 姿势 非材 非仪 非专" spell="迷失漫游Lost and Wandering">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Lost_and_Wandering">迷失漫游Lost and Wandering</a></TD>
+<TD>五环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德 软</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 其他 德鲁伊 术士 法师 四环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="月之转移Lunar Transfer">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Lunar_Transfer">月之转移Lunar Transfer</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>德 术 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="防护 反应 术士 五环 艾巢 言语 姿势 材料 无特 非仪 非专" spell="魔镜反射Magic Mirror">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Magic_Mirror">魔镜反射Magic Mirror</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>术</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="塑能 附赠 圣武士 四环 邪狱使 言语 姿势 非材 非仪 非专" spell="邪秽武器Maligned Weapon">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Maligned_Weapon">邪秽武器Maligned Weapon</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>帕</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="变化 动作 法师 四环 尖塔 言语 姿势 材料 无特 非仪 非专" spell="曼蒂的野性随从Mandy's Feral Follower">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Mandy's_Feral_Follower">曼蒂的野性随从Mandy's Feral Follower</a></TD>
+<TD>四环</TD>
+<TD>变化</TD>
+<TD>法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="死灵 动作 牧师 圣武士 法师 三环 歪月 言语 姿势 材料 价耗 非仪 非专" spell="殉难者Martyr">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Martyr">殉难者Martyr</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>牧 帕 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 动作 术士 法师 五环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="群体浮空术Mass Levitate">
+<TD><a href="第三方/胧忆岛/法术.htm#Mass_Levitate">群体浮空术Mass Levitate</a></TD>
+<TD>五环</TD>
+<TD>变化</TD>
+<TD>术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 法师 一环 尖塔 言语 姿势 材料 价耗 仪式 非专" spell="记忆术Memorize">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Memorize">记忆术Memorize</a></TD>
+<TD>一环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 术士 法师 戏法 谦故 言语 姿势 材料 无特 非仪 非专" spell="植物修复Mend Plants">
+<TD><a href="第三方/谦卑林故事集/新法术.htm#Mend_Plants">植物修复Mend Plants</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦故</TD>
+</TR>
+<TR tags="防护 反应 吟游诗人 术士 法师 五环 歪月 言语 姿势 材料 无特 非仪 非专" spell="镜像痛苦Mirrored Agony">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Mirrored_Agony">镜像痛苦Mirrored Agony</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>诗 术 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="惑控 动作 术士 法师 魔契师 三环 歪月 言语 姿势 材料 无特 非仪 专注" spell="悼亡迷雾Mist of Mourning">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Mist_of_Mourning">悼亡迷雾Mist of Mourning</a></TD>
+<TD>三环</TD>
+<TD>惑控</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 附赠 牧师 术士 法师 戏法 尖塔 言语 非姿 非材 非仪 非专" spell="思忖一瞬Moment to Think">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Moment_to_Think">思忖一瞬Moment to Think</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>牧 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 游侠 术士 二环 胧忆岛 言语 姿势 非材 非仪 专注" spell="猿之攫Monkey's Grasp">
+<TD><a href="第三方/胧忆岛/法术.htm#Monkey's_Grasp">猿之攫Monkey's Grasp</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 牧师 德鲁伊 术士 法师 四环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="月光遣魔Moonlight Sending">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Moonlight_Sending">月光遣魔Moonlight Sending</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>牧 德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 三环 邪狱使 言语 姿势 材料 无特 非仪 非专" spell="炼狱之尘Mote of Hell">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Mote_of_Hell">炼狱之尘Mote of Hell</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 法师 魔契师 四环 歪月 言语 姿势 材料 无特 非仪 非专" spell="凶杀鸦群Murder of Crows">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Murder_of_Crows">凶杀鸦群Murder of Crows</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 附赠 德鲁伊 游侠 二环 胧忆岛 言语 非姿 非材 非仪 非专" spell="魔菇术Mushroom Ballista">
+<TD><a href="第三方/胧忆岛/法术.htm#Mushroom_Ballista">魔菇术Mushroom Ballista</a></TD>
+<TD>二环</TD>
+<TD>变化</TD>
+<TD>德 软</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="幻术 动作 吟游诗人 德鲁伊 术士 戏法 歪月 言语 姿势 非材 非仪 专注" spell="莫测仪容Mysterious Presence">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Mysterious_Presence">莫测仪容Mysterious Presence</a></TD>
+<TD>戏法</TD>
+<TD>幻术</TD>
+<TD>诗 德 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 动作 吟游诗人 牧师 德鲁伊 圣武士 游侠 术士 法师 魔契师 五环 德城 言语 姿势 材料 价耗 非仪 专注" spell="中和场域Neutralizing Field">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Neutralizing_Field">中和场域Neutralizing Field</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 帕 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="幻术 附赠 吟游诗人 魔契师 戏法 黯潮 非言 姿势 非材 非仪 专注" spell="混淆物件Obfuscate Object">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Obfuscate_Object">混淆物件Obfuscate Object</a></TD>
+<TD>戏法</TD>
+<TD>幻术</TD>
+<TD>诗 锁</TD>
+<TD>附赠</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="幻术 动作 吟游诗人 术士 法师 魔契师 二环 胧忆岛 言语 姿势 非材 非仪 专注" spell="隐匿物件Obscure Object">
+<TD><a href="第三方/胧忆岛/法术.htm#Obscure_Object">隐匿物件Obscure Object</a></TD>
+<TD>二环</TD>
+<TD>幻术</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 术士 法师 魔契师 七环 德城 言语 姿势 材料 价耗 非仪 非专" spell="第八虹光喷射Octarine Spray">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Octarine_Spray">第八虹光喷射Octarine Spray</a></TD>
+<TD>七环</TD>
+<TD>塑能</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 术士 法师 二环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="不详妖风Ominous winds">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Ominous_winds">不详妖风Ominous winds</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 魔契师 五环 胧忆岛 言语 姿势 材料 价耗 非仪 非专" spell="纸鹤群袭Origami Bird Swarm">
+<TD><a href="第三方/胧忆岛/法术.htm#Origami_Bird_Swarm">纸鹤群袭Origami Bird Swarm</a></TD>
+<TD>五环</TD>
+<TD>变化</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 反应 牧师 术士 法师 三环 黯潮 言语 姿势 材料 无特 非仪 非专" spell="奥罗斯的命运印记Orros Mark of Fate">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Orros_Mark_of_Fate">奥罗斯的命运印记Orros Mark of Fate</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>牧 术 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 四环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="镇静怪物Pacify Monster">
+<TD><a href="第三方/胧忆岛/法术.htm#Pacify_Monster">镇静怪物Pacify Monster</a></TD>
+<TD>四环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 术士 法师 魔契师 一环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="镇静类人Pacify Person">
+<TD><a href="第三方/胧忆岛/法术.htm#Pacify_Person">镇静类人Pacify Person</a></TD>
+<TD>一环</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 动作 术士 法师 魔契师 九环 尖塔 言语 姿势 非材 非仪 非专" spell="悖论Paradox">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Paradox">悖论Paradox</a></TD>
+<TD>九环</TD>
+<TD>变化</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="塑能 附赠 圣武士 游侠 一环 铳士 言语 非姿 非材 非仪 非专" spell="贯星一条Perforating Shot">
+<TD><a href="第三方/瓦尔达的秘密尖塔/铳士/法术.htm#Perforating_Shot">贯星一条Perforating Shot</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>帕 软</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>铳士</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 德鲁伊 游侠 术士 法师 魔契师 三环 克苏鲁 言语 非姿 非材 非仪 专注" spell="幻影之豹Phantom Panther">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Phantom_Panther">幻影之豹Phantom Panther</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 术士 九环 鬼谷14 言语 姿势 非材 非仪 非专" spell="凤焰Phoenix Flames">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Phoenix_Flames">凤焰Phoenix Flames</a></TD>
+<TD>九环</TD>
+<TD>塑能</TD>
+<TD>牧 德 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 德鲁伊 游侠 术士 二环 胧忆岛 非言 姿势 非材 非仪 非专" spell="冲击之柱Pillar of Force">
+<TD><a href="第三方/胧忆岛/法术.htm#Pillar_of_Force">冲击之柱Pillar of Force</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>诗 德 软 术</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 动作 德鲁伊 术士 法师 魔契师 三环 胧忆岛 言语 姿势 非材 非仪 非专" spell="坠落术Plummet">
+<TD><a href="第三方/胧忆岛/法术.htm#Plummet">坠落术Plummet</a></TD>
+<TD>三环</TD>
+<TD>变化</TD>
+<TD>德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 三环 胧忆岛 言语 姿势 非材 非仪 非专" spell="波格莫奇锅Pogmo's Pot">
+<TD><a href="第三方/胧忆岛/法术.htm#Pogmo's_Pot">波格莫奇锅Pogmo's Pot</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 圣武士 游侠 魔契师 三环 尖塔 言语 姿势 材料 无特 非仪 专注" spell="多腕术Polybrachia">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Polybrachia">多腕术Polybrachia</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>德 帕 软 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 四环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="缤纷泡泡Polychromatic Bubble">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Polychromatic_Bubble">缤纷泡泡Polychromatic Bubble</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 其他 牧师 术士 法师 四环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="波尔朵之门Portho's Portal">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Portho's_Portal">波尔朵之门Portho's Portal</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>牧 术 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 一环 黯潮 言语 姿势 非材 非仪 非专" spell="糗态百出Pratfall">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Pratfall">糗态百出Pratfall</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 魔契师 四环 歪月 言语 姿势 材料 无特 非仪 专注" spell="傀儡掌控Puppet Master">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Puppet_Master">傀儡掌控Puppet Master</a></TD>
+<TD>四环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 其他 吟游诗人 牧师 德鲁伊 圣武士 游侠 术士 法师 魔契师 三环 德城 言语 姿势 材料 价耗 非仪 非专" spell="祛除污染Purge Contamination">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Purge_Contamination">祛除污染Purge Contamination</a></TD>
+<TD>三环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 帕 软 术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 术士 法师 五环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="光耀信标Radiant Beacon">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Radiant_Beacon">光耀信标Radiant Beacon</a></TD>
+<TD>五环</TD>
+<TD>塑能</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 附赠 德鲁伊 游侠 术士 法师 二环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="怒雷云冕Rageful Nimbus">
+<TD><a href="第三方/胧忆岛/法术.htm#Rageful_Nimbus">怒雷云冕Rageful Nimbus</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>德 软 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 动作 德鲁伊 术士 法师 魔契师 六环 德城 言语 姿势 材料 价耗 非仪 非专" spell="污染射线Ray of Contamination">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Ray_of_Contamination">污染射线Ray of Contamination</a></TD>
+<TD>六环</TD>
+<TD>死灵</TD>
+<TD>德 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="咒法 附赠 术士 法师 二环 尖塔 言语 姿势 非材 非仪 非专" spell="回溯Recall">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Recall">回溯Recall</a></TD>
+<TD>二环</TD>
+<TD>咒法</TD>
+<TD>术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 六环 克苏鲁 言语 姿势 非材 非仪 专注" spell="赤印Red Sign">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Red_Sign">赤印Red Sign</a></TD>
+<TD>六环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 牧师 德鲁伊 戏法 胧忆岛 言语 非姿 非材 非仪 非专" spell="友谊羁绊Resilient Friendship">
+<TD><a href="第三方/胧忆岛/法术.htm#Resilient_Friendship">友谊羁绊Resilient Friendship</a></TD>
+<TD>戏法</TD>
+<TD>惑控</TD>
+<TD>诗 牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 附赠 吟游诗人 术士 法师 戏法 胧忆岛 言语 非姿 非材 非仪 非专" spell="召物术Retrieve">
+<TD><a href="第三方/胧忆岛/法术.htm#Retrieve">召物术Retrieve</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>诗 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 术士 法师 四环 鬼谷14 言语 姿势 材料 无特 非仪 非专" spell="御电而行Ride the Lightning">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Ride_the_Lightning">御电而行Ride the Lightning</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 三环 德城 言语 姿势 材料 价耗 非仪 非专" spell="驱隙电闪Ride the Rifts">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Ride_the_Rifts">驱隙电闪Ride the Rifts</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="咒法 反应 吟游诗人 德鲁伊 术士 法师 戏法 胧忆岛 言语 姿势 非材 非仪 非专" spell="根须缚束Root Grab">
+<TD><a href="第三方/胧忆岛/法术.htm#Root_Grab">根须缚束Root Grab</a></TD>
+<TD>戏法</TD>
+<TD>咒法</TD>
+<TD>诗 德 术 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 法师 一环 尖塔 言语 姿势 非材 非仪 非专" spell="流言Rumor">
+<TD><a href="第三方/瓦尔达的秘密尖塔/法术.htm#Rumor">流言Rumor</a></TD>
+<TD>一环</TD>
+<TD>惑控</TD>
+<TD>诗 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+<TR tags="防护 其他 吟游诗人 牧师 德鲁伊 魔契师 九环 德城 言语 姿势 材料 价耗 非仪 非专" spell="天火圣礼Sacrament of the Falling Fire">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Sacrament_of_the_Falling_Fire">天火圣礼Sacrament of the Falling Fire</a></TD>
+<TD>九环</TD>
+<TD>防护</TD>
+<TD>诗 牧 德 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="死灵 动作 牧师 圣武士 法师 魔契师 四环 歪月 非言 姿势 非材 非仪 专注" spell="祭献虹吸Sacrificial Siphon">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Sacrificial_Siphon">祭献虹吸Sacrificial Siphon</a></TD>
+<TD>四环</TD>
+<TD>死灵</TD>
+<TD>牧 帕 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 圣武士 游侠 魔契师 五环 歪月 言语 姿势 材料 无特 非仪 专注" spell="幸运符Sanctum of the Flock">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Sanctum_of_the_Flock">幸运符Sanctum of the Flock</a></TD>
+<TD>五环</TD>
+<TD>变化</TD>
+<TD>诗 帕 软 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 其他 牧师 圣武士 法师 四环 歪月 言语 姿势 材料 价耗 非仪 非专" spell="牧人圣所Sanctum of the Shepherd">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Sanctum_of_the_Shepherd">牧人圣所Sanctum of the Shepherd</a></TD>
+<TD>四环</TD>
+<TD>防护</TD>
+<TD>牧 帕 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 吟游诗人 德鲁伊 游侠 术士 法师 魔契师 一环 胧忆岛 言语 姿势 材料 无特 仪式 非专" spell="构沙术Sand Structure">
+<TD><a href="第三方/胧忆岛/法术.htm#Sand_Structure">构沙术Sand Structure</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>诗 德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>√</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="预言 附赠 游侠 术士 法师 魔契师 二环 歪月 言语 姿势 材料 价耗 非仪 非专" spell="血色隐秘Sanguine Secrets">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Sanguine_Secrets">血色隐秘Sanguine Secrets</a></TD>
+<TD>二环</TD>
+<TD>预言</TD>
+<TD>软 术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 圣武士 游侠 法师 魔契师 三环 歪月 言语 姿势 非材 非仪 非专" spell="猩红黎明Scarlet Dawn">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Scarlet_Dawn">猩红黎明Scarlet Dawn</a></TD>
+<TD>三环</TD>
+<TD>塑能</TD>
+<TD>牧 德 帕 软 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="防护 动作 术士 法师 魔契师 二环 黯潮 言语 姿势 材料 无特 非仪 非专" spell="暗影适应术Shadow Adaptation">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Shadow_Adaptation">暗影适应术Shadow Adaptation</a></TD>
+<TD>二环</TD>
+<TD>防护</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="死灵 动作 术士 法师 魔契师 三环 歪月 言语 姿势 非材 非仪 专注" spell="汲影术Shadow Drain">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Shadow_Drain">汲影术Shadow Drain</a></TD>
+<TD>三环</TD>
+<TD>死灵</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 三环 黯潮 言语 姿势 材料 价耗 非仪 非专" spell="暗影传送门Shadow Portal">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Shadow_Portal">暗影传送门Shadow Portal</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 三环 克苏鲁 言语 姿势 非材 非仪 非专" spell="幽暗迸发Shadowy Eruption">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Shadowy_Eruption">幽暗迸发Shadowy Eruption</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 牧师 德鲁伊 四环 谦战 言语 姿势 非材 非仪 非专" spell="植物塑形Shape Plants">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Shape_Plants">植物塑形Shape Plants</a></TD>
+<TD>四环</TD>
+<TD>变化</TD>
+<TD>诗 牧 德</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="预言 动作 吟游诗人 牧师 术士 法师 二环 胧忆岛 非言 姿势 材料 无特 非仪 专注" spell="共享视界Shared Vision">
+<TD><a href="第三方/胧忆岛/法术.htm#Shared_Vision">共享视界Shared Vision</a></TD>
+<TD>二环</TD>
+<TD>预言</TD>
+<TD>诗 牧 术 法</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 其他 术士 法师 魔契师 六环 德城 言语 姿势 材料 价耗 非仪 非专" spell="污染转嫁Siphon Contamination">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Siphon_Contamination">污染转嫁Siphon Contamination</a></TD>
+<TD>六环</TD>
+<TD>变化</TD>
+<TD>术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="预言 其他 吟游诗人 牧师 德鲁伊 圣武士 游侠 术士 法师 魔契师 二环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="法术识记Spell Signature">
+<TD><a href="第三方/胧忆岛/法术.htm#Spell_Signature">法术识记Spell Signature</a></TD>
+<TD>二环</TD>
+<TD>预言</TD>
+<TD>诗 牧 德 帕 软 术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 四环 黯潮 言语 非姿 材料 无特 非仪 专注" spell="蜘蛛之歌Spider Song">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Spider_Song">蜘蛛之歌Spider Song</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="防护 反应 德鲁伊 游侠 术士 法师 一环 谦战 言语 姿势 材料 无特 非仪 非专" spell="尖刺护盾Spiny Shield">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Spiny_Shield">尖刺护盾Spiny Shield</a></TD>
+<TD>一环</TD>
+<TD>防护</TD>
+<TD>德 软 术 法</TD>
+<TD>反应</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="死灵 动作 牧师 法师 五环 鬼谷14 言语 姿势 非材 非仪 专注" spell="魂灵群Spirit Swarm">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Spirit_Swarm">魂灵群Spirit Swarm</a></TD>
+<TD>五环</TD>
+<TD>死灵</TD>
+<TD>牧 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 一环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="灵植伪装Sprout Foliage">
+<TD><a href="第三方/胧忆岛/法术.htm#Sprout_Foliage">灵植伪装Sprout Foliage</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 游侠 术士 法师 四环 谦战 言语 姿势 非材 非仪 非专" spell="恒星之躯Stellar Bodies">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Stellar_Bodies">恒星之躯Stellar Bodies</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>德 软 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="咒法 动作 牧师 德鲁伊 法师 四环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="风暴之门Storm Door">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Storm_Door">风暴之门Storm Door</a></TD>
+<TD>四环</TD>
+<TD>咒法</TD>
+<TD>牧 德 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 圣武士 游侠 术士 魔契师 四环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="风暴战驹Storm Stallion">
+<TD><a href="第三方/胧忆岛/法术.htm#Storm_Stallion">风暴战驹Storm Stallion</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>德 帕 软 术 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 德鲁伊 游侠 术士 法师 魔契师 五环 胧忆岛 言语 姿势 非材 非仪 非专" spell="潜渡术Submerge">
+<TD><a href="第三方/胧忆岛/法术.htm#Submerge">潜渡术Submerge</a></TD>
+<TD>五环</TD>
+<TD>咒法</TD>
+<TD>德 软 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 术士 法师 魔契师 三环 艾巢 言语 姿势 材料 无特 非仪 专注" spell="窒息术Suffocate">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Suffocate">窒息术Suffocate</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="塑能 动作 牧师 德鲁伊 圣武士 游侠 二环 歪月 言语 姿势 非材 非仪 非专" spell="夏日清风Summer Winds">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Summer_Winds">夏日清风Summer Winds</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>牧 德 帕 软</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 德鲁伊 游侠 术士 五环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="召唤南瓜灯Summon Jack-O'-Lantern">
+<TD><a href="第三方/胧忆岛/法术.htm#Summon_Jack-O'-Lantern">召唤南瓜灯Summon Jack-O'-Lantern</a></TD>
+<TD>五环</TD>
+<TD>咒法</TD>
+<TD>诗 德 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 其他 术士 法师 魔契师 五环 克苏鲁 言语 姿势 材料 无特 非仪 专注" spell="暗影召唤术Summon Shadow">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Summon_Shadow">暗影召唤术Summon Shadow</a></TD>
+<TD>五环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 游侠 法师 一环 胧忆岛 言语 姿势 材料 无特 非仪 非专" spell="召唤载具Summon Vehicle">
+<TD><a href="第三方/胧忆岛/法术.htm#Summon_Vehicle">召唤载具Summon Vehicle</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>诗 软 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 附赠 圣武士 四环 鬼谷14 言语 非姿 非材 非仪 专注" spell="超神斩Supernal Smite">
+<TD><a href="第三方/鬼魅幽谷/玩家包/法术.htm#Supernal_Smite">超神斩Supernal Smite</a></TD>
+<TD>四环</TD>
+<TD>塑能</TD>
+<TD>帕</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>鬼谷14</TD>
+</TR>
+<TR tags="变化 反应 吟游诗人 法师 一环 胧忆岛 非言 姿势 非材 非仪 非专" spell="魔力吞噬Swallow Magic">
+<TD><a href="第三方/胧忆岛/法术.htm#Swallow_Magic">魔力吞噬Swallow Magic</a></TD>
+<TD>一环</TD>
+<TD>变化</TD>
+<TD>诗 法</TD>
+<TD>反应</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="幻术 动作 吟游诗人 术士 法师 魔契师 二环 胧忆岛 言语 姿势 非材 非仪 非专" spell="易形换貌Switched Form">
+<TD><a href="第三方/胧忆岛/法术.htm#Switched_Form">易形换貌Switched Form</a></TD>
+<TD>二环</TD>
+<TD>幻术</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="防护 其他 吟游诗人 牧师 法师 五环 胧忆岛 言语 姿势 材料 价耗 非仪 非专" spell="谭冈的盛宴之火Tamh Gon's Fiery Festival Feast">
+<TD><a href="第三方/胧忆岛/法术.htm#Tamh_Gon's_Fiery_Festival_Feast">谭冈的盛宴之火Tamh Gon's Fiery Festival Feast</a></TD>
+<TD>五环</TD>
+<TD>防护</TD>
+<TD>诗 牧 法</TD>
+<TD>其他</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 术士 法师 魔契师 戏法 胧忆岛 非言 姿势 非材 非仪 非专" spell="便利术Task">
+<TD><a href="第三方/胧忆岛/法术.htm#Task">便利术Task</a></TD>
+<TD>戏法</TD>
+<TD>变化</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="咒法 动作 术士 法师 魔契师 一环 克苏鲁 言语 姿势 非材 非仪 非专" spell="黑潮Tide of Darkness">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Tide_of_Darkness">黑潮Tide of Darkness</a></TD>
+<TD>一环</TD>
+<TD>咒法</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="幻术 反应 吟游诗人 术士 法师 魔契师 二环 胧忆岛 非言 姿势 非材 非仪 非专" spell="匿形术Transparency">
+<TD><a href="第三方/胧忆岛/法术.htm#Transparency">匿形术Transparency</a></TD>
+<TD>二环</TD>
+<TD>幻术</TD>
+<TD>诗 术 法 锁</TD>
+<TD>反应</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 二环 黯潮 言语 姿势 材料 无特 非仪 专注" spell="丑小鸭Ugly Duckling">
+<TD><a href="第三方/黯潮之书/法术/法术详述.htm#Ugly_Duckling">丑小鸭Ugly Duckling</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>黯潮</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 一环 克苏鲁 言语 姿势 非材 非仪 非专" spell="暗影触须Umbral Tendril">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Umbral_Tendril">暗影触须Umbral Tendril</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="惑控 动作 吟游诗人 术士 法师 魔契师 二环 歪月 言语 姿势 非材 非仪 非专" spell="溃心低语Unraveling Whisper">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Unraveling_Whisper">溃心低语Unraveling Whisper</a></TD>
+<TD>二环</TD>
+<TD>惑控</TD>
+<TD>诗 术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="咒法 动作 吟游诗人 德鲁伊 圣武士 游侠 术士 三环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="菜刀术Vegetable Blade">
+<TD><a href="第三方/胧忆岛/法术.htm#Vegetable_Blade">菜刀术Vegetable Blade</a></TD>
+<TD>三环</TD>
+<TD>咒法</TD>
+<TD>诗 德 帕 软 术</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="防护 附赠 德鲁伊 魔契师 一环 谦战 言语 姿势 材料 无特 非仪 专注" spell="黄昏之纱Veil of Dusk">
+<TD><a href="第三方/谦卑林/新法术详述.htm#Veil_of_Dusk">黄昏之纱Veil of Dusk</a></TD>
+<TD>一环</TD>
+<TD>防护</TD>
+<TD>德 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>谦战</TD>
+</TR>
+<TR tags="幻术 附赠 游侠 术士 法师 魔契师 二环 歪月 言语 姿势 材料 无特 非仪 专注" spell="死神面纱Veil of the Reaper">
+<TD><a href="第三方/歪曲之月/第七章/法术详述.htm#Veil_of_the_Reaper">死神面纱Veil of the Reaper</a></TD>
+<TD>二环</TD>
+<TD>幻术</TD>
+<TD>软 术 法 锁</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>歪月</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 戏法 邪狱使 非言 姿势 材料 价耗 非仪 非专" spell="仇杀剑Vengeful Blade">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Vengeful_Blade">仇杀剑Vengeful Blade</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="防护 附赠 术士 法师 魔契师 三环 克苏鲁 非言 姿势 非材 非仪 非专" spell="维瑞之印Voorish Sign">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Voorish_Sign">维瑞之印Voorish Sign</a></TD>
+<TD>三环</TD>
+<TD>防护</TD>
+<TD>术 法 锁</TD>
+<TD>附赠</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="死灵 动作 德鲁伊 术士 法师 四环 邪狱使 言语 姿势 材料 无特 非仪 非专" spell="死灭墙Wall of Death">
+<TD><a href="第三方/邪狱使/邪狱使法术.htm#Wall_of_Death">死灭墙Wall of Death</a></TD>
+<TD>四环</TD>
+<TD>死灵</TD>
+<TD>德 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>邪狱使</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 二环 德城 言语 姿势 材料 价耗 非仪 专注" spell="扭曲矢Warp Bolt">
+<TD><a href="第三方/德拉肯海姆/法术详述.htm#Warp_Bolt">扭曲矢Warp Bolt</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M*</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>德城</TD>
+</TR>
+<TR tags="塑能 动作 德鲁伊 游侠 术士 法师 一环 胧忆岛 言语 姿势 非材 非仪 非专" spell="水弹术Water Bullet">
+<TD><a href="第三方/胧忆岛/法术.htm#Water_Bullet">水弹术Water Bullet</a></TD>
+<TD>一环</TD>
+<TD>塑能</TD>
+<TD>德 软 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 动作 术士 法师 魔契师 九环 克苏鲁 非言 姿势 非材 非仪 非专" spell="忘却之波Wave of Oblivion">
+<TD><a href="第三方/火炬光下的克苏鲁/第四章/法术详述.htm#Wave_of_Oblivion">忘却之波Wave of Oblivion</a></TD>
+<TD>九环</TD>
+<TD>塑能</TD>
+<TD>术 法 锁</TD>
+<TD>动作</TD>
+<TD>×</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>克苏鲁</TD>
+</TR>
+<TR tags="变化 动作 吟游诗人 德鲁伊 游侠 术士 法师 一环 胧忆岛 言语 姿势 材料 无特 非仪 专注" spell="覆潮武器Whelm Weapon">
+<TD><a href="第三方/胧忆岛/法术.htm#Whelm_Weapon">覆潮武器Whelm Weapon</a></TD>
+<TD>一环</TD>
+<TD>变化</TD>
+<TD>诗 德 软 术 法</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="塑能 附赠 圣武士 游侠 法师 二环 胧忆岛 言语 非姿 非材 非仪 非专" spell="疾风跃袭Wind Sprint">
+<TD><a href="第三方/胧忆岛/法术.htm#Wind_Sprint">疾风跃袭Wind Sprint</a></TD>
+<TD>二环</TD>
+<TD>塑能</TD>
+<TD>帕 软 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>胧忆岛</TD>
+</TR>
+<TR tags="死灵 动作 牧师 二环 艾巢 言语 姿势 材料 无特 非仪 专注" spell="痉挛术Wrack">
+<TD><a href="第三方/鬼魅幽谷/艾弗瑞斯之巢/附录A/法术.htm#Wrack">痉挛术Wrack</a></TD>
+<TD>二环</TD>
+<TD>死灵</TD>
+<TD>牧</TD>
+<TD>动作</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>M</TD>
+<TD>×</TD>
+<TD>√</TD>
+<TD>艾巢</TD>
+</TR>
+<TR tags="塑能 附赠 吟游诗人 术士 法师 戏法 尖塔 言语 姿势 非材 非仪 非专" spell="手指枪Finger Guns">
+<TD><a class="legacy" href="第三方/瓦尔达的秘密尖塔/法术.htm#Finger_Guns">手指枪Finger Guns</a></TD>
+<TD>戏法</TD>
+<TD>塑能</TD>
+<TD>诗 术 法</TD>
+<TD>附赠</TD>
+<TD>V</TD>
+<TD>S</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>×</TD>
+<TD>尖塔</TD>
+</TR>
+</table>
+</body>
+</html>

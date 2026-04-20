@@ -15,8 +15,8 @@ spell_file_list = [
     "荒洲探险家指南/角色选项/秘迹学法术/秘迹学法术详述.htm",
     "费资本的巨龙宝库/玩家选项/巨龙法术详述.htm",
     "斯翠海文：混沌研习/玩家选项/法术详述.html",
-    "星界冒险者指南/新法术详述.htm",
-    "印记城与外域/第一章/新法术详述.htm",
+    "星界冒险者指南/新法术.htm",
+    "印记城与外域/第一章/新法术.htm",
     "万象无常书/贤者/卡牌法术详述.htm",
     "玩家手册2024/法术详述",
     "艾伯伦：奇械锻炉/第一章/法术.htm",
@@ -241,7 +241,7 @@ def process_file(file_path: str,file_name: str):
     with open(file_path,mode="r",encoding="gbk") as _f:
         data = _f.read()
     data = data[data.find("<body>")+6:data.find("</body>")]
-    contents = [("<H4" + content).strip() for content in data.split("<H4") if content.strip() != ""]
+    contents = [("<H4" + content).strip() for content in data.split("<H4")[1:] if content.strip() != ""]
 
     id_and_link = ""
     source = ""
