@@ -1,0 +1,186 @@
+<!-- coding: gbk -->
+<html>
+<head>
+<title>万器大典速查表</title>
+<meta content="text/html; charset=gb2312">
+<style>
+html,body { 
+	font-family: Arial, Helvetica, sans-serif;
+}
+a {
+	color: #0000ff;
+	font-style: normal;
+	text-decoration:none;
+	font-weight: bold;
+	margin-left: 20px;
+}
+span {
+	display: block;
+}
+.legacy {
+	color: #777777;
+	text-decoration: line-through;
+}
+p {
+	line-height: 150%;
+}
+
+sup {
+	line-height: 0;
+	margin-left: 0.2rem;
+}
+#filterDiv {
+	display: block;
+}
+</style>
+<script>
+function search() {
+    var keyword = document.getElementById("input").value.toLowerCase();
+	var cb_category = document.getElementsByName("category");
+	var cb_rarity = document.getElementsByName("rarity");
+	var cb_attunement = document.getElementsByName("attunement");
+	var cb_book = document.getElementsByName("book");
+	var choosen_category = [];
+	var choosen_rarity = [];
+	var choosen_attunement = [];
+	var choosen_book = [];
+	for (var i = 0; i < cb_category.length; i++) {
+		if (cb_category[i].checked) {
+			choosen_category.push(cb_category[i].value)
+		}
+	}
+	for (var i = 0; i < cb_rarity.length; i++) {
+		if (cb_rarity[i].checked) {
+			choosen_rarity.push(cb_rarity[i].value)
+		}
+	}
+	for (var i = 0; i < cb_attunement.length; i++) {
+		if (cb_attunement[i].checked) {
+			choosen_attunement.push(cb_attunement[i].value)
+		}
+	}
+	for (var i = 0; i < cb_book.length; i++) {
+		if (cb_book[i].checked) {
+			choosen_book.push(cb_book[i].value)
+		}
+	}
+    var elements = document.getElementsByTagName("tr");
+	for (var i = 1; i < elements.length; i++) {
+		var has_word = false;
+		if (keyword != '') {
+			var content = elements[i].getAttribute("item");
+			if (content.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+				has_word = true
+			}
+		} else {
+			has_word = true
+		}
+		var tags = elements[i].getAttribute("tags");
+		if (tags != null) {
+			var has_category = false;
+			for (var j = 0; j < choosen_category.length && !has_category; j++) {
+				if (tags.indexOf(choosen_category[j]) != -1) {
+					has_category = true;
+				}
+			}
+			var has_rarity = false;
+			for (var j = 0; j < choosen_rarity.length && !has_rarity; j++) {
+				if (tags.indexOf(choosen_rarity[j]) != -1) {
+					has_rarity = true;
+				}
+			}
+			var has_attunement = false;
+			for (var j = 0; j < choosen_attunement.length && !has_attunement; j++) {
+				if (tags.indexOf(choosen_attunement[j]) != -1) {
+					has_attunement = true;
+				}
+			}
+			var has_book = false;
+			for (var j = 0; j < choosen_book.length && !has_book; j++) {
+				if (tags.indexOf(choosen_book[j]) != -1) {
+					has_book = true;
+				}
+			}
+			if (has_word && has_category && has_rarity && has_attunement && has_book) {
+				elements[i].style.display = "";
+			} else {
+				elements[i].style.display = "none";
+			}
+		}
+	}
+}
+function select_all(type_name){
+	var cb = document.getElementsByName(type_name);
+	var all_selected = true;
+	for (var i = 0; i < cb.length && all_selected; i++) {
+		if (all_selected && !(cb[i].checked)) {
+			all_selected = false;
+		}
+	}
+	if (all_selected) {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = false;
+		}
+	} else {
+		for (var i = 0; i < cb.length; i++) {
+			cb[i].checked = true;
+		}
+	}
+}
+function toggleVisibility() {
+			var div = document.getElementById("filterDiv");
+			var btn = document.getElementById("toggleBtn");
+			var isHidden = (div.style.display === "none") || 
+                  (div.currentStyle && div.currentStyle.display === "none") || // IE专属方法
+                  (div.offsetHeight === 0); // 通过实际渲染高度判断
+			if (isHidden) {
+				div.style.display = "block";
+				btn.innerText = "隐藏筛选";
+			} else {
+				div.style.display = "none";
+				btn.innerText = "显示筛选";
+			}
+		}
+</script>
+</head>
+<body>
+<h1><FONT color=#0000ff>Bahamut's Other World Treasure Trove</FONT></h1>
+<div style="MARGIN: 20px">
+<input id="input" name="q" placeholder="搜索..." ><button onclick="search()">搜索</button><button style="MARGIN-LEFT: 5px" onclick="toggleVisibility()" id="toggleBtn">隐藏筛选</button></div>
+<div id="filterDiv" style="MARGIN-LEFT: 20px">
+<b>稀有：</b>
+<button onclick="select_all('rarity')">全选</button>
+<input type="checkbox" id="ra1" name="rarity" value="普通" checked><label for="ra1">普通</label>
+<input type="checkbox" id="ra2" name="rarity" value="非普" checked><label for="ra2">非普通</label>
+<input type="checkbox" id="ra3" name="rarity" value="珍稀" checked><label for="ra3">珍稀</label>
+<input type="checkbox" id="ra4" name="rarity" value="极珍" checked><label for="ra4">极珍稀</label>
+<input type="checkbox" id="ra5" name="rarity" value="传说" checked><label for="ra5">传说</label>
+<input type="checkbox" id="ra6" name="rarity" value="神器" checked><label for="ra6">神器</label>
+<input type="checkbox" id="ra7" name="rarity" value="多种" checked><label for="ra7">多种稀有度</label>
+<br><b>类别：</b>
+<button onclick="select_all('category')">全选</button>
+<input type="checkbox" id="ct1" name="category" value="护甲" checked><label for="ct1">护甲</label>
+<input type="checkbox" id="ct2" name="category" value="药水" checked><label for="ct2">药水</label>
+<input type="checkbox" id="ct3" name="category" value="戒指" checked><label for="ct3">戒指</label>
+<input type="checkbox" id="ct4" name="category" value="权杖" checked><label for="ct4">权杖</label>
+<input type="checkbox" id="ct5" name="category" value="卷轴" checked><label for="ct5">卷轴</label>
+<input type="checkbox" id="ct6" name="category" value="法杖" checked><label for="ct6">法杖</label>
+<input type="checkbox" id="ct7" name="category" value="魔杖" checked><label for="ct7">魔杖</label>
+<input type="checkbox" id="ct8" name="category" value="武器" checked><label for="ct8">武器</label>
+<input type="checkbox" id="ct9" name="category" value="奇物" checked><label for="ct9">奇物</label>
+<br><b>同调：</b>
+<button onclick="select_all('attunement')">全选</button>
+<input type="checkbox" id="at1" name="attunement" value="否" checked><label for="at1">否</label>
+<input type="checkbox" id="at2" name="attunement" value="是" checked><label for="at2">是</label>
+<input type="checkbox" id="at3" name="attunement" value="特殊" checked><label for="at3">特殊</label>
+<BR><b>来源：</b>
+<button onclick="select_all('book')">全选</button>
+<input type="checkbox" id="bk1" name="book" value="狮鹫Ⅱ" checked><label for="bk1">狮鹫Ⅱ</label>
+</div>
+<HR style="HEIGHT: 2px; COLOR: #b79c61">
+<table style="TEXT-ALIGN: center;BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=2 border=0>
+<tr><td><b>物品名</b></td><td width=120><b>稀有度</b></td><td width=60><b>类别</b></td><td><b>子类别</b></td><td width=60><b>同调</b></td><td><b>同调条件</b></td><td width=60><b>来源</b></td></tr>
+{{内容}}
+</table>
+</body>
+</html>

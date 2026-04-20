@@ -2,9 +2,11 @@ import os
 import re
 from tkinter import Tk, filedialog
 
-
 # ===== 开关 =====
 EXPORT_CHINESE_NAMES = False  # 是否导出中文名列表
+
+# ⭐新增：选择模式
+INPUT_MODE = "folder"  # folder = 文件夹 / files = 多文件
 
 
 # ===== 统计 =====
@@ -19,29 +21,17 @@ chinese_names = set()
 
 # ===== 提取英文名 =====
 def extract_english_name(full_name: str):
-    # 去括号（中英文）
     full_name = re.sub(r'（.*?）|\(.*?\)', '', full_name)
-
-    # 去 +1 +2 +3
     full_name = re.sub(r'\+\d+', '', full_name)
-
-    # 替换中文标点为空格
     full_name = re.sub(r'[，、,]', ' ', full_name)
-
     full_name = full_name.strip()
 
-    # 匹配结尾英文
     match = re.search(r'([A-Za-z][A-Za-z\s\'\-]*)$', full_name)
 
     if match:
         english = match.group(1).strip()
-
-        # 空格 → _
         english = "_".join(english.split())
-
-        # 保留 '（关键）
         english = re.sub(r"[^A-Za-z0-9_']", "", english)
-
         return english
 
     return None
@@ -72,12 +62,10 @@ def process_file(file_path: str):
         tag_attr = match.group(1)
         inner = match.group(2).strip()
 
-        # ===== 收集中文名 =====
         cn_name = extract_chinese_name(inner)
         if cn_name:
             chinese_names.add(cn_name)
 
-        # ===== 提取正确英文名 =====
         english_name = extract_english_name(inner)
 
         if not english_name:
@@ -85,13 +73,11 @@ def process_file(file_path: str):
             print(f"[{os.path.basename(file_path)}] ✘ 未识别: {inner}")
             return match.group(0)
 
-        # ===== 查找已有 id =====
         id_match = re.search(r'id="([^"]+)"', tag_attr)
 
         if id_match:
             old_id = id_match.group(1)
 
-            # ✅ 核心：必须完全一致才保留
             if old_id == english_name:
                 kept_id += 1
                 return match.group(0)
@@ -100,7 +86,6 @@ def process_file(file_path: str):
                 print(f"[{os.path.basename(file_path)}] 🔧 修复ID: {old_id} → {english_name}")
                 return f'<H6 id="{english_name}">\n{inner}\n</H6>'
 
-        # ===== 没有 id =====
         added_id += 1
         print(f"[{os.path.basename(file_path)}] ✔ 新增ID: {english_name}")
 
@@ -121,20 +106,43 @@ def process_folder(folder_path: str):
                 process_file(os.path.join(root, file))
 
 
+# ===== 多文件处理 =====
+def process_files(file_list):
+    for f in file_list:
+        process_file(f)
+
+
 # ===== 主函数 =====
 def main():
     root = Tk()
     root.withdraw()
 
-    folder_path = filedialog.askdirectory(title="选择要处理的文件夹")
+    path = None
 
-    if not folder_path:
+    # ⭐ 根据模式选择输入
+    if INPUT_MODE == "folder":
+        path = filedialog.askdirectory(title="选择文件夹")
+
+    elif INPUT_MODE == "files":
+        path = filedialog.askopenfilenames(
+            title="选择HTML文件",
+            filetypes=[("HTML files", "*.html *.htm")]
+        )
+
+    if not path:
         print("已取消")
         return
 
-    print(f"开始处理：{folder_path}\n")
+    print(f"开始处理模式：{INPUT_MODE}")
 
-    process_folder(folder_path)
+    # ===== 分发 =====
+    if INPUT_MODE == "folder":
+        print(f"文件夹：{path}\n")
+        process_folder(path)
+
+    else:
+        print(f"文件数量：{len(path)}\n")
+        process_files(path)
 
     print("\n====== 统计 ======")
     print(f"H6 总数：{total_h6}")
@@ -146,7 +154,10 @@ def main():
 
     # ===== 导出中文名 =====
     if EXPORT_CHINESE_NAMES:
-        output_file = os.path.join(folder_path, "中文名列表.txt")
+        output_file = os.path.join(
+            path if isinstance(path, str) else os.path.dirname(path[0]),
+            "中文名列表.txt"
+        )
 
         with open(output_file, "w", encoding="utf-8") as f:
             for name in sorted(chinese_names):
