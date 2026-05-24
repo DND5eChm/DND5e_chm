@@ -7,12 +7,7 @@ h1,h2,h3{
 	color:#800000;
 }
 /*列表聚拢*/
-UL,OL{
-	margin-left: 24px;
-	margin-top: -16px;
-	margin-bottom: -16px;
-}
-BLOCKQUOTE{
+UL,OL,BLOCKQUOTE{
 	margin-left: 24px;
 	margin-top: -16px;
 	margin-bottom: -16px;
