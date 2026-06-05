@@ -289,7 +289,13 @@ if __name__ == "__main__":
 
     html = tpl.replace(
         "{{内容}}",
-        "\n".join([i.to_row() for i in big_item_dict.values()])
+        "\n".join(
+            i.to_row()
+            for i in sorted(
+                big_item_dict.values(),
+                key=lambda x: x.name_en.lower()  # 按英文名首字母排序
+            )
+        )
     )
 
     with open(output_path, "w", encoding="gbk") as f:

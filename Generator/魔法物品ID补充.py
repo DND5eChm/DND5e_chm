@@ -6,7 +6,7 @@ from tkinter import Tk, filedialog
 EXPORT_CHINESE_NAMES = False  # 是否导出中文名列表
 
 # ⭐新增：选择模式
-INPUT_MODE = "folder"  # folder = 文件夹 / files = 多文件
+INPUT_MODE = "files"  # folder = 文件夹 / files = 多文件
 
 
 # ===== 统计 =====

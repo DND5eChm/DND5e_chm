@@ -6,30 +6,24 @@ from 文件遍历 import walk_through_files
 
 
 monster_file_list = [
-    "怪物图鉴2025",
-    "被遗忘的国度/洛温初光/洛温怪物",
-    "被遗忘的国度/耐瑟瑞尔/耐瑟怪物",
-    "被遗忘的国度/费伦冒险/第九章",
+    "第三方/火炬光下的克苏鲁/第七章",
+    "第三方/拳斗士/斗殴者",
 ]
 
 source_tag: dict[str,str] = {
-    "怪物图鉴2025": "MM25",
-    "洛温初光": "LFL",
-    "耐瑟瑞尔": "NF",
-    "费伦冒险": "FR",
+    "火炬光下的克苏鲁": "克苏鲁",
+    "拳斗士":"拳斗士",
 }
 source_priority: dict[str,int] = {
-    "MM25": 0, # 最高优先级
-    "FR": 1,
-    "LFL": 2,
-    "NF": 3,
+    "克苏鲁": 0, # 最高优先级
+    "拳斗士": 1,
 }
 
 size_list = ["微型", "小型", "中型", "大型", "巨型"]
 type_list = ["异怪", "野兽", "天族", "构装", "龙类", "元素", "妖精", "邪魔", "巨人", "类人", "怪兽", "泥怪", "植物", "亡灵"]
 cr_list = ["0", "1/8", "1/4", "1/2"] + [str(i) for i in range(1, 31)]  
 
-html_template_big = "../空白页模板/怪物大速查模板.htm"
+html_template_big = "../空白页模板/合作方怪物大速查模板.htm"
 
 class Monster:
     def __init__(self, content, chm_path="", source_tag="MM25"):
@@ -381,7 +375,7 @@ if __name__ == "__main__":
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         
-        output_file = os.path.join(output_dir, "5E万兽大全.html")
+        output_file = os.path.join(output_dir, "合作万兽大全.html")
         
         # 生成内容
         monster_rows = []
