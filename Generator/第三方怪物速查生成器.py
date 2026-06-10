@@ -8,15 +8,18 @@ from 文件遍历 import walk_through_files
 monster_file_list = [
     "第三方/火炬光下的克苏鲁/第七章",
     "第三方/拳斗士/斗殴者",
+    "第三方/歪曲之月/附录A/魔宠",
 ]
 
 source_tag: dict[str,str] = {
     "火炬光下的克苏鲁": "克苏鲁",
     "拳斗士":"拳斗士",
+    "歪曲之月":"歪月",
 }
 source_priority: dict[str,int] = {
     "克苏鲁": 0, # 最高优先级
     "拳斗士": 1,
+    "歪月":2,
 }
 
 size_list = ["微型", "小型", "中型", "大型", "巨型"]
