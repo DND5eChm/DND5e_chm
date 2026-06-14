@@ -18,6 +18,7 @@ spell_file_list = [
     "第三方/瓦尔达的秘密尖塔/铳士/法术.htm",
     "第三方/歪曲之月/第七章/法术详述.htm",
     "第三方/火炬光下的克苏鲁/第四章/法术详述.htm",
+    "第三方/探秘艾伯伦/第六章/法术.htm"
 ]
 
 source_tag: dict[str,str] = {
@@ -34,6 +35,7 @@ source_tag: dict[str,str] = {
     "铳士": "铳士",
     "歪曲之月": "歪月",
     "火炬光下的克苏鲁": "克苏鲁",
+    "探秘艾伯伦":"艾伯伦"
 }
 source_priority: dict[str,int] = {
     "溟渊": 0,
@@ -49,6 +51,7 @@ source_priority: dict[str,int] = {
     "铳士": 9,
     "歪月": 11,
     "克苏鲁": 12,
+    "艾伯伦": 13,
 }
 
 short_cut: dict[str,str] = {
