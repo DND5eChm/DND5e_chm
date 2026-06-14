@@ -69,7 +69,7 @@ subtype_whitelist = set("""
 战斧 链枷 长柄刀 巨斧 巨剑 戟 骑枪 长剑 巨锤 钉头锤 长矛 刺剑 弯刀 短剑 三叉戟 战镐 战锤 鞭
 吹箭筒 手弩 重弩 长弓 火铳 手铳
 手爪 指虎 推匕
-简易武器 军用武器 弹药 盾牌 近战武器 
+简易武器 军用武器 弹药 盾牌 近战武器 弹药-枪械子弹
 轻甲 中甲 重甲 皮甲 链甲 胸甲 链甲衫 镶钉皮甲 鳞甲 兽皮甲 半身板甲 板条甲 板甲
 金属军用武器 
 匕首与短剑 链甲衫与半身板甲
@@ -187,17 +187,27 @@ class MagicItem:
         self.name_en = parts[1] if len(parts) > 1 else ""
 
         p = soup.find("p")
-        em = p.find("em")
+        style_tag = p.find(["em", "i"])
 
-        subline = em.get_text(" ", strip=True) if em else p.get_text(" ", strip=True)
+        subline = style_tag.get_text(" ", strip=True) if style_tag else p.get_text(" ", strip=True)
         subline = clean_text(re.sub(r"\s+", " ", subline))
 
         # ========= 稀有度 =========
-        for r in sorted(rarity_list, key=len, reverse=True):
-            if r in subline:
-                self.rarity = r
-                self.rarity_tag = rarity_tag_map.get(r, r)
-                break
+        rarities = re.findall(
+            r"(非普通|极珍稀|珍稀|传说|神器|普通)",
+            subline
+        )
+
+        rarities = list(dict.fromkeys(rarities))
+
+        if len(rarities) >= 2:
+            self.rarity = "多种稀有度"
+        elif len(rarities) == 1:
+            self.rarity = rarities[0]
+        else:
+            self.rarity = "普通"
+
+        self.rarity_tag = rarity_tag_map.get(self.rarity, self.rarity)
 
         # ========= 类别 =========
         for c in category_list:
@@ -279,7 +289,11 @@ def process_file(file_path, file_name):
         data = f.read()
 
     body = data[data.find("<body>")+6:data.find("</body>")]
-    contents = [("<H6" + c) for c in body.split("<H6")[1:]]
+    contents = re.findall(
+        r'(<H6.*?(?=<H6|$))',
+        body,
+        flags=re.S | re.I
+    )   
 
     chm_path = file_path.replace("\\","/")
 

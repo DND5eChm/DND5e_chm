@@ -7,6 +7,7 @@ from 文件遍历 import walk_through_files
 
 monster_file_list = [
     "怪物图鉴2025",
+    "艾伯伦：从终末战争中崛起/第六章",
     "被遗忘的国度/洛温初光/洛温怪物",
     "被遗忘的国度/耐瑟瑞尔/耐瑟怪物",
     "被遗忘的国度/费伦冒险/第九章",
@@ -14,12 +15,14 @@ monster_file_list = [
 
 source_tag: dict[str,str] = {
     "怪物图鉴2025": "MM25",
+    "艾伯伦：从终末战争中崛起": "ERLW",
     "洛温初光": "LFL",
     "耐瑟瑞尔": "NF",
     "费伦冒险": "FR",
 }
 source_priority: dict[str,int] = {
     "MM25": 0, # 最高优先级
+    "ERLW": 1,
     "FR": 1,
     "LFL": 2,
     "NF": 3,
