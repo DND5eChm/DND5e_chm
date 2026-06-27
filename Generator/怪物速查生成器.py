@@ -12,6 +12,7 @@ monster_file_list = [
     "被遗忘的国度/耐瑟瑞尔/耐瑟怪物",
     "被遗忘的国度/费伦冒险/第九章",
     "艾伯伦：奇械锻炉/数据卡",
+    "鸦阁魔域：魔障深藏/第五章",
 ]
 
 source_tag: dict[str,str] = {
@@ -21,6 +22,7 @@ source_tag: dict[str,str] = {
     "耐瑟瑞尔": "NF",
     "费伦冒险": "FR",
     "艾伯伦：奇械锻炉":"EFA",
+    "鸦阁魔域：魔障深藏":"RHW",
 }
 source_priority: dict[str,int] = {
     "MM25": 0, # 最高优先级
@@ -29,6 +31,7 @@ source_priority: dict[str,int] = {
     "LFL": 2,
     "NF": 3,
     "EFA": 4,
+    "RHW":5,
 }
 
 size_list = ["微型", "小型", "中型", "大型", "巨型"]

@@ -8,6 +8,14 @@ EXPORT_CHINESE_NAMES = False  # 是否导出中文名列表
 # ⭐新增：选择模式
 INPUT_MODE = "files"  # folder = 文件夹 / files = 多文件
 
+# ===== H6黑名单（标准化后匹配）=====
+BLACKLIST_TITLES = {
+    "动作Action",
+    "附赠动作BonusAction",
+    "反应Reaction",
+    "特质Trait",
+    "传奇动作LegendaryAction",
+}
 
 # ===== 统计 =====
 total_h6 = 0
@@ -62,11 +70,31 @@ def process_file(file_path: str):
         tag_attr = match.group(1)
         inner = match.group(2).strip()
 
+        # ===== 标题标准化（方案C）=====
+        normalized_inner = re.sub(r"\s+", "", inner)
+
+        # 复数归一化
+        normalized_inner = re.sub(r"Actions$", "Action", normalized_inner)
+        normalized_inner = re.sub(r"Reactions$", "Reaction", normalized_inner)
+        normalized_inner = re.sub(r"Traits$", "Trait", normalized_inner)
+
+        # ===== 黑名单判断 =====
+        if normalized_inner in BLACKLIST_TITLES:
+            print(f"[{os.path.basename(file_path)}] ⏭ 跳过黑名单: {inner}")
+
+            if re.search(r'id="([^"]+)"', tag_attr):
+                print(f"[{os.path.basename(file_path)}] 🗑 删除黑名单ID: {inner}")
+                new_attr = re.sub(r'\s*id="[^"]+"', '', tag_attr)
+                return f"<H6{new_attr}>\n{inner}\n</H6>"
+
+            return match.group(0)
+
         cn_name = extract_chinese_name(inner)
         if cn_name:
             chinese_names.add(cn_name)
 
         english_name = extract_english_name(inner)
+
 
         if not english_name:
             failed += 1

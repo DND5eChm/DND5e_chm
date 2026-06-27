@@ -58,7 +58,7 @@ subtype_map = {
 attunement_map = {
 "缺失手或臂的生物": ["缺失手","缺失臂"],
 "缺失手、臂或腿的生物": ["缺失手","缺失臂","缺失腿"],
-"缺失一眼的生物": ["缺失一眼"],
+"缺失眼的生物": ["缺失眼"],
 }
 
 
@@ -88,7 +88,7 @@ attunement_whitelist = set("""
 中立阵营的生物 善良阵营的施法者 善良阵营的生物
 感知不小于13的生物 敏捷不小于17的生物 智力不小于17的生物
 斧认定有价值的生物
-缺失一眼 缺失手 缺失腿 缺失臂
+缺失眼 缺失手 缺失腿 缺失臂
 善良阵营的龙裔 中立阵营的龙裔 邪恶阵营的龙裔 非守序阵营的龙裔
 """.split())
 
@@ -317,8 +317,14 @@ def process_file(file_path, file_name):
         try:
             item = MagicItem(c, chm_path, source)
             big_item_dict[item.item_id] = item
-        except Exception:
-            print("解析失败:", c[:50])
+        except Exception as e:
+            try:
+                soup = BeautifulSoup(c, "html.parser")
+                h6 = soup.find("h6")
+                title = h6.get_text(strip=True) if h6 else c[:50]
+                print(f"解析失败: {title} ({type(e).__name__}: {e})")
+            except:
+                print("解析失败:", c[:50])
 
 
 # ========= 运行 =========
