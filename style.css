@@ -8,7 +8,7 @@ h1,h2,h3{
 }
 /*列表聚拢*/
 UL,OL,BLOCKQUOTE{
-	margin-left: 24px;
+	margin-left: 32px;
 	margin-top: -16px;
 	margin-bottom: -16px;
 }
@@ -72,7 +72,7 @@ div.center{
 }
 /*备用数据卡框*/
 div.stat-block{
-	margin-left: 24px;
+	margin-left: 32px;
 	width: 537px;
 	background-color: #F8F8F6;
 	padding: 15px;
