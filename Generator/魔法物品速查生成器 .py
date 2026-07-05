@@ -252,7 +252,7 @@ class MagicItem:
             self.category,
             self.attunement,
             self.source
-        ] + self.subtypes + self.attune_conditions
+        ]
 
         name_display = self.name + self.name_en
 

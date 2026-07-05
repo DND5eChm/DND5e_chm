@@ -6,6 +6,7 @@ from 文件遍历 import walk_through_files
 
 # ========= 输入 =========
 item_file_list = [
+    "第三方/谦卑林/魔法物品.htm",
     "第三方/狮鹫的鞍中珍宝Ⅱ/魔法物品",
     "第三方/歪曲之月/附录B",
     "第三方/惊奇单次冒险/魔法物品.htm",
@@ -20,6 +21,7 @@ output_path = "../速查/合作万器大全.htm"
 
 # ========= 来源 =========
 source_tag = {
+    "谦卑林":"谦卑林",
     "狮鹫的鞍中珍宝Ⅱ": "狮鹫Ⅱ",
     "拳斗士": "拳斗士",
     "惊奇单次冒险": "惊奇一发",
@@ -30,7 +32,8 @@ source_tag = {
 
 # ========= 基础 =========
 rarity_list = ["普通","非普通","珍稀","极珍稀","传说","神器","多种稀有度"]
-category_list = ["护甲","武器","戒指","权杖","卷轴","法杖","魔杖","药水","奇物"]
+category_list = ["护甲","武器","戒指","权杖","卷轴","法杖","魔杖","药水","奇物",]
+extra_category_map = ["诡兵器","诡怖刻痕","弹药",]
 rarity_tag_map = {
     "非普通": "非普",
     "极珍稀": "极珍",
@@ -50,7 +53,8 @@ subtype_map = {
     "任意弓或弩" : ["长弓","短弓","手弩","轻弩","重弩"],
     "任意斧": ["战斧","巨斧","戟","手斧"], 
     "箭或弩矢":["箭矢","弩矢"],
-
+    "战斧、喇叭铳与镰刀":["战斧、喇叭铳与镰刀"],
+    "巨锤与巨镰":["巨锤与巨镰"],
 }
 
 
@@ -68,8 +72,8 @@ subtype_whitelist = set("""
 飞镖 轻弩 短弓 投石索
 战斧 链枷 长柄刀 巨斧 巨剑 戟 骑枪 长剑 巨锤 钉头锤 长矛 刺剑 弯刀 短剑 三叉戟 战镐 战锤 鞭
 吹箭筒 手弩 重弩 长弓 火铳 手铳
-手爪 指虎 推匕
-简易武器 军用武器 弹药 盾牌 近战武器 弹药-枪械子弹
+手爪 指虎 推匕 枪械子弹
+简易武器 军用武器 弹药 盾牌 近战武器
 轻甲 中甲 重甲 皮甲 链甲 胸甲 链甲衫 镶钉皮甲 鳞甲 兽皮甲 半身板甲 板条甲 板甲
 金属军用武器 
 匕首与短剑 链甲衫与半身板甲
@@ -167,6 +171,7 @@ class MagicItem:
         self.item_id = ""
 
         self.category = "其他"
+        self.display_category = "其他" 
         self.rarity = "普通"
         self.rarity_tag = "普通"
 
@@ -191,6 +196,9 @@ class MagicItem:
 
         subline = style_tag.get_text(" ", strip=True) if style_tag else p.get_text(" ", strip=True)
         subline = clean_text(re.sub(r"\s+", " ", subline))
+        # ===== 去掉 +1/+2/+3 结构（关键修复）=====
+        subline = re.sub(r"\(\+\d+\)", "", subline)
+        subline = re.sub(r"（\+\d+）", "", subline)
 
         # ========= 稀有度 =========
         rarities = re.findall(
@@ -213,6 +221,7 @@ class MagicItem:
         for c in category_list:
             if c in subline:
                 self.category = c
+                self.display_category = c
 
                 match = re.search(rf"{c}（([^）]+)）", subline)
                 if match:
@@ -225,7 +234,25 @@ class MagicItem:
                         if s not in subtype_whitelist:
                             unmapped_subtypes.add(s)
                 break
+        # ========= 扩展显示分类 =========
+        for ext in extra_category_map:
+            if ext in subline:
+                self.display_category = ext
+                break
+        # ========= 兜底 subtype（关键修复） =========
+            m2 = re.search(r"（([^（）]+)）", subline)
+            if m2:
+                raw2 = m2.group(1)
 
+                # 避免把“需同调”混进来
+                if "同调" not in raw2:
+                    subs = normalize_subtypes(raw2)
+
+                    for s in subs:
+                        if s not in self.subtypes:
+                            self.subtypes.append(s)
+                        if s not in subtype_whitelist:
+                            unmapped_subtypes.add(s)
         # ========= 同调（精准提取版） =========
         self.attunement = "否"
         self.attune_conditions = []
@@ -262,7 +289,7 @@ class MagicItem:
             self.category,
             self.attunement,
             self.source
-        ] + self.subtypes + self.attune_conditions
+        ]
 
         name_display = self.name + self.name_en
 
@@ -270,7 +297,7 @@ class MagicItem:
             f'<TR tags="{" ".join(tags)}" item="{name_display}">\n'
             f'<TD><a href="{self.chm_path}#{self.item_id}">{name_display}</a></TD>\n'
             f'<TD>{self.rarity}</TD>\n'
-            f'<TD>{self.category}</TD>\n'
+            f'<TD>{self.display_category}</TD>\n'
             f'<TD>{" / ".join(self.subtypes)}</TD>\n'
             f'<TD>{self.attunement}</TD>\n'
             f'<TD>{" / ".join(self.attune_conditions)}</TD>\n'
