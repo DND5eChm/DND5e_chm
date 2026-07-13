@@ -220,7 +220,7 @@ class MagicItem:
         self.attunement = "否"
         self.attune_conditions = []
 
-        m = re.search(r"（需(.+?)同调）", subline)
+        m = re.search(r"（需(.*?)同调）", subline)
 
         if m:
             raw = clean_text(m.group(1))  # ⚠️ 这里已经是“XX”本体
