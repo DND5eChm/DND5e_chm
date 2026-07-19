@@ -143,6 +143,9 @@ table.center{
 table.center td{
 	padding: 2px;
 }
+table.center th{
+	padding: 2px;
+}
 table.part {
 	width: auto;
 	border-collapse: collapse;

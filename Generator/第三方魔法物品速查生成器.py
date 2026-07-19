@@ -12,8 +12,9 @@ item_file_list = [
     "第三方/歪曲之月/附录B",
     "第三方/惊奇单次冒险/魔法物品.htm",
     "第三方/拳斗士/魔法物品.htm",
-    "第三方/瓦尔达的秘密尖塔/魔法物品.htm",
+    "第三方/瓦尔达的秘密尖塔/玩家包1/魔法物品.htm",
     "第三方/斯坦哈德的诡怖猎杀指南/魔法物品.htm",
+    "第三方/瓦尔达的秘密尖塔/玩家包2/魔法物品.htm"
 ]
 
 # ========= 模板 / 输出 =========
@@ -23,14 +24,15 @@ output_path = "../速查/合作万器大全.htm"
 
 # ========= 来源 =========
 source_tag = {
-    "谦卑林":"谦卑林",
+    "谦卑林":"谦卑林战役",
     "狮鹫的鞍中珍宝Ⅱ": "狮鹫Ⅱ",
     "拳斗士": "拳斗士",
     "惊奇单次冒险": "惊奇一发",
     "歪曲之月": "歪月",
-    "瓦尔达的秘密尖塔": "尖塔",
+    "玩家包1": "尖塔1",
     "德城怪物":"德城",
-    "斯坦哈德的诡怖猎杀指南":"猎杀指南",
+    "斯坦哈德的诡怖猎杀指南":"斯坦哈德",
+    "玩家包2": "尖塔2",
 }
 
 
@@ -336,10 +338,10 @@ def process_file(file_path, file_name):
         chm_path = chm_path.split("DND5e_chm/")[1]
 
     parts = chm_path.split("/")
-    book = parts[0]
+    book = parts[1]
 
-    if book in ["第三方"]:
-        book = parts[1]
+    if book in ["瓦尔达的秘密尖塔"]:
+        book = parts[2]
         source = source_tag.get(book, book)
     elif book in source_tag:
         source = source_tag[book]
