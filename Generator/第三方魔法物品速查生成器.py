@@ -14,7 +14,8 @@ item_file_list = [
     "第三方/拳斗士/魔法物品.htm",
     "第三方/瓦尔达的秘密尖塔/玩家包1/魔法物品.htm",
     "第三方/斯坦哈德的诡怖猎杀指南/魔法物品.htm",
-    "第三方/瓦尔达的秘密尖塔/玩家包2/魔法物品.htm"
+    "第三方/瓦尔达的秘密尖塔/玩家包2/魔法物品.htm",
+    "第三方/人人死/附录A：魔法道具.htm",
 ]
 
 # ========= 模板 / 输出 =========
@@ -33,17 +34,19 @@ source_tag = {
     "德城怪物":"德城",
     "斯坦哈德的诡怖猎杀指南":"斯坦哈德",
     "玩家包2": "尖塔2",
+    "人人死":"人人死",
 }
 
 
 # ========= 基础 =========
-rarity_list = ["普通","非普通","珍稀","极珍稀","传说","神器","多种稀有度"]
+rarity_list = ["普通","非普通","珍稀","极珍稀","传说","神器","多种稀有度","唯一"]
 category_list = ["护甲","武器","戒指","权杖","卷轴","法杖","魔杖","药水","奇物",]
-extra_category_map = ["诡变兵器","诡怖刻痕","弹药",]
+extra_category_map = ["诡变兵器","诡怖刻痕","弹药","大型物件"]
 rarity_tag_map = {
     "非普通": "非普",
     "极珍稀": "极珍",
-    "多种稀有度": "多种"
+    "多种稀有度": "多种",
+    "唯一": "其他",
 }
 
 
@@ -92,6 +95,7 @@ subtype_whitelist = set("""
 箭矢 弩矢
 没有特殊和双手词条的近战武器
 中甲（兽皮甲除外）
+多种
 """.split())
 
 attunement_whitelist = set("""
@@ -182,8 +186,8 @@ class MagicItem:
 
         self.category = "其他"
         self.display_category = "其他" 
-        self.rarity = "普通"
-        self.rarity_tag = "普通"
+        self.rarity = "其他"
+        self.rarity_tag = "其他"
 
         self.attunement = "否"
         self.attune_conditions = []
@@ -223,7 +227,7 @@ class MagicItem:
         elif len(rarities) == 1:
             self.rarity = rarities[0]
         else:
-            self.rarity = "普通"
+            self.rarity = "其他"
 
         self.rarity_tag = rarity_tag_map.get(self.rarity, self.rarity)
 
