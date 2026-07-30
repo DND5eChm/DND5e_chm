@@ -41,12 +41,12 @@ source_tag = {
 # ========= 基础 =========
 rarity_list = ["普通","非普通","珍稀","极珍稀","传说","神器","多种稀有度","唯一"]
 category_list = ["护甲","武器","戒指","权杖","卷轴","法杖","魔杖","药水","奇物",]
-extra_category_map = ["诡变兵器","诡怖刻痕","弹药","大型物件"]
+extra_category_map = ["诡变兵器","诡怖刻痕","弹药","大型物件","乐器"]
 rarity_tag_map = {
     "非普通": "非普",
     "极珍稀": "极珍",
     "多种稀有度": "多种",
-    "唯一": "其他",
+    "唯一": "其它",
 }
 
 
@@ -186,8 +186,8 @@ class MagicItem:
 
         self.category = "其他"
         self.display_category = "其他" 
-        self.rarity = "其他"
-        self.rarity_tag = "其他"
+        self.rarity = "其它"
+        self.rarity_tag = "其它"
 
         self.attunement = "否"
         self.attune_conditions = []
@@ -216,7 +216,7 @@ class MagicItem:
 
         # ========= 稀有度 =========
         rarities = re.findall(
-            r"(多种稀有度|非普通|极珍稀|珍稀|传说|神器|普通)",
+            r"(多种稀有度|非普通|极珍稀|珍稀|传说|神器|普通|唯一)",
             subline
         )
 
@@ -227,7 +227,7 @@ class MagicItem:
         elif len(rarities) == 1:
             self.rarity = rarities[0]
         else:
-            self.rarity = "其他"
+            self.rarity = "其它"
 
         self.rarity_tag = rarity_tag_map.get(self.rarity, self.rarity)
 
