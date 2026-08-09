@@ -1,9 +1,9 @@
 name: Build and Publish 5echm Web
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - published
 
   workflow_dispatch:
 
