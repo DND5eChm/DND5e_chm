@@ -1,0 +1,498 @@
+name: Build and Publish 5echm Web
+
+on:
+  # DND5e_chm main 分支发生提交时自动构建
+  push:
+    branches:
+      - main
+
+  # 允许在 Actions 页面手动运行
+  workflow_dispatch:
+
+# 禁止多个发布任务同时修改两个目标仓库。
+# 不取消正在运行的任务，避免只发布了一半。
+concurrency:
+  group: 5echm-web-publish
+  cancel-in-progress: false
+
+# 当前仓库自己的 GITHUB_TOKEN 只需要读权限。
+# 跨仓库写入使用 WEB_PUBLISH_TOKEN。
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+
+  SITE_REPOSITORY: "DND5eChm/5echm_web"
+  SITE_BRANCH: "pages"
+
+  SEARCH_REPOSITORY: "DND5eChm/5echmweb_search"
+  SEARCH_BRANCH: "main"
+
+jobs:
+  build-and-publish:
+    name: Build and publish web
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      # ============================================================
+      # 1. 检出内容仓库
+      #
+      # github.sha：
+      # - push 时就是触发本次 workflow 的那个 commit
+      # - workflow_dispatch 时就是手动选择分支当前的 commit
+      #
+      # 这样不会因为运行排队期间 main 又发生变化，
+      # 导致实际构建内容与触发 commit 不一致。
+      # ============================================================
+
+      - name: Checkout DND5e_chm
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: content
+          fetch-depth: 1
+          persist-credentials: false
+
+      # ============================================================
+      # 2. 检出编译器
+      # ============================================================
+
+      - name: Checkout web compiler
+        uses: actions/checkout@v6
+        with:
+          repository: DND5eChm/5echm_web_build
+          ref: main
+          path: compiler
+          fetch-depth: 1
+          persist-credentials: false
+
+      # ============================================================
+      # 3. 检出 Web 模板
+      # ============================================================
+
+      - name: Checkout web templates
+        uses: actions/checkout@v6
+        with:
+          repository: DND5eChm/5echm_web_templates
+          ref: main
+          path: templates
+          fetch-depth: 1
+          persist-credentials: false
+
+      # ============================================================
+      # 4. 检查发布 Token
+      # ============================================================
+
+      - name: Verify publish token
+        shell: bash
+        env:
+          WEB_PUBLISH_TOKEN: ${{ secrets.WEB_PUBLISH_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${WEB_PUBLISH_TOKEN:-}" ]; then
+            echo "::error::Repository secret WEB_PUBLISH_TOKEN is not configured."
+            exit 1
+          fi
+
+      # ============================================================
+      # 5. 检出站点仓库 pages
+      #
+      # persist-credentials=true：
+      # 后面在 publish-site 中可以直接 git push。
+      # ============================================================
+
+      - name: Checkout site repository
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.SITE_REPOSITORY }}
+          ref: ${{ env.SITE_BRANCH }}
+          path: publish-site
+          fetch-depth: 1
+          token: ${{ secrets.WEB_PUBLISH_TOKEN }}
+          persist-credentials: true
+
+      # ============================================================
+      # 6. 检出搜索仓库 main
+      #
+      # 一方面作为 data.js 的发布目标，
+      # 另一方面构建时读取 webhelpsearch.htm。
+      # ============================================================
+
+      - name: Checkout search repository
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.SEARCH_REPOSITORY }}
+          ref: ${{ env.SEARCH_BRANCH }}
+          path: publish-search
+          fetch-depth: 1
+          token: ${{ secrets.WEB_PUBLISH_TOKEN }}
+          persist-credentials: true
+
+      # ============================================================
+      # 7. Python 环境
+      # ============================================================
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: compiler/pyproject.toml
+
+      # ============================================================
+      # 8. 安装 wcp2web 编译器
+      # ============================================================
+
+      - name: Install web compiler
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python -m pip install --upgrade pip
+          python -m pip install ./compiler
+
+          echo "Python version:"
+          python --version
+
+          echo "Check wcp2web:"
+          wcp2web --help >/dev/null
+
+      # ============================================================
+      # 9. 检查关键输入文件
+      #
+      # 尽早报错，避免跑到编译阶段才发现 checkout/path 错误。
+      # ============================================================
+
+      - name: Verify build inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f "content/不全书.wcp"
+          test -d "templates"
+          test -f "publish-search/webhelpsearch.htm"
+
+          echo "Build inputs verified."
+
+      # ============================================================
+      # 10. 生成 CI 专用 wcp2web 配置
+      #
+      # 所有相对路径以：
+      #   build-config/wcp2web.toml
+      # 所在目录为基准。
+      # ============================================================
+
+      - name: Generate wcp2web config
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p build-config
+          mkdir -p output
+
+          cat > build-config/wcp2web.toml <<'TOML'
+          [project]
+          wcp = "../content/不全书.wcp"
+          source_root = "../content"
+          template_root = "../templates"
+          title = "5E 不全书"
+
+          [output]
+          site_dir = "../output/site"
+          search_data = "../output/search/data.js"
+          report_dir = "../output/reports"
+
+          [webhelp]
+          search_api_base = "https://5echmsearch.kagangtuya.top"
+          search_template = "../publish-search/webhelpsearch.htm"
+          default_page = ""
+          nav_width = 285
+          back_color = "#ffffff"
+
+          [encoding]
+          default_fallback = "gb18030"
+          strict = false
+
+          [build]
+          jobs = 4
+          incremental = false
+          clean = true
+          TOML
+
+          echo "===== wcp2web.toml ====="
+          cat build-config/wcp2web.toml
+
+      # ============================================================
+      # 11. 构建 Web
+      # ============================================================
+
+      - name: Build web site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          wcp2web build \
+            --config build-config/wcp2web.toml
+
+          # 最基本的产物检查
+          test -d output/site
+          test -s output/search/data.js
+
+          # 网站至少应该存在入口页
+          test -s output/site/index.html
+
+          echo "===== Build completed ====="
+          du -sh output/site
+          ls -lh output/search/data.js
+
+      # ============================================================
+      # 12. 将 data.js 压缩成 ZIP
+      #
+      # 产物：
+      #   output/search/data.js
+      #   output/search/data.js.zip
+      #
+      # ZIP 内部：
+      #   data.js
+      #
+      # 使用 Python 自己生成 ZIP，而不是系统 zip 命令：
+      # - 不依赖 runner 是否安装 zip
+      # - 固定 ZIP 内文件时间戳
+      # - 同一个 data.js 可以生成确定性的 ZIP
+      # - 构建后立即验证压缩包内容
+      # ============================================================
+
+      - name: Create data.js ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+
+          source = Path("output/search/data.js")
+          archive = Path("output/search/data.js.zip")
+
+          if not source.is_file():
+              raise SystemExit("output/search/data.js does not exist")
+
+          data = source.read_bytes()
+
+          # ZIP 格式最早支持的固定时间。
+          # 避免每次 Actions 运行仅因时间戳不同产生新的 ZIP。
+          info = ZipInfo(
+              filename="data.js",
+              date_time=(1980, 1, 1, 0, 0, 0),
+          )
+          info.compress_type = ZIP_DEFLATED
+          info.create_system = 3
+          info.external_attr = 0o100644 << 16
+
+          with ZipFile(
+              archive,
+              mode="w",
+              compression=ZIP_DEFLATED,
+              compresslevel=9,
+          ) as zf:
+              zf.writestr(
+                  info,
+                  data,
+                  compress_type=ZIP_DEFLATED,
+                  compresslevel=9,
+              )
+
+          # 重新打开 ZIP 做完整性和内容验证。
+          with ZipFile(archive, mode="r") as zf:
+              bad_file = zf.testzip()
+              if bad_file is not None:
+                  raise SystemExit(f"Corrupted ZIP member: {bad_file}")
+
+              if zf.namelist() != ["data.js"]:
+                  raise SystemExit(
+                      f"Unexpected ZIP contents: {zf.namelist()}"
+                  )
+
+              if zf.read("data.js") != data:
+                  raise SystemExit(
+                      "data.js inside ZIP does not match source"
+                  )
+
+          print(f"Created: {archive}")
+          print(f"Source size: {source.stat().st_size:,} bytes")
+          print(f"ZIP size:    {archive.stat().st_size:,} bytes")
+          PY
+
+          test -s output/search/data.js.zip
+
+          echo "===== Search output ====="
+          ls -lh \
+            output/search/data.js \
+            output/search/data.js.zip
+
+      # ============================================================
+      # 13. 同步 output/site/ 到 5echm_web:pages 根目录
+      #
+      # 注意：
+      #
+      # output/site/ 最后的 "/" 很重要。
+      # 它表示复制 site 目录里面的内容，而不是 site 目录本身。
+      #
+      # 因此：
+      #
+      # output/site/index.html
+      # -> publish-site/index.html
+      #
+      # output/site/topics/xxx.htm
+      # -> publish-site/topics/xxx.htm
+      #
+      # 不会出现：
+      #
+      # publish-site/site/
+      # publish-site/output/
+      #
+      # 这里故意不使用 --delete：
+      # 只覆盖同名文件、增加新文件；
+      # 不删除 pages 中已有但本次构建没有产生的文件。
+      # ============================================================
+
+      - name: Sync site output
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rsync \
+            -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='CNAME' \
+            --exclude='README.md' \
+            output/site/ \
+            publish-site/
+
+          echo "===== Site repository changes ====="
+          git -C publish-site status --short
+
+      # ============================================================
+      # 14. 同步搜索数据
+      #
+      # 只更新：
+      #   data.js
+      #   data.js.zip
+      #
+      # 不修改：
+      #   server.js
+      #   package.json
+      #   webhelpsearch.htm
+      #   README.md
+      #   以及搜索仓库里的其他文件。
+      # ============================================================
+
+      - name: Sync search data
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cp \
+            output/search/data.js \
+            publish-search/data.js
+
+          cp \
+            output/search/data.js.zip \
+            publish-search/data.js.zip
+
+          echo "===== Search repository changes ====="
+          git -C publish-search status --short
+
+      # ============================================================
+      # 15. 发布站点到 5echm_web:pages
+      #
+      # git add -A 没问题：
+      # rsync 没有 --delete，因此不会因为构建目录缺少某个旧文件
+      # 就把目标仓库中的旧文件删除。
+      # ============================================================
+
+      - name: Publish site to pages
+        working-directory: publish-site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No site changes to publish."
+            exit 0
+          fi
+
+          CONTENT_SHA="$(
+            git -C "$GITHUB_WORKSPACE/content" \
+              rev-parse --short HEAD
+          )"
+
+          echo "Publishing site generated from ${CONTENT_SHA}"
+
+          git commit \
+            -m "build: publish web from DND5e_chm@${CONTENT_SHA}"
+
+          git push origin HEAD:${SITE_BRANCH}
+
+      # ============================================================
+      # 16. 发布搜索数据到 5echmweb_search:main
+      #
+      # 注意这里只 git add 两个指定文件，
+      # 即使工作目录出现其他变化也不会误提交。
+      # ============================================================
+
+      - name: Publish search data to main
+        working-directory: publish-search
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            data.js \
+            data.js.zip
+
+          if git diff --cached --quiet; then
+            echo "No search data changes to publish."
+            exit 0
+          fi
+
+          CONTENT_SHA="$(
+            git -C "$GITHUB_WORKSPACE/content" \
+              rev-parse --short HEAD
+          )"
+
+          echo "Publishing search data generated from ${CONTENT_SHA}"
+
+          git commit \
+            -m "build: update search data from DND5e_chm@${CONTENT_SHA}"
+
+          git push origin HEAD:${SEARCH_BRANCH}
+
+      # ============================================================
+      # 17. 保存编译报告
+      #
+      # 即使 build 失败，只要 reports 已经产生，也可以下载检查。
+      # ============================================================
+
+      - name: Upload build reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: wcp2web-reports-${{ github.run_number }}
+          path: output/reports/
+          if-no-files-found: ignore
+          retention-days: 14
