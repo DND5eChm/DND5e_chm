@@ -33,3 +33,7 @@
 **文件夹`...\DND5e_chm\Generator`中的所有python文件都需要使用同文件夹下的`run.bat`进行运行，否则极大概率出现问题，这些python文件都是起到便捷辅助作用的。**
 
 如果您有更新目录的需求，您可以创建一个新的wcp文件，如根目录下的其他wcp文件一样，与修改或新增的html文件一同添加至pr流程进行合并，仓库协作者会手动将其合入主wcp文件中。
+
+### 自动构建与发布说明
+
+[DND5e 不全书 Web 自动构建与发布技术手册](5echm_web_build_and_publish_technical_manual.md) 
