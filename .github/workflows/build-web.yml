@@ -7,14 +7,10 @@ on:
 
   workflow_dispatch:
 
-# 不允许两个发布任务同时修改目标仓库。
-# 也不取消已经开始的发布，避免两个目标仓库只更新了一半。
 concurrency:
   group: 5echm-web-publish
   cancel-in-progress: false
 
-# 当前 DND5e_chm 仓库只需要读取权限。
-# 两个跨仓库发布目标使用 WEB_PUBLISH_TOKEN。
 permissions:
   contents: read
 
@@ -27,7 +23,13 @@ env:
   SITE_BRANCH: "pages"
 
   SEARCH_REPOSITORY: "DND5eChm/5echmweb_search"
-  SEARCH_BRANCH: "main"
+
+  # webhelpsearch.htm 的来源分支。
+  # 此分支只读，不会被 Action 修改。
+  SEARCH_SOURCE_BRANCH: "main"
+
+  # data.js / data.js.zip 的发布分支。
+  SEARCH_INDEX_BRANCH: "index"
 
 jobs:
   build-and-publish:
@@ -38,12 +40,6 @@ jobs:
     steps:
       # ============================================================
       # 1. DND5e_chm
-      #
-      # push:
-      #   构建触发本次 Action 的准确 commit。
-      #
-      # workflow_dispatch:
-      #   固定构建 main。
       # ============================================================
 
       - name: Checkout DND5e_chm
@@ -55,7 +51,7 @@ jobs:
           persist-credentials: false
 
       # ============================================================
-      # 2. Web 编译器
+      # 2. wcp2web 编译器
       # ============================================================
 
       - name: Checkout web compiler
@@ -69,13 +65,6 @@ jobs:
 
       # ============================================================
       # 3. Web 模板
-      #
-      # 注意：
-      # 这里虽然模板仓库也有 webhelpsearch.htm，
-      # 但最终搜索页不会使用它。
-      #
-      # 后面的 search_template 会明确指定：
-      # publish-search/webhelpsearch.htm
       # ============================================================
 
       - name: Checkout web templates
@@ -88,7 +77,7 @@ jobs:
           persist-credentials: false
 
       # ============================================================
-      # 4. 检查发布 Token
+      # 4. 检查跨仓库发布 Token
       # ============================================================
 
       - name: Verify publish token
@@ -104,9 +93,35 @@ jobs:
           fi
 
       # ============================================================
-      # 5. 5echm_web:pages
+      # 5. 检查分支配置
       #
-      # 使用 PAT 是因为后面需要跨仓库 push。
+      # 防止以后误修改变量，把 index 数据推回主分支。
+      # ============================================================
+
+      - name: Verify branch configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${SEARCH_INDEX_BRANCH}" = "main" ] || \
+             [ "${SEARCH_INDEX_BRANCH}" = "master" ]; then
+            echo "::error::SEARCH_INDEX_BRANCH must not be main or master."
+            exit 1
+          fi
+
+          if [ "${SITE_BRANCH}" != "pages" ]; then
+            echo "::error::SITE_BRANCH must be pages."
+            exit 1
+          fi
+
+          echo "Search template source: ${SEARCH_SOURCE_BRANCH}"
+          echo "Search index target:   ${SEARCH_INDEX_BRANCH}"
+          echo "Site target:           ${SITE_BRANCH}"
+
+      # ============================================================
+      # 6. 站点发布目标
+      #
+      # 5echm_web:pages
       # ============================================================
 
       - name: Checkout site repository
@@ -120,26 +135,48 @@ jobs:
           persist-credentials: true
 
       # ============================================================
-      # 6. 5echmweb_search:main
+      # 7. 最新搜索页面来源
       #
-      # 它有两个用途：
+      # 5echmweb_search:main
       #
-      # 1. 提供最新版 webhelpsearch.htm
-      # 2. 接收新的 data.js / data.js.zip
+      # 这个 checkout 永远只用于读取最新版 webhelpsearch.htm。
+      # 不会进行 commit/push。
       # ============================================================
 
-      - name: Checkout search repository
+      - name: Checkout search template source
         uses: actions/checkout@v6
         with:
           repository: ${{ env.SEARCH_REPOSITORY }}
-          ref: ${{ env.SEARCH_BRANCH }}
-          path: publish-search
+          ref: ${{ env.SEARCH_SOURCE_BRANCH }}
+          path: search-source
+          fetch-depth: 1
+          token: ${{ secrets.WEB_PUBLISH_TOKEN }}
+          persist-credentials: false
+
+      # ============================================================
+      # 8. 搜索索引发布工作区
+      #
+      # 先 checkout main 只是为了取得 Git 仓库和凭据。
+      #
+      # 后面会：
+      # - 如果 index 已存在：切换到 index
+      # - 如果 index 不存在：创建 orphan index
+      #
+      # 永远不会向 main push。
+      # ============================================================
+
+      - name: Checkout search repository for index publishing
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.SEARCH_REPOSITORY }}
+          ref: ${{ env.SEARCH_SOURCE_BRANCH }}
+          path: publish-search-index
           fetch-depth: 1
           token: ${{ secrets.WEB_PUBLISH_TOKEN }}
           persist-credentials: true
 
       # ============================================================
-      # 7. Python
+      # 9. Python
       # ============================================================
 
       - name: Setup Python
@@ -150,7 +187,7 @@ jobs:
           cache-dependency-path: compiler/pyproject.toml
 
       # ============================================================
-      # 8. 安装 wcp2web
+      # 10. 安装编译器
       # ============================================================
 
       - name: Install web compiler
@@ -168,7 +205,7 @@ jobs:
           wcp2web --help >/dev/null
 
       # ============================================================
-      # 9. 检查构建输入
+      # 11. 检查输入
       # ============================================================
 
       - name: Verify build inputs
@@ -178,37 +215,33 @@ jobs:
 
           test -f "content/不全书.wcp"
           test -d "templates"
-          test -f "publish-search/webhelpsearch.htm"
+          test -f "search-source/webhelpsearch.htm"
 
-          echo "Content WCP:"
+          echo "WCP:"
           ls -lh "content/不全书.wcp"
 
           echo "Search template:"
-          ls -lh "publish-search/webhelpsearch.htm"
+          ls -lh "search-source/webhelpsearch.htm"
 
       # ============================================================
-      # 10. 准备最新版搜索模板
+      # 12. 准备搜索页面模板
       #
-      # source:
-      #   5echmweb_search:main/webhelpsearch.htm
+      # 来源始终是：
       #
-      # 当前搜索仓库里的文件仍可能写：
+      # 5echmweb_search:main/webhelpsearch.htm
       #
-      #   var API_BASE="http://localhost:13000"
+      # 当前文件可能还是：
       #
-      # 而 wcp2web 的模板变量是：
+      # var API_BASE="http://localhost:13000"
       #
-      #   ($SEARCH_API_BASE$)
+      # 临时改成：
       #
-      # 因此临时将 API_BASE 的赋值改成模板变量。
+      # var API_BASE="($SEARCH_API_BASE$)"
       #
-      # 如果以后搜索仓库本身已经改成模板变量，
-      # 这里会直接保持原样。
+      # 这样由 wcp2web 注入正式 API。
       #
-      # 注意：
-      # 这里只临时修改 Actions checkout，
-      # 后面会 git restore，不会把修改后的
-      # webhelpsearch.htm 提交回搜索仓库。
+      # 这里只修改 Actions 临时 checkout，
+      # 不会提交回 5echmweb_search:main。
       # ============================================================
 
       - name: Prepare search template
@@ -220,13 +253,19 @@ jobs:
           from pathlib import Path
           import re
 
-          path = Path("publish-search/webhelpsearch.htm")
-          text = path.read_text(encoding="utf-8-sig")
+          path = Path("search-source/webhelpsearch.htm")
+
+          text = path.read_text(
+              encoding="utf-8-sig"
+          )
 
           placeholder = "($SEARCH_API_BASE$)"
 
           if placeholder in text:
-              print("Search template already uses SEARCH_API_BASE placeholder.")
+              print(
+                  "Search template already contains "
+                  "SEARCH_API_BASE placeholder."
+              )
           else:
               pattern = re.compile(
                   r'(?m)^'
@@ -238,7 +277,11 @@ jobs:
                   r'\s*$'
               )
 
-              replacement = r'\1"' + placeholder + '"'
+              replacement = (
+                  r'\1"' +
+                  placeholder +
+                  '"'
+              )
 
               text, count = pattern.subn(
                   replacement,
@@ -248,8 +291,9 @@ jobs:
 
               if count != 1:
                   raise SystemExit(
-                      "Could not find exactly one API_BASE assignment "
-                      "in 5echmweb_search/webhelpsearch.htm"
+                      "Could not find exactly one "
+                      "API_BASE assignment in "
+                      "5echmweb_search/main/webhelpsearch.htm"
                   )
 
               path.write_text(
@@ -259,12 +303,13 @@ jobs:
               )
 
               print(
-                  "Temporarily replaced API_BASE with "
+                  "API_BASE converted to "
                   "SEARCH_API_BASE placeholder."
               )
 
-          # 最终检查
-          result = path.read_text(encoding="utf-8")
+          result = path.read_text(
+              encoding="utf-8"
+          )
 
           if placeholder not in result:
               raise SystemExit(
@@ -273,17 +318,10 @@ jobs:
           PY
 
       # ============================================================
-      # 11. 创建构建配置
+      # 13. wcp2web 配置
       #
-      # 所有路径相对于：
-      #
-      #   build-config/wcp2web.toml
-      #
-      # search_template 明确指向：
-      #
-      #   5echmweb_search:main/webhelpsearch.htm
-      #
-      # 因此不会使用 templates 中的旧搜索页。
+      # search_template 明确指定 search-source，
+      # 即 5echmweb_search:main 的最新版搜索页面。
       # ============================================================
 
       - name: Generate wcp2web config
@@ -308,7 +346,7 @@ jobs:
 
           [webhelp]
           search_api_base = "https://5echmsearch.kagangtuya.top"
-          search_template = "../publish-search/webhelpsearch.htm"
+          search_template = "../search-source/webhelpsearch.htm"
           default_page = ""
           nav_width = 285
           back_color = "#ffffff"
@@ -327,7 +365,7 @@ jobs:
           cat build-config/wcp2web.toml
 
       # ============================================================
-      # 12. Web 编译
+      # 14. 构建
       # ============================================================
 
       - name: Build web site
@@ -349,13 +387,13 @@ jobs:
           ls -lh output/search/data.js
 
       # ============================================================
-      # 13. 验证搜索页
+      # 15. 检查编译后的搜索页
       #
-      # 必须满足：
+      # 必须：
       #
-      # 1. 使用正式 API
-      # 2. 不再包含 localhost:13000
-      # 3. 不留下 SEARCH_API_BASE 模板变量
+      # - 包含生产 API
+      # - 不含 localhost
+      # - 不含未解析模板变量
       # ============================================================
 
       - name: Verify compiled search page
@@ -367,42 +405,38 @@ jobs:
 
           if ! grep -Fq \
             "${SEARCH_API_BASE}" \
-            "${SEARCH_PAGE}"
-          then
-            echo "::error::Compiled webhelpsearch.htm does not contain the production API URL."
+            "${SEARCH_PAGE}"; then
+
+            echo "::error::Compiled search page does not contain production API."
             exit 1
           fi
 
           if grep -Fq \
             "http://localhost:13000" \
-            "${SEARCH_PAGE}"
-          then
-            echo "::error::Compiled webhelpsearch.htm still contains localhost API."
+            "${SEARCH_PAGE}"; then
+
+            echo "::error::Compiled search page still contains localhost API."
             exit 1
           fi
 
           if grep -Fq \
             '($SEARCH_API_BASE$)' \
-            "${SEARCH_PAGE}"
-          then
+            "${SEARCH_PAGE}"; then
+
             echo "::error::SEARCH_API_BASE placeholder was not rendered."
             exit 1
           fi
 
-          echo "Search API verified:"
-          grep -F "${SEARCH_API_BASE}" "${SEARCH_PAGE}" | head -n 3
+          echo "Search API verified."
 
       # ============================================================
-      # 14. 移除站点版 data.js
+      # 16. Web 站点不能包含 data.js
       #
-      # wcp2web 当前会自动创建：
+      # wcp2web 当前会生成：
       #
-      #   output/site/data.js
+      # output/site/data.js
       #
-      # 但是现在 Web 搜索使用后端 API，
-      # data.js 只应存在于 5echmweb_search。
-      #
-      # 因此在发布站点之前删除。
+      # 搜索已经走 API，因此从站点产物删除。
       # ============================================================
 
       - name: Remove search data from site output
@@ -419,41 +453,21 @@ jobs:
             exit 1
           fi
 
-          echo "Search data removed from site output."
-
-      # ============================================================
-      # 15. 恢复搜索仓库中的 webhelpsearch.htm
-      #
-      # Prepare search template 的修改仅用于编译，
-      # 不能提交回 5echmweb_search。
-      # ============================================================
-
-      - name: Restore search repository template
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          git -C publish-search restore -- webhelpsearch.htm
-
-          if ! git -C publish-search diff --quiet -- webhelpsearch.htm; then
-            echo "::error::webhelpsearch.htm was not restored."
+          if [ -e output/site/data.js.zip ]; then
+            echo "::error::output/site/data.js.zip still exists."
             exit 1
           fi
 
+          echo "Search index removed from site output."
+
       # ============================================================
-      # 16. data.js -> data.js.zip
-      #
-      # 生成：
-      #
-      #   output/search/data.js
-      #   output/search/data.js.zip
+      # 17. 生成 data.js.zip
       #
       # ZIP 内只有：
       #
-      #   data.js
+      # data.js
       #
-      # 同时固定 ZIP 时间戳，避免仅因为构建时间变化
-      # 导致压缩包产生无意义 diff。
+      # 固定 ZIP 内时间戳，避免仅因为构建时间不同产生 diff。
       # ============================================================
 
       - name: Create data.js ZIP
@@ -463,10 +477,19 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
-          from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+          from zipfile import (
+              ZIP_DEFLATED,
+              ZipFile,
+              ZipInfo,
+          )
 
-          source = Path("output/search/data.js")
-          archive = Path("output/search/data.js.zip")
+          source = Path(
+              "output/search/data.js"
+          )
+
+          archive = Path(
+              "output/search/data.js.zip"
+          )
 
           if not source.is_file():
               raise SystemExit(
@@ -490,6 +513,7 @@ jobs:
               compression=ZIP_DEFLATED,
               compresslevel=9,
           ) as zf:
+
               zf.writestr(
                   info,
                   data,
@@ -497,8 +521,12 @@ jobs:
                   compresslevel=9,
               )
 
-          # 验证 ZIP
-          with ZipFile(archive, mode="r") as zf:
+          # 完整性验证
+          with ZipFile(
+              archive,
+              mode="r",
+          ) as zf:
+
               bad_file = zf.testzip()
 
               if bad_file is not None:
@@ -508,7 +536,8 @@ jobs:
 
               if zf.namelist() != ["data.js"]:
                   raise SystemExit(
-                      f"Unexpected ZIP contents: {zf.namelist()}"
+                      f"Unexpected ZIP contents: "
+                      f"{zf.namelist()}"
                   )
 
               if zf.read("data.js") != data:
@@ -517,10 +546,13 @@ jobs:
                   )
 
           print(
-              f"data.js:     {source.stat().st_size:,} bytes"
+              f"data.js:     "
+              f"{source.stat().st_size:,} bytes"
           )
+
           print(
-              f"data.js.zip: {archive.stat().st_size:,} bytes"
+              f"data.js.zip: "
+              f"{archive.stat().st_size:,} bytes"
           )
           PY
 
@@ -528,29 +560,26 @@ jobs:
           test -s output/search/data.js.zip
 
           echo "===== Search output ====="
+
           ls -lh \
             output/search/data.js \
             output/search/data.js.zip
 
       # ============================================================
-      # 17. 同步 output/site/ -> 5echm_web:pages
+      # 18. 同步站点
       #
-      # output/site/ 尾部的 "/" 表示：
+      # output/site/ 最后的 "/" 表示：
       #
-      #   将 site 里面的内容复制到 pages 根目录
-      #
-      # 不会创建：
-      #
-      #   pages/site/
-      #   pages/output/
+      # 复制 site 里面的内容到 pages 根目录，
+      # 不创建 site/ 文件夹。
       #
       # 不使用 --delete：
       #
-      #   - 同名文件覆盖
-      #   - 新文件增加
-      #   - 旧文件不会因为本次构建不存在而被删除
+      # - 新文件增加
+      # - 同名文件覆盖
+      # - pages 中其他旧文件保留
       #
-      # 唯一主动删除的是 data.js/data.js.zip。
+      # 只有 data.js / data.js.zip 被明确删除。
       # ============================================================
 
       - name: Sync site output
@@ -569,20 +598,17 @@ jobs:
             output/site/ \
             publish-site/
 
-          # 清除以前已经提交过的搜索索引文件。
-          # 这会让第一次运行 Action 时把 pages/data.js
-          # 从 Git 历史的当前版本中删除。
+          # 删除 pages 中历史遗留的搜索数据。
           rm -f \
             publish-site/data.js \
             publish-site/data.js.zip
 
           echo "===== Site repository changes ====="
+
           git -C publish-site status --short
 
       # ============================================================
-      # 18. 最终检查网页仓库
-      #
-      # 根目录绝对不能包含 data.js / data.js.zip。
+      # 19. 检查站点发布树
       # ============================================================
 
       - name: Verify site publish tree
@@ -594,81 +620,155 @@ jobs:
           test -s publish-site/webhelpsearch.htm
 
           if [ -e publish-site/data.js ]; then
-            echo "::error::publish-site/data.js must not exist."
+            echo "::error::5echm_web/pages must not contain data.js."
             exit 1
           fi
 
           if [ -e publish-site/data.js.zip ]; then
-            echo "::error::publish-site/data.js.zip must not exist."
+            echo "::error::5echm_web/pages must not contain data.js.zip."
             exit 1
           fi
 
           if ! grep -Fq \
             "${SEARCH_API_BASE}" \
-            publish-site/webhelpsearch.htm
-          then
-            echo "::error::Published webhelpsearch.htm has wrong API URL."
+            publish-site/webhelpsearch.htm; then
+
+            echo "::error::Published search page has wrong API URL."
             exit 1
           fi
 
           echo "Site publish tree verified."
 
       # ============================================================
-      # 19. 同步搜索数据
+      # 20. 准备 5echmweb_search:index
       #
-      # 只更新搜索仓库：
+      # 当前 index 不存在时：
       #
-      #   data.js
-      #   data.js.zip
+      # 创建 orphan 分支，与 main 没有共同提交历史。
       #
-      # 不更新 webhelpsearch.htm。
+      # 第一次提交最终只有：
+      #
+      # data.js
+      # data.js.zip
+      #
+      # index 已存在时：
+      #
+      # 直接 checkout 远端 index。
       # ============================================================
 
-      - name: Sync search data
+      - name: Prepare search index branch
+        working-directory: publish-search-index
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git ls-remote \
+            --exit-code \
+            --heads \
+            origin \
+            "refs/heads/${SEARCH_INDEX_BRANCH}" \
+            >/dev/null 2>&1; then
+
+            echo "Remote ${SEARCH_INDEX_BRANCH} branch exists."
+
+            git fetch \
+              --depth=1 \
+              origin \
+              "${SEARCH_INDEX_BRANCH}"
+
+            git checkout \
+              -B "${SEARCH_INDEX_BRANCH}" \
+              FETCH_HEAD
+
+          else
+
+            echo "Remote ${SEARCH_INDEX_BRANCH} branch does not exist."
+            echo "Creating orphan ${SEARCH_INDEX_BRANCH} branch."
+
+            git checkout \
+              --orphan \
+              "${SEARCH_INDEX_BRANCH}"
+
+            # 清除从 main checkout 得到的所有内容。
+            git rm -rf . >/dev/null 2>&1 || true
+
+            # 防止残留未跟踪文件。
+            find . \
+              -mindepth 1 \
+              -maxdepth 1 \
+              ! -name '.git' \
+              -exec rm -rf {} +
+
+          fi
+
+          CURRENT_BRANCH="$(git branch --show-current)"
+
+          if [ "${CURRENT_BRANCH}" != "${SEARCH_INDEX_BRANCH}" ]; then
+            echo "::error::Expected branch ${SEARCH_INDEX_BRANCH}, got ${CURRENT_BRANCH}."
+            exit 1
+          fi
+
+          if [ "${CURRENT_BRANCH}" = "main" ] || \
+             [ "${CURRENT_BRANCH}" = "master" ]; then
+            echo "::error::Refusing to publish index data to main/master."
+            exit 1
+          fi
+
+          echo "Publishing search data to branch: ${CURRENT_BRANCH}"
+
+      # ============================================================
+      # 21. 将 data.js / ZIP 放入 index 分支根目录
+      # ============================================================
+
+      - name: Sync search index data
         shell: bash
         run: |
           set -euo pipefail
 
           cp \
             output/search/data.js \
-            publish-search/data.js
+            publish-search-index/data.js
 
           cp \
             output/search/data.js.zip \
-            publish-search/data.js.zip
+            publish-search-index/data.js.zip
 
-          echo "===== Search repository changes ====="
-          git -C publish-search status --short
+          test -s publish-search-index/data.js
+          test -s publish-search-index/data.js.zip
+
+          echo "===== Index branch changes ====="
+
+          git -C publish-search-index status --short
 
       # ============================================================
-      # 20. 检查搜索仓库不会误提交其他文件
+      # 22. 发布搜索数据到 index
+      #
+      # 注意：
+      #
+      # 这里绝对不会 push main/master。
+      # push target 被明确写成：
+      #
+      # HEAD:index
       # ============================================================
 
-      - name: Verify search repository changes
+      - name: Publish search data to index
+        working-directory: publish-search-index
         shell: bash
         run: |
           set -euo pipefail
 
-          # webhelpsearch.htm 必须保持仓库原版
-          if ! git -C publish-search diff --quiet -- webhelpsearch.htm; then
-            echo "::error::webhelpsearch.htm must not be modified in search repository."
+          CURRENT_BRANCH="$(git branch --show-current)"
+
+          if [ "${CURRENT_BRANCH}" != "${SEARCH_INDEX_BRANCH}" ]; then
+            echo "::error::Not on search index branch."
             exit 1
           fi
 
-          echo "Search repository verified."
-
-      # ============================================================
-      # 21. 先发布搜索数据
-      #
-      # 先更新搜索后端使用的数据，
-      # 再更新前端站点。
-      # ============================================================
-
-      - name: Publish search data to main
-        working-directory: publish-search
-        shell: bash
-        run: |
-          set -euo pipefail
+          if [ "${SEARCH_INDEX_BRANCH}" = "main" ] || \
+             [ "${SEARCH_INDEX_BRANCH}" = "master" ]; then
+            echo "::error::Refusing to modify main/master."
+            exit 1
+          fi
 
           git config user.name \
             "github-actions[bot]"
@@ -676,13 +776,13 @@ jobs:
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 只允许提交这两个文件。
+          # 只提交两个索引文件。
           git add \
             data.js \
             data.js.zip
 
           if git diff --cached --quiet; then
-            echo "No search data changes to publish."
+            echo "No search index changes to publish."
             exit 0
           fi
 
@@ -691,20 +791,15 @@ jobs:
               rev-parse --short HEAD
           )"
 
-          echo "Publishing search data from ${CONTENT_SHA}"
-
           git commit \
-            -m "build: update search data from DND5e_chm@${CONTENT_SHA}"
+            -m "build: update search index from DND5e_chm@${CONTENT_SHA}"
 
           git push \
             origin \
-            HEAD:${SEARCH_BRANCH}
+            "HEAD:${SEARCH_INDEX_BRANCH}"
 
       # ============================================================
-      # 22. 发布 Web 到 pages
-      #
-      # git add -A 很重要：
-      # 它会把历史遗留 pages/data.js 的删除也提交进去。
+      # 23. 发布网站到 5echm_web:pages
       # ============================================================
 
       - name: Publish site to pages
@@ -719,6 +814,7 @@ jobs:
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # 包括历史 data.js 的删除。
           git add -A
 
           if git diff --cached --quiet; then
@@ -731,17 +827,15 @@ jobs:
               rev-parse --short HEAD
           )"
 
-          echo "Publishing site from ${CONTENT_SHA}"
-
           git commit \
             -m "build: publish web from DND5e_chm@${CONTENT_SHA}"
 
           git push \
             origin \
-            HEAD:${SITE_BRANCH}
+            "HEAD:${SITE_BRANCH}"
 
       # ============================================================
-      # 23. 构建报告
+      # 24. 保存构建报告
       # ============================================================
 
       - name: Upload build reports
