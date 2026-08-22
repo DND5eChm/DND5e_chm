@@ -42,22 +42,22 @@ source_tag: dict[str,str] = {
     "玩家包2": "尖塔2",
 }
 source_priority: dict[str,int] = {
-    "溟渊": 0,
+    "溟渊": 1,
     "艾巢": 2,
-    "鬼谷14": 1,
-    "德城": 3,
-    "谦卑林战役": 4,
-    "谦卑林故事": 5,
-    "黯潮": 6,
-    "邪狱使": 7,
-    "胧忆岛": 8,
+    "鬼谷14": 3,
+    "德城": 4,
+    "谦卑林战役": 5,
+    "谦卑林故事": 6,
+    "黯潮": 7,
+    "邪狱使": 8,
+    "胧忆岛": 9,
     "尖塔1": 10,
-    "铳士": 9,
-    "歪月": 11,
-    "克苏鲁": 12,
-    "探秘艾伯伦": 13,
-    "斯坦哈德":14,
-    "尖塔2": 15,
+    "铳士": 11,
+    "歪月": 12,
+    "克苏鲁": 13,
+    "探秘艾伯伦": 14,
+    "斯坦哈德":15,
+    "尖塔2": 16,
 }
 
 short_cut: dict[str,str] = {
@@ -76,6 +76,10 @@ short_cut: dict[str,str] = {
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
 
 level_list = ["戏法","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
+
+spell_conflict: dict[str,str] = {
+
+}
 
 html_template_big = "../空白页模板/合作方法术大速查模板.htm"
 
@@ -297,7 +301,8 @@ if __name__ == "__main__":
     spell_groups: dict[str, list[Spell]] = defaultdict(list)
 
     for spell in big_spell_list.values():
-        spell_groups[spell.spell_id].append(spell)
+        group_id = spell_conflict.get(spell.spell_id, spell.spell_id)
+        spell_groups[group_id].append(spell)
 
 # 2. 每组按来源优先级排序，标记 legacy
     big_spell_list.clear()

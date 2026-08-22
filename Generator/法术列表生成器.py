@@ -2,7 +2,7 @@ import os
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from 文件遍历 import walk_through_files
-
+from datetime import date
 
 spell_file_list = [
     "玩家手册/魔法/法术详述",
@@ -43,21 +43,40 @@ source_tag: dict[str,str] = {
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
-    "PHB14": 1,   # 第二优先级
-    "XGE": 2,
-    "TCE": 3,
-    "FTD": 4,
-    "BMT": 5,
-    "GGR": 6,
-    "AI": 7,
-    "EGW": 8,
-    "SCC": 9,
-    "AAG": 10,
-    "SO": 11,
-    "FR" : 12,
-    "EBR" : 13,
-    "冰风谷": 14,
+    "PHB14": 1, # 第二优先级 
+    "XGE": 2, 
+    "TCE": 3, 
+    "FTD": 4, 
+    "BMT": 5, 
+    "GGR": 6, 
+    "AI": 7, 
+    "EGW": 8, 
+    "SCC": 9, 
+    "AAG": 10, 
+    "SO": 11, 
+    "FR" : 12, 
+    "EBR" : 13, 
+    "冰风谷": 14, 
     "夸力许": 15,
+}
+
+source_date: dict[str, date] = {
+    "PHB14": date(2014, 8, 19),
+    "XGE":   date(2017, 11, 21),
+    "夸力许": date(2018, 11, 1),
+    "GGR":   date(2018, 11, 20),
+    "AI":    date(2019, 6, 18),
+    "EGW":   date(2020, 3, 17),
+    "冰风谷": date(2020, 9, 15),
+    "TCE":   date(2020, 11, 17),
+    "FTD":   date(2021, 10, 26),
+    "SCC":   date(2021, 12, 7),
+    "AAG":   date(2022, 8, 16),
+    "SO":    date(2023, 10, 17),
+    "BMT":   date(2023, 12, 5),
+    "PHB24": date(2024, 9, 17),
+    "EFA":   date(2025, 8, 19),
+    "FR":    date(2025, 11, 11),
 }
 
 short_cut: dict[str,str] = {
@@ -78,8 +97,8 @@ class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士",
 level_list = ["戏法","一环","二环","三环","四环","五环","六环","七环","八环","九环"]
 
 spell_conflict: dict[str,str] = {
-    "Feeblemind": "zzzzzzzzzFeeblemind",      
-    "Branding_Smite": "zzzzzzzzzBranding_Smite"  
+    "Feeblemind": "Befuddlement",
+    "Branding_Smite": "Shining_Smite"
 }
 
 html_template = "../空白页模板/法术列表模板.htm"
@@ -105,8 +124,12 @@ class Spell:
         self.spell_school = ""
         self.spell_source_tag = source_tag
         self.spell_source_priority = 99
-        if source_tag in source_priority.keys():
+        if source_tag in source_priority:
             self.spell_source_priority = source_priority[source_tag]
+
+        self.spell_source_date = date.max
+        if source_tag in source_date:
+            self.spell_source_date = source_date[source_tag]
         
         self.chm_path = chm_path
         self.legacy = False
@@ -295,30 +318,34 @@ if __name__ == "__main__":
     for c in class_list:
         class_spell_list[c] = {}
         for level in level_list:
-            class_spell_list[c][level]: list[str] = []
+            class_spell_list[c][level] = []
     for file in spell_file_list:
         walk_through_files(process_file,file)
     
     from collections import defaultdict
 
-    # 1. 按 spell_id 分组
+    # 1. 按“法术归组ID”分组
     spell_groups: dict[str, list[Spell]] = defaultdict(list)
 
     for spell in big_spell_list.values():
-        spell_groups[spell.spell_id].append(spell)
+        # 新旧版本改名的法术归入同一组
+        group_id = spell_conflict.get(spell.spell_id, spell.spell_id)
+        spell_groups[group_id].append(spell)
 
-# 2. 每组按来源优先级排序，标记 legacy
+    # 2. 每组按来源日期排序，标记 legacy
     big_spell_list.clear()
     big_spell_list_keys.clear()
 
-    for spell_id, spells in spell_groups.items():
-     # 按解析顺序，后出现的在前
-        spells.sort(key=lambda s: s.parse_order, reverse=True)
+    for group_id, spells in spell_groups.items():
+
+        # 来源日期越晚，版本越新
+        spells.sort(key=lambda s: s.spell_source_date, reverse=True)
 
         for i, spell in enumerate(spells):
             spell.legacy = (i != 0)
 
             key = spell.spell_id
+
             if spell.legacy:
                 key = f"zzzzzzzzz{spell.spell_id}__{spell.spell_source_tag}"
             else:
