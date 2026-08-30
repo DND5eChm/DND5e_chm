@@ -81,6 +81,7 @@ spell_conflict: dict[str,str] = {
 
 }
 
+html_template = "../空白页模板/法术列表模板.htm"
 html_template_big = "../空白页模板/合作方法术大速查模板.htm"
 
 class Spell:
@@ -226,6 +227,7 @@ class Spell:
         output = [self.spell_name,self.spell_name_en,self.spell_source_tag,"法术",self.spell_subline,self.spell_content]
         return output
 
+class_spell_list: dict[str, dict[str, list[Spell]]] = {}
 big_spell_list: dict[str, Spell] = {}
 big_spell_list_keys: list[str] = []
 
@@ -275,6 +277,13 @@ def process_file(file_path: str,file_name: str):
             global parse_counter
             parse_counter += 1
             spell = Spell(content, chm_path, source, order=parse_counter)
+
+            for _class in spell.spell_classes:
+                if _class not in class_spell_list.keys():
+                    class_spell_list[_class] = {}
+                if spell.spell_level not in class_spell_list[_class].keys():
+                    class_spell_list[_class][spell.spell_level] = []
+                class_spell_list[_class][spell.spell_level].append(spell)
     
             key = f"{spell.spell_id}__{spell.spell_source_tag}"
             big_spell_list[key] = spell
@@ -292,6 +301,10 @@ if __name__ == "__main__":
     if not target_folder:
         os.makedirs("./Generated")
 
+    for c in class_list:
+        class_spell_list[c] = {}
+        for level in level_list:
+            class_spell_list[c][level] = []
     for file in spell_file_list:
         walk_through_files(process_file,file)
     
@@ -325,10 +338,23 @@ if __name__ == "__main__":
             big_spell_list_keys.append(key)
 
     # 生成速查
+    template = ""
     template_big = ""
     
+    with open(html_template,mode="r",encoding="gbk") as _f:
+        template = _f.read()
     with open(html_template_big,mode="r",encoding="gbk") as _f:
         template_big = _f.read()
+    for c in class_list:
+        contents = []
+        for level in level_list:
+            if len(class_spell_list[c][level]) != 0:
+                # 去legacy，排序并输出
+                sorted_spells = [spell for spell in class_spell_list[c][level] if not spell.legacy] # 忽略legacy内容
+                sorted_spells = sorted(sorted_spells,key=lambda x: (x.spell_source_priority,x.spell_name_en))# 排序：来源优先，法术名次优先
+                contents.append("<h2>"+level+"</h2>\n<p>"+"<br>\n".join([spell.output_id_and_link(c) for spell in sorted_spells])+"</p>")
+        with open("../速查/法术速查/"+c+"合作法术速查.html",mode="w",encoding="gbk") as _f:
+            _f.write(template.replace("法术列表模板",c+"合作法术列表").replace("{{内容}}","\n".join(contents)))
 
     # 生成速查大表
     big_spell_list_keys.sort()
