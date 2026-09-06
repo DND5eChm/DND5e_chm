@@ -21,6 +21,7 @@ spell_file_list = [
     "玩家手册2024/法术详述",
     "艾伯伦：奇械锻炉/第一章/法术.htm",
     "被遗忘的国度/费伦英雄/第五章/新法术.htm",
+    "启封奥秘/第二章",
 ]
 
 source_tag: dict[str,str] = {
@@ -40,6 +41,7 @@ source_tag: dict[str,str] = {
     "冰风谷" : "冰风谷",
     "艾伯伦：奇械锻炉" : "EFA",
     "被遗忘的国度" : "FR",
+    "启封奥秘" : "AU",
 }
 source_priority: dict[str,int] = {
     "PHB24": 0, # 最高优先级
@@ -55,9 +57,10 @@ source_priority: dict[str,int] = {
     "AAG": 10, 
     "SO": 11, 
     "FR" : 12, 
-    "EBR" : 13, 
-    "冰风谷": 14, 
-    "夸力许": 15,
+    "EFA" : 13, 
+    "AU" : 14, 
+    "冰风谷": 15, 
+    "夸力许": 16,
 }
 
 source_date: dict[str, date] = {
@@ -75,8 +78,9 @@ source_date: dict[str, date] = {
     "SO":    date(2023, 10, 17),
     "BMT":   date(2023, 12, 5),
     "PHB24": date(2024, 9, 17),
-    "EFA":   date(2025, 8, 19),
     "FR":    date(2025, 11, 11),
+    "EFA":   date(2025, 12, 19),
+    "AU":    date(2026, 9, 3),
 }
 
 short_cut: dict[str,str] = {

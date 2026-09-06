@@ -4,8 +4,103 @@
 <title>六环</title>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <link rel="stylesheet" href="../../style.css">
+<style>
+div.stat-block h5,div.stat-block h6{
+	color: #800000;
+	font-weight: bold;
+	border-bottom: 1px #800000 solid;
+}
+div.stat-block h5{
+	font-size: 140%;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+div.stat-block h6{
+	font-size: 115%;
+	margin-top: 17px;
+	margin-bottom: -12px;
+}
+div.stat-block .sub-line{
+	color: #808080;
+	font-style: italic;
+	MARGIN-TOP: -3px;
+}
+div.stat-block table{
+	width: 500px;
+	color: #800000;
+	border-collapse: collapse;
+}
+table.stat-abilities{
+	text-align: center;
+	margin-bottom: 15px;
+	white-space: nowrap;
+}
+table.stat-abilities th{
+	width: 40px;
+	font-size: 75%;
+	color: #808080;
+}
+table.stat-abilities td{
+	padding: 2px 0px 0px 0px;
+	font-size: 100%;
+}
+td.c1{
+	BACKGROUND-COLOR:#e9e3d6;
+}
+td.c2{
+	BACKGROUND-COLOR: #d8d0c9
+}
+td.c3{
+	BACKGROUND-COLOR: #d2d6ce
+}
+td.c4{
+	BACKGROUND-COLOR: #cbc6c6
+}</style>
 </head>
 <body>
+<H4 id="Summon_Dinosaur">恐龙召唤术｜Summon Dinosaur</H4>
+<P><EM>六环 咒法（德鲁伊）</EM> <BR><B>施法时间：</B>动作 <BR><B>施法距离：</B>90尺 <BR><B>法术成分：</B>V、S、M（价值600+GP的抛光鳞片） <BR><B>持续时间：</B>专注，至多1小时<BR>你唤来一只原始恐龙。其使用下文<STRONG><U>恐龙灵魄Dinosaur 
+Spirit</U></STRONG>的数据，并会在施法距离内一处你可见的未占据空间中显现。当你施展法术时，从甲龙、三角龙和霸王龙中选择一种。该生物会显化符合为你所选的恐龙，其数据中的部分特性也受此影响。该生物会在生命值降为0或是法术结束时消失。<BR>该生物是你的盟友（对你的其他盟友亦是如此）。它在战斗中使用你的先攻，并在你回合结束后立即行动。它遵从于你的口头指令（无需任何动作）。如果你不发令，它将执行回避动作并用移动力远离危险。<BR><STRONG>升环施法。</STRONG>该生物的数据使用新的法术环阶。</P>
+<div class="stat-block">
+<h5>恐龙灵魄Dinosaur Spirit</h5>
+<div class="sub-line">巨型野兽（恐龙）；中立</div>
+<table><tr><td><strong>AC </strong>11+法术环阶+2（仅甲龙）</td><td width="40%"><strong>先攻 </strong>+0（10）</td></tr>
+<tr><td colspan=2><STRONG>HP 
+  </STRONG>60+每比六环高一法术环阶10</td></tr>
+<tr><td colspan=2><strong>速度 </strong>40尺</td></tr></table>
+<table class="stat-abilities"><tr><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th><td style="WIDTH: 5px"></td><th></th><th></th><th>调整</th><th>豁免</th></tr>
+<tr><td class="c1"><strong>力量</strong></td><td class="c1">10</td><td class="c2">+0</td><td class="c2">+0</td>
+<td></td>
+<td class="c1"><strong>敏捷</strong></td><td class="c1">10</td><td class="c2">+0</td><td class="c2">+0</td>
+<td></td>
+<td class="c1"><strong>体质</strong></td><td class="c1">15    </td><td class="c2">+2    </td><td class="c2">+2</td></tr>
+<tr><td class="c3"><strong>智力</strong></td><td class="c3">10</td><td class="c4">+0</td><td class="c4">+0</td>
+<td></td>
+<td class="c3"><strong>感知</strong></td><td class="c3">10</td><td class="c4">+0</td><td class="c4">+0</td>
+<td></td>
+<td class="c3"><strong>魅力</strong></td><td class="c3">9    </td><td class="c4">-1    </td><td class="c4">-1</td></tr>
+</table>
+<table>
+<tr><td><strong>感官 </strong>被动察觉11</td></tr>
+<tr><td><strong>语言 </strong>理解你的语言</td></tr>
+<tr><td><strong>CR </strong>无（XP0；PB等于你的熟练加值）</td></tr>
+</table>
+<P>
+</P>
+<h6>特质Traits</h6>
+<p>
+<strong>攻城怪物Siege Monster（仅甲龙）。</strong>灵魄对物件和建筑造成双倍伤害。<br>
+<strong>韧性Tough。</strong>将该法术环阶的一半（向下取整）加到灵魄进行的任意力量或体质豁免检定中。<br>
+</p>
+<h6>动作Actions</h6>
+<p>
+<strong>多重攻击Multiattack。</strong>灵魄发动等于法术环阶一半次数的攻击（向下取整）。<br>
+<strong>啃咬Bite（仅霸王龙）。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及10尺。<em>命中：</em>2d10+5+法术环阶的穿刺伤害。若目标为大型或更小的生物，则其陷入<u>受擒</u>状态（逃脱DC等于你的法术DC），且其在被擒抱期间陷入<u>束缚</u>状态。<br>
+<strong>顶撞Gore（仅三角龙）。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及5尺。<em>命中：</em>1d10+5+法术环阶的穿刺伤害。若目标为巨型或更小的生物，且灵魄在命中目标前立即向其直线移动了至少20尺，则目标额外受到1d10穿刺伤害并陷入<u>倒地</u>状态。<br>
+<strong>猛击Slam。</strong><em>近战攻击检定：</em>加值等于你的法术攻击加值，触及10尺。<em>命中：</em>1d10+5+法术环阶的钝击伤害。
+</p>
+</div>
+
 
 
 </body>
