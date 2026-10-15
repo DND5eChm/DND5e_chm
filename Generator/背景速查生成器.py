@@ -1,17 +1,21 @@
-import os
 import re
 from bs4 import BeautifulSoup
 from 文件遍历 import walk_through_files
 
 
 # ============================================================
-# 文件路径
+# 输入
 # ============================================================
 
 background_file_list = [
     "玩家手册2024/角色起源/背景",
     "被遗忘的国度/费伦英雄/第一章/背景",
 ]
+
+
+# ============================================================
+# 模板 / 输出
+# ============================================================
 
 template_path = "../空白页模板/背景大速查模板.htm"
 output_path = "../速查/背景大速查表.htm"
@@ -23,229 +27,12 @@ output_path = "../速查/背景大速查表.htm"
 
 source_tag = {
     "玩家手册2024": "PHB24",
-    "被遗忘的国度": "FR",
+    "费伦英雄": "FR",
 }
 
 
 # ============================================================
-# 基础函数
-# ============================================================
-
-def clean_text(text):
-    text = text.replace("\xa0", " ")
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
-
-
-def html_escape(text):
-    return (
-        text
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-    )
-
-
-def get_source(file_path):
-    file_path = file_path.replace("\\", "/")
-
-    for path_name, tag in source_tag.items():
-        if path_name in file_path:
-            return tag
-
-    return ""
-
-
-def get_relative_path(file_path):
-    """
-    速查表位于 ../速查/
-    原文件位于：
-        玩家手册2024/...
-        被遗忘的国度/...
-    """
-
-    output_dir = os.path.dirname(os.path.abspath(output_path))
-    source_file = os.path.abspath(file_path)
-
-    relative_path = os.path.relpath(
-        source_file,
-        output_dir
-    )
-
-    return relative_path.replace("\\", "/")
-
-
-# ============================================================
-# H3
-# ============================================================
-
-def get_background_name(soup):
-    h3 = soup.find("h3")
-
-    if h3 is None:
-        return "", "", ""
-
-    full_name = clean_text(
-        h3.get_text(" ", strip=True)
-    )
-
-    # 中文 + 英文
-    # 例如：
-    # 侍僧 Acolyte
-    match = re.search(
-        r"([A-Za-z][A-Za-z0-9 &'’'_-]*)$",
-        full_name
-    )
-
-    if not match:
-        return full_name, "", ""
-
-    english_name = match.group(1).strip()
-    chinese_name = full_name[:match.start()].strip()
-
-    return (
-        full_name,
-        chinese_name,
-        english_name
-    )
-
-
-def get_id(soup, english_name):
-    h3 = soup.find("h3")
-
-    if h3 is not None:
-        old_id = h3.get("id")
-
-        if old_id:
-            return old_id
-
-    background_id = english_name
-
-    background_id = background_id.replace(" ", "_")
-    background_id = background_id.replace("'", "")
-    background_id = background_id.replace("’", "")
-
-    background_id = re.sub(
-        r"[^A-Za-z0-9_-]",
-        "",
-        background_id
-    )
-
-    return background_id
-
-
-# ============================================================
-# 字段提取
-# ============================================================
-
-def get_background_p(soup):
-    """
-    找到包含：
-    属性值 / 专长 / 技能熟练 / 工具熟练 / 装备
-    的 P。
-    """
-
-    for p in soup.find_all("p"):
-        text = p.get_text(" ", strip=True)
-
-        if (
-            "属性值" in text
-            or "专长" in text
-            or "技能熟练" in text
-            or "工具熟练" in text
-            or "装备" in text
-        ):
-            return p
-
-    return None
-
-
-def get_fields(p):
-    fields = {
-        "属性值": "",
-        "专长": "",
-        "技能熟练": "",
-        "工具熟练": "",
-        "装备": "",
-    }
-
-    if p is None:
-        return fields
-
-    html = str(p)
-
-    # BR 作为字段分隔
-    html = re.sub(
-        r"<br\s*/?>",
-        "\n",
-        html,
-        flags=re.I
-    )
-
-    soup = BeautifulSoup(
-        html,
-        "html.parser"
-    )
-
-    text = soup.get_text("\n")
-
-    text = text.replace("\r", "")
-
-    lines = []
-
-    for line in text.split("\n"):
-        line = clean_text(line)
-
-        if line:
-            lines.append(line)
-
-    text = "\n".join(lines)
-
-    labels = [
-        "属性值",
-        "专长",
-        "技能熟练",
-        "工具熟练",
-        "装备",
-    ]
-
-    pattern = (
-        "("
-        + "|".join(
-            re.escape(label)
-            for label in labels
-        )
-        + ")："
-    )
-
-    matches = list(
-        re.finditer(
-            pattern,
-            text
-        )
-    )
-
-    for i, match in enumerate(matches):
-
-        label = match.group(1)
-
-        start = match.end()
-
-        if i + 1 < len(matches):
-            end = matches[i + 1].start()
-        else:
-            end = len(text)
-
-        value = text[start:end].strip()
-
-        fields[label] = value
-
-    return fields
-
-
-# ============================================================
-# 属性
+# 基础数据
 # ============================================================
 
 ability_list = [
@@ -256,59 +43,6 @@ ability_list = [
     "智力",
     "魅力",
 ]
-
-
-def get_ability(text):
-
-    if not text:
-        return "无"
-
-    # 存在选择
-    if re.search(
-        r"选择[A-Z]|任选|任意|或将|或提升|或提高|"
-        r"\([A-Z]\)|（[A-Z]）",
-        text,
-        flags=re.I
-    ):
-        return "任意"
-
-    result = []
-
-    for ability in ability_list:
-        if ability in text:
-            result.append(ability)
-
-    if not result:
-        return "无"
-
-    return "、".join(result)
-
-
-# ============================================================
-# 专长
-# ============================================================
-
-def get_feat(text):
-
-    if not text:
-        return "无"
-
-    # 存在选项
-    if re.search(
-        r"选择[A-Z]|任选|任意|"
-        r"\([A-Z]\)|（[A-Z]）|"
-        r"或将|或者|或是",
-        text,
-        flags=re.I
-    ):
-        return "任意"
-
-    return clean_text(text)
-
-
-# ============================================================
-# 技能
-# ============================================================
 
 skill_list = [
     "特技",
@@ -332,29 +66,309 @@ skill_list = [
 ]
 
 
+# ============================================================
+# 工具
+# ============================================================
+
+def clean_text(text):
+    if not text:
+        return ""
+
+    text = text.replace("\u3000", " ")
+    text = text.replace("\xa0", " ")
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
+def html_escape(text):
+    return (
+        text
+        .replace("&", "&amp;")
+        .replace('"', "&quot;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+
+
+def normalize_id(text):
+    text = clean_text(text)
+
+    text = re.sub(r"\s+", "_", text)
+    text = re.sub(r"[^A-Za-z0-9_'’-]", "_", text)
+    text = re.sub(r"_+", "_", text)
+
+    return text.strip("_")
+
+
+def get_source(file_path):
+
+    path = file_path.replace("\\", "/")
+
+    if "DND5e_chm/" in path:
+        path = path.split("DND5e_chm/", 1)[1]
+
+    parts = path.split("/")
+
+    if not parts:
+        return "未知"
+
+    book = parts[0]
+
+    if book == "被遗忘的国度":
+        if len(parts) > 1:
+            book = parts[1]
+
+    return source_tag.get(book, book)
+
+
+def get_chm_path(file_path):
+
+    chm_path = file_path.replace("\\", "/")
+
+    if "DND5e_chm/" in chm_path:
+        chm_path = chm_path.split("DND5e_chm/", 1)[1]
+
+    return chm_path
+
+
+# ============================================================
+# 名称
+# ============================================================
+
+def get_background_title(h3):
+
+    title = clean_text(
+        h3.get_text(" ", strip=True)
+    )
+
+    # 兼容：
+    #
+    # 流浪者Wayfarer
+    # 水手 Sailor
+    # 艺人 Entertainer
+    #
+    # 英文名从第一个英文字符开始
+
+    match = re.search(
+        r"([A-Za-z][A-Za-z0-9 &'’'_-]*)$",
+        title
+    )
+
+    if match:
+        name_en = clean_text(match.group(1))
+        name = clean_text(title[:match.start()])
+    else:
+        name = title
+        name_en = ""
+
+    return name, name_en
+
+
+def get_id(h3, name_en):
+
+    item_id = h3.get("id")
+
+    if item_id:
+        return item_id
+
+    return normalize_id(name_en)
+
+
+# ============================================================
+# 提取背景字段
+# ============================================================
+
+def get_background_fields(h3):
+    p = h3.find_next("p")
+    if not p:
+        return {}
+
+    html = str(p)
+
+    pattern = re.compile(
+        r"<(?:b|strong)\s*>\s*"
+        r"(属性值|专长|技能熟练|工具熟练|装备)"
+        r"\s*[：:]?\s*"
+        r"</(?:b|strong)>"
+        r"(.*?)"
+        r"(?=<(?:b|strong)\s*>\s*"
+        r"(?:属性值|专长|技能熟练|工具熟练|装备)"
+        r"\s*[：:]?\s*</(?:b|strong)>|$)",
+        re.I | re.S
+    )
+
+    fields = {}
+
+    for match in pattern.finditer(html):
+        label = match.group(1)
+        value = match.group(2)
+
+        value = re.sub(r"<br\s*/?>", "\n", value, flags=re.I)
+        value = BeautifulSoup(value, "html.parser").get_text(
+            " ", strip=True
+        )
+        value = clean_text(value)
+
+        fields[label] = value
+
+    return fields
+
+    # --------------------------------------------------------
+    # 注意：
+    #
+    # 有的页面使用 <b>
+    # 有的页面使用 <STRONG>
+    #
+    # 所以这里统一识别：
+    #
+    # <b>属性值：</b>
+    # <strong>专长：</strong>
+    # --------------------------------------------------------
+
+    pattern = re.compile(
+        r"<(?:b|strong)\s*>\s*"
+        r"(属性值|专长|技能熟练|工具熟练)"
+        r"\s*[：:]?\s*"
+        r"</(?:b|strong)>"
+        r"(.*?)"
+        r"(?=<(?:b|strong)\s*>\s*"
+        r"(?:属性值|专长|技能熟练|工具熟练)"
+        r"\s*[：:]?\s*</(?:b|strong)>|$)",
+        re.I | re.S
+    )
+
+    html = str(p)
+
+    matches = pattern.findall(html)
+
+    for label, value in matches:
+
+        soup = BeautifulSoup(
+            value,
+            "html.parser"
+        )
+
+        text = soup.get_text(
+            " ",
+            strip=True
+        )
+
+        fields[label] = clean_text(text)
+
+    return fields
+
+
+# ============================================================
+# 属性
+# ============================================================
+
+def get_ability(text):
+
+    if not text:
+        return "无"
+
+    text = clean_text(text)
+
+    # 任意属性
+    choice_patterns = [
+        r"任意",
+        r"一项属性",
+        r"另一项属性",
+        r"三项不同的属性",
+        r"三项属性",
+        r"选择.*属性",
+        r"自行选择.*属性",
+    ]
+
+    for pattern in choice_patterns:
+
+        if re.search(pattern, text):
+            return "任意"
+
+    result = []
+
+    for ability in ability_list:
+
+        if ability in text:
+            if ability not in result:
+                result.append(ability)
+
+    if result:
+        return "、".join(result)
+
+    return "无"
+
+
+# ============================================================
+# 专长
+# ============================================================
+
+def get_feat(text):
+    text = clean_text(text)
+
+    if not text:
+        return "无"
+
+    # 如果最后一个括号内容以“见”开头，则删除这个最后的括号
+    match = re.search(r"[（(]([^（）()]*)[）)]\s*$", text)
+    if match:
+        inside = match.group(1).strip()
+        if inside.startswith("见"):
+            text = text[:match.start()].rstrip()
+
+    # 处理明确的选择型专长
+    if re.search(r"选择任意一种|任选一种|选择一项|任选一项", text):
+        return "任意"
+
+    return text
+
+
+# ============================================================
+# 技能
+# ============================================================
+
 def get_skill(text):
 
     if not text:
-        return ["无"]
+        return "无"
 
-    if re.search(
-        r"任意|任选|选择[A-Z]|"
-        r"\([A-Z]\)|（[A-Z]）",
-        text,
-        flags=re.I
-    ):
-        return ["任意"]
+    text = clean_text(text)
+
+    # --------------------------------------------------------
+    # 任意技能
+    # --------------------------------------------------------
+
+    choice_patterns = [
+        r"任意",
+        r"任选",
+        r"选择.*技能",
+        r"两项.*技能",
+        r"一项.*技能",
+        r"任意.*技能",
+    ]
+
+    for pattern in choice_patterns:
+
+        if re.search(pattern, text):
+            return "任意"
+
+    # --------------------------------------------------------
+    # 固定技能
+    # --------------------------------------------------------
 
     result = []
 
     for skill in skill_list:
+
         if skill in text:
-            result.append(skill)
+            if skill not in result:
+                result.append(skill)
 
-    if not result:
-        return ["无"]
+    if result:
+        return "、".join(result)
 
-    return result
+    return "无"
 
 
 # ============================================================
@@ -362,65 +376,25 @@ def get_skill(text):
 # ============================================================
 
 def get_tool(text):
+    text = clean_text(text)
 
     if not text:
-        return "无工"
+        return "无"
 
-    return clean_text(text)
+    # 如果最后一个括号内容以“见”开头，则删除这个最后的括号
+    match = re.search(r"[（(]([^（）()]*)[）)]\s*$", text)
+    if match:
+        inside = match.group(1).strip()
+        if inside.startswith("见"):
+            text = text[:match.start()].rstrip()
 
+    # “选择一种XXX”统一改为“任意一种XXX”
+    text = re.sub(r"选择一种", "任意一种", text)
 
-# ============================================================
-# 装备
-# ============================================================
+    # “选择一项XXX”统一改为“任意一项XXX”
+    text = re.sub(r"选择一项", "任意一项", text)
 
-def get_equipment(text):
-
-    if not text:
-        return ""
-
-    # 例如：
-    # 选择A或B：（A）……8GP；或（B）50GP。
-    #
-    # 找出所有纯金币选项
-
-    parts = re.split(
-        r"或|或者",
-        text
-    )
-
-    for part in reversed(parts):
-
-        part = clean_text(part)
-
-        # 去掉 A/B 标记
-        part = re.sub(
-            r"^[（(]?[A-Z][）)]\s*",
-            "",
-            part
-        )
-
-        # 纯 GP
-        match = re.fullmatch(
-            r"(\d+(?:\.\d+)?)\s*GP[。.]?",
-            part,
-            flags=re.I
-        )
-
-        if match:
-            return match.group(1) + "GP"
-
-    # 如果格式不完全标准，
-    # 直接取最后一个 GP 数值
-    matches = re.findall(
-        r"\d+(?:\.\d+)?\s*GP",
-        text,
-        flags=re.I
-    )
-
-    if matches:
-        return matches[-1]
-
-    return ""
+    return text.strip()
 
 
 # ============================================================
@@ -429,323 +403,277 @@ def get_equipment(text):
 
 class Background:
 
-    def __init__(self, file_path):
+    def __init__(
+        self,
+        h3,
+        chm_path,
+        source
+    ):
 
-        self.file_path = file_path
+        self.name = ""
+        self.name_en = ""
+        self.item_id = ""
 
-        self.full_name = ""
-        self.chinese_name = ""
-        self.english_name = ""
-        self.id = ""
+        self.ability = "无"
+        self.feat = "无"
+        self.skill = "无"
+        self.tool = "无"
 
-        self.ability = ""
-        self.feat = ""
-        self.skill = []
-        self.tool = ""
-        self.equipment = ""
+        self.source = source
+        self.chm_path = chm_path
 
-        self.source = ""
+        # ====================================================
+        # 名称
+        # ====================================================
 
-        self.parse()
+        self.name, self.name_en = get_background_title(h3)
 
-    def parse(self):
-
-        with open(
-            self.file_path,
-            mode="r",
-            encoding="gbk"
-        ) as f:
-            html = f.read()
-
-        soup = BeautifulSoup(
-            html,
-            "html.parser"
+        self.item_id = get_id(
+            h3,
+            self.name_en
         )
 
-        (
-            self.full_name,
-            self.chinese_name,
-            self.english_name
-        ) = get_background_name(soup)
+        # ====================================================
+        # 字段
+        # ====================================================
 
-        if not self.full_name:
-            return
+        fields = get_background_fields(h3)
 
-        if not self.english_name:
-            return
-
-        self.id = get_id(
-            soup,
-            self.english_name
-        )
-
-        p = get_background_p(soup)
-
-        fields = get_fields(p)
+        # ====================================================
+        # 属性
+        # ====================================================
 
         self.ability = get_ability(
             fields["属性值"]
         )
 
+        # ====================================================
+        # 专长
+        # ====================================================
+
         self.feat = get_feat(
             fields["专长"]
         )
+
+        # ====================================================
+        # 技能
+        # ====================================================
 
         self.skill = get_skill(
             fields["技能熟练"]
         )
 
+        # ====================================================
+        # 工具
+        # ====================================================
+
         self.tool = get_tool(
             fields["工具熟练"]
         )
 
-        self.equipment = get_equipment(
-            fields["装备"]
-        )
-
-        self.source = get_source(
-            self.file_path
-        )
-
-    def get_tags(self):
-
-        tags = []
-
-        # 属性
-        if self.ability:
-            for value in self.ability.split("、"):
-                tags.append(value)
-
-        # 技能
-        for value in self.skill:
-            tags.append(value)
-
-        # 工具
-        tags.append(self.tool)
-
-        # 来源
-        if self.source:
-            tags.append(self.source)
-
-        # 去重
-        result = []
-
-        for tag in tags:
-            if tag and tag not in result:
-                result.append(tag)
-
-        return " ".join(result)
+    # ========================================================
+    # HTML
+    # ========================================================
 
     def to_row(self):
 
-        relative_path = get_relative_path(
-            self.file_path
-        )
+        # 工具筛选标签
+        if self.tool == "无":
+            tool_tag = "无工"
+        else:
+            tool_tag = "有工"
 
-        href = (
-            relative_path
-            + "#"
-            + self.id
-        )
+        tags = [
+            self.ability,
+            self.skill,
+            tool_tag,
+            self.source,
+        ]
 
-        name = (
-            html_escape(self.chinese_name)
-            + html_escape(self.english_name)
-        )
+        name_display = self.name + self.name_en
 
-        link = (
-            '<a href="'
-            + href
-            + '">'
-            + name
-            + "</a>"
-        )
-
-        skill_text = "、".join(
-            self.skill
-        )
-
-        tags = self.get_tags()
+        tags_text = " ".join(tags)
 
         return (
-            '<TR tags="'
-            + html_escape(tags)
-            + '" item="'
-            + html_escape(self.full_name)
-            + '">'
+            f'<TR tags="{html_escape(tags_text)}" '
+            f'item="{html_escape(name_display)}">\n'
 
-            "<TD>"
-            + link
-            + "</TD>"
+            f'<TD>'
+            f'<a href="{html_escape(self.chm_path)}'
+            f'#{html_escape(self.item_id)}">'
+            f'{html_escape(name_display)}'
+            f'</a>'
+            f'</TD>\n'
 
-            '<TD width=280>'
-            + html_escape(self.ability)
-            + "</TD>"
+            f'<TD>{html_escape(self.ability)}</TD>\n'
 
-            "<TD>"
-            + html_escape(self.feat)
-            + "</TD>"
+            f'<TD>{html_escape(self.feat)}</TD>\n'
 
-            '<TD width=160>'
-            + html_escape(skill_text)
-            + "</TD>"
+            f'<TD>{html_escape(self.skill)}</TD>\n'
 
-            '<TD width=160>'
-            + html_escape(self.tool)
-            + "</TD>"
+            f'<TD>{html_escape(self.tool)}</TD>\n'
 
-            '<TD width=80>'
-            + html_escape(self.equipment)
-            + "</TD>"
+            f'<TD>{html_escape(self.source)}</TD>\n'
 
-            '<TD width=120>'
-            + html_escape(self.source)
-            + "</TD>"
-
-            "</TR>\n"
+            f'</TR>'
         )
 
 
 # ============================================================
-# 扫描
+# 数据
 # ============================================================
 
-background_list = []
+big_background_dict = {}
 
 
-def process_file(file_path: str, file_name: str):
+# ============================================================
+# 处理文件
+# ============================================================
 
-    try:
+def process_file(file_path, file_name):
 
-        background = Background(
-            file_path
-        )
+    print("读取:", file_path)
 
-        if not background.full_name:
-            print(
-                "【跳过】无法识别："
-                + file_path
+    with open(
+        file_path,
+        "r",
+        encoding="gbk"
+    ) as f:
+
+        data = f.read()
+
+    soup = BeautifulSoup(
+        data,
+        "html.parser"
+    )
+
+    chm_path = get_chm_path(
+        file_path
+    )
+
+    source = get_source(
+        file_path
+    )
+
+    print("来源:", source)
+
+    # ========================================================
+    # 找 H3
+    # ========================================================
+
+    h3_list = soup.find_all("h3")
+
+    for h3 in h3_list:
+
+        try:
+
+            background = Background(
+                h3,
+                chm_path,
+                source
             )
-            return
 
-        if not background.english_name:
+            big_background_dict[
+                background.item_id
+            ] = background
+
             print(
-                "【跳过】无法识别英文名："
-                + file_path
+                "  背景:",
+                background.name,
+                background.name_en,
+                "| 属性:",
+                background.ability,
+                "| 专长:",
+                background.feat,
+                "| 技能:",
+                background.skill,
+                "| 工具:",
+                background.tool
             )
-            return
 
-        background_list.append(
-            background
-        )
+        except Exception as e:
 
-    except Exception as e:
+            try:
+                title = h3.get_text(
+                    " ",
+                    strip=True
+                )
+            except:
+                title = "未知"
 
-        print(
-            "\n【处理失败】"
-            + file_path
-        )
-
-        print(
-            "  "
-            + str(e)
-        )
+            print(
+                f"解析失败: {title} "
+                f"({type(e).__name__}: {e})"
+            )
 
 
 # ============================================================
-# 主程序
+# 主流程
 # ============================================================
 
 if __name__ == "__main__":
 
     print("开始扫描背景文件……")
 
-    for background_path in background_file_list:
+    for f in background_file_list:
 
-        if not os.path.exists(
-            background_path
-        ):
-            print(
-                "【路径不存在】"
-                + background_path
-            )
-            continue
-
-        print(
-            "\n开始扫描："
-            + background_path
-        )
+        print("\n扫描:", f)
 
         walk_through_files(
             process_file,
-            background_path
+            f
         )
 
     print(
-        "\n共读取背景："
-        + str(len(background_list))
-    )
-
-    # 按英文名排序
-    background_list.sort(
-        key=lambda x:
-            x.english_name.lower()
+        "\n总计:",
+        len(big_background_dict)
     )
 
     # ========================================================
-    # 读取模板
+    # 模板
     # ========================================================
 
     with open(
         template_path,
-        mode="r",
+        "r",
         encoding="gbk"
     ) as f:
-        template = f.read()
+
+        tpl = f.read()
 
     # ========================================================
-    # 生成内容
+    # 生成
     # ========================================================
 
-    content = ""
+    rows = []
 
-    for background in background_list:
-        content += background.to_row()
-
-    # ========================================================
-    # 替换模板
-    # ========================================================
-
-    output = template.replace(
-        "{{内容}}",
-        content
-    )
-
-    # ========================================================
-    # 写出
-    # ========================================================
-
-    output_dir = os.path.dirname(
-        output_path
-    )
-
-    if (
-        output_dir
-        and not os.path.exists(output_dir)
+    for background in sorted(
+        big_background_dict.values(),
+        key=lambda x: x.name_en.lower()
     ):
-        os.makedirs(output_dir)
+
+        rows.append(
+            background.to_row()
+        )
+
+    html = tpl.replace(
+        "{{内容}}",
+        "\n".join(rows)
+    )
+
+    # ========================================================
+    # 输出
+    # ========================================================
 
     with open(
         output_path,
-        mode="w",
+        "w",
         encoding="gbk"
     ) as f:
-        f.write(output)
+
+        f.write(html)
 
     print(
-        "\n生成完成："
-    )
-
-    print(
+        "\n输出完成:",
         output_path
     )

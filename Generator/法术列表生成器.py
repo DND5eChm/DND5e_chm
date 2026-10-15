@@ -190,7 +190,7 @@ class Spell:
         if "邪术师" in self.spell_subline:
             self.spell_classes.append("魔契师")
         if len(self.spell_classes) == 0:  # 如果没有匹配到任何职业
-            self.spell_classes.append("无职")
+            self.spell_classes.append("特殊")
                 
     def output_id_and_link(self,_class="万法大全") -> str:
         display_name = self.spell_name+self.spell_name_en
