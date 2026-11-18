@@ -1,5 +1,6 @@
 import os
 import chardet
+import re
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from 文件遍历 import walk_through_files
@@ -45,6 +46,7 @@ class Monster:
         self.monster_size = ""
         self.monster_size_tag = ""
         self.monster_type = ""
+        self.monster_type_tag = ""
         self.monster_tag = ""
         self.monster_cr = ""
         self.monster_legendary = "无"  # 新增传奇动作属性
@@ -102,20 +104,29 @@ class Monster:
                 self.monster_size_tag = "超型"
                 self.monster_size = "超巨型"
             else:
-                for size in size_list:
-                    if size in self.monster_subline:
-                        self.monster_size_tag = size
-                        self.monster_size = size
-                        break
-            
+                matched_sizes = [
+                    size for size in size_list
+                    if size in self.monster_subline
+                ]
+                # 按照原文中的出现顺序排列
+                matched_sizes.sort(key=self.monster_subline.find)
+                if matched_sizes:
+                    # 筛选标签分别保留，支持同时匹配多种体型
+                    self.monster_size_tag = " ".join(matched_sizes)
+                    # 显示名称使用“/”连接
+                    self.monster_size = "/".join(matched_sizes)
             # 解析类型
-            if "天族或邪魔" in self.monster_subline:
-                self.monster_type = "天族/邪魔"
-            else:
-                for monster_type in type_list:
-                    if monster_type in self.monster_subline:
-                        self.monster_type = monster_type
-                        break
+            matched_types = [
+                type for type in type_list
+                if type in self.monster_subline
+            ]
+            # 按照原文中的出现顺序排列
+            matched_types.sort(key=self.monster_subline.find)
+            if matched_types:
+                # 筛选标签分别保留，支持同时匹配多种类型
+                self.monster_type_tag = " ".join(matched_types)
+                # 显示名称使用“/”连接
+                self.monster_type = "/".join(matched_types)
             
             # 解析标签
             if "（" in self.monster_subline and "）" in self.monster_subline:
@@ -223,7 +234,7 @@ class Monster:
         if _class == "万兽大全":
             tags = [
                 self.monster_size_tag,
-                self.monster_type,
+                self.monster_type_tag,
                 self.monster_legendary,
                 self.monster_cr,
                 self.monster_source_tag,
@@ -248,16 +259,73 @@ big_monster_list_keys: list[str] = []
 
 def process_file(file_path: str, file_name: str):
     try:
-        # 检测文件编码
+        # 读取原始文件
         with open(file_path, mode="rb") as _f:
             raw_data = _f.read()
-            result = chardet.detect(raw_data)
-            encoding = result['encoding'] if result['encoding'] else 'gbk'
-        
-        # 使用检测到的编码读取文件
-        with open(file_path, mode="r", encoding=encoding, errors='ignore') as _f:
-            data = _f.read()
-        
+
+        # 收集可能的编码，按照优先级尝试
+        encoding_candidates = []
+
+        # 1. 检查 UTF-8 BOM
+        if raw_data.startswith(b'\xef\xbb\xbf'):
+            encoding_candidates.append("utf-8-sig")
+
+        # 2. 从 HTML 的 charset 声明中获取编码
+        charset_match = re.search(
+            rb'charset\s*=\s*["\']?\s*([\w.-]+)',
+            raw_data[:4096],
+            re.IGNORECASE
+        )
+
+        if charset_match:
+            encoding = charset_match.group(1).decode("ascii")
+
+            if encoding.lower().replace("_", "-") in ("gb2312", "gb-2312"):
+                encoding = "gbk"
+
+            encoding_candidates.append(encoding)
+
+        # 3. 从文件开头的 coding 声明中获取编码
+        coding_match = re.search(
+            rb'coding\s*[:=]\s*([\w.-]+)',
+            raw_data[:4096],
+            re.IGNORECASE
+        )
+
+        if coding_match:
+            encoding = coding_match.group(1).decode("ascii")
+
+            if encoding.lower().replace("_", "-") in ("gb2312", "gb-2312"):
+                encoding = "gbk"
+
+            encoding_candidates.append(encoding)
+
+        # 4. 使用 chardet 检测结果作为备用
+        result = chardet.detect(raw_data)
+
+        if result.get("encoding"):
+            encoding_candidates.append(result["encoding"])
+
+        # 5. 常见编码兜底
+        encoding_candidates.extend(["gbk", "utf-8"])
+
+        # 按照顺序尝试解码
+        data = None
+        used_encoding = None
+
+        for encoding in dict.fromkeys(encoding_candidates):
+            try:
+                data = raw_data.decode(encoding)
+                used_encoding = encoding
+                break
+            except (UnicodeDecodeError, LookupError):
+                continue
+
+        if data is None:
+            raise UnicodeError(f"无法识别文件编码: {file_path}")
+
+        print(f"使用编码 {used_encoding} 读取: {file_path}")
+
         # 检查文件内容格式
         body_start = data.find("<body>")
         body_end = data.find("</body>")
