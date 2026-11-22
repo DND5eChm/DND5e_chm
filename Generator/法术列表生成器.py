@@ -93,7 +93,14 @@ short_cut: dict[str,str] = {
     "术士" : "术",
     "法师" : "法",
     "奇械师" : "械",
-    "无职" : "无"
+    "特殊" : "特"
+}
+
+special_class: dict[str,str] = {
+    "死亡骑士": "DK",
+    "恶魔猎手": "DH",
+    "时间": "时",
+    "重力": "重",
 }
 
 class_list = ["吟游诗人","牧师","德鲁伊","圣武士","游侠","术士","法师","魔契师","奇械师"]
@@ -117,6 +124,7 @@ class Spell:
         self.spell_content = ""
         self.parse_order = order
         self.spell_classes = []
+        self.spell_classes_display = []
         self.spell_level = ""
         self.spell_action = ""
         self.spell_verbal = False
@@ -184,13 +192,31 @@ class Spell:
             if school in self.spell_subline:
                 self.spell_school = school
                 break
-        for _class in class_list:
-            if _class in self.spell_subline:
-                self.spell_classes.append(_class)
-        if "邪术师" in self.spell_subline:
-            self.spell_classes.append("魔契师")
-        if len(self.spell_classes) == 0:  # 如果没有匹配到任何职业
-            self.spell_classes.append("特殊")
+        # 特殊类别优先识别
+        self.spell_class_display = []
+
+        for special, short in special_class.items():
+            if special in self.spell_subline:
+                self.spell_classes = ["特殊"]
+                self.spell_class_display = [short]
+                break
+
+        # 未匹配特殊类别时，识别普通职业
+        if not self.spell_class_display:
+            for _class in class_list:
+                if _class in self.spell_subline:
+                    self.spell_classes.append(_class)
+
+            if "邪术师" in self.spell_subline:
+                self.spell_classes.append("魔契师")
+
+            if not self.spell_classes:
+                self.spell_classes = ["特殊"]
+                self.spell_class_display = ["无"]
+            else:
+                self.spell_class_display = [
+                    short_cut[_class] for _class in self.spell_classes
+                ]
                 
     def output_id_and_link(self,_class="万法大全") -> str:
         display_name = self.spell_name+self.spell_name_en
@@ -237,7 +263,7 @@ class Spell:
                 id_and_link, #法术名（带链接）
                 self.spell_level, #法术环阶
                 self.spell_school, #法术学派
-                " ".join([short_cut[_class] for _class in self.spell_classes]), #法术职业简写
+                " ".join(self.spell_class_display),
                 self.spell_action,
                 "V" if self.spell_verbal else "×", #言语成分
                 "S" if self.spell_somatic else "×", #姿势成分
